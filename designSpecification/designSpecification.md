@@ -75,6 +75,8 @@
         - UI構築には、Reactを使用する。
         - モジュールバンドラーには、Webpackを使用する。
 ## デザイン設計
+    figmaによりデザイン設計を行う。
+    [詳細はこちら](https://www.figma.com/file/X4XfistYO3DjdywU55b6fk/ExtendedChatPalette?type=design&node-id=0-1&t=BQjfzyXRU74ZhEVq-0)
 ## ディレクトリ構造
 ## データ構造
 ## クラス設計
