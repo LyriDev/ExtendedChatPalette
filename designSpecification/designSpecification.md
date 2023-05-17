@@ -120,7 +120,7 @@ figmaによりデザイン設計を行う。
         └── ${index}/ #object
             ├── tabName #string
             ├── originText #string
-            └── chatPalette/ #object[]
+            └── chatPalettes/ #object[]
                 └── ${index}/ #object
                     ├── characterName #string|null
                     ├── messages/ #string[]
@@ -138,7 +138,7 @@ figmaによりデザイン設計を行う。
     拡張チャットパレットのタブ名を表す文字列です。
 - originText
     プレーンテキストをjsonデータに変換する前の拡張チャットパレットのデータを表す文字列です。
-- chatPalette
+- chatPalettes
     1つのタブに登録された拡張チャットパレットのデータが格納されるオブジェクト型配列です。
 - characterName
     発言キャラクターの指定を表す文字列です。
