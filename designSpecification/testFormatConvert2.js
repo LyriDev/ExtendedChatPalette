@@ -7,7 +7,6 @@ function convertTextToJSON(text) {
     let line = lines[i]
 
     chatPaletteLoop: while(i < lines.length){
-        console.log("start",i,line)
         currentData = {
             characterName: "",
             messages: [],
@@ -19,11 +18,9 @@ function convertTextToJSON(text) {
             if(line.startsWith('# ')) break
             if(line.startsWith('##')) break
             if(line.startsWith('---')) break
-            console.log("while1",i,line)
             i++
             line = lines[i]
         }
-        console.log("while1_end",i,line)
         //最後の行が指示でないなら、ここで変換処理を終わる
         if(!line.startsWith('# ') && !line.startsWith('##') && !line.startsWith('---')) break
         if(line.startsWith('# ') || line.startsWith('##')){ //カーソルが# か##で始まる行まで下がった場合
@@ -51,21 +48,17 @@ function convertTextToJSON(text) {
                     if(line.startsWith('##')) break
                     if(line.startsWith('---')) break
                     if(line.startsWith('```')) break
-                    console.log("while2",i,line)
                     i++
                     line = lines[i]
                 }
-                console.log("while2_end",i,line)
                 // カーソルが```で始まる行まで下がる前に他の指示があれば、次のセクションに移動する
                 if(!line.startsWith('```')){
-                    console.log("break",i,line)
                     chatPalettes.push(currentData)
                     continue chatPaletteLoop
                 }
                 let text = "";
                 if(line.endsWith('```')){ // ```で始まって```で終わる行のとき
                     text = line.slice(3,-3) // 最初の行の左右を切り抜いて登録する
-                    console.log(true,line)
                 }else{
                     text = line.slice(3) // 最初の行の左を切り抜いて登録する
                     // 次の```で終わる行までカーソルを下げる
