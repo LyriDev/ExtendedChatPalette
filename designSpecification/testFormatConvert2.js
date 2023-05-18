@@ -6,7 +6,7 @@ function convertTextToJSON(text) {
     let i = 0
     let line = lines[i]
 
-    while(i < lines.length){
+    chatPaletteLoop: while(i < lines.length){
         currentData = {
             characterName: "",
             messages: [],
@@ -21,21 +21,23 @@ function convertTextToJSON(text) {
             i++
             line = lines[i]
         }
-        console.log(line,i)
-        if(line.startsWith('# ') || line.startsWith('##') || line.startsWith('---')){ //カーソルが# か##か---で始まる行まで下がった場合
-            if(line.startsWith('# ') || line.startsWith('##')){ //カーソルが# か##で始まる行まで下がった場合
-                // とりあえず発言キャラクターを登録する
-                let name
-                if(line.startsWith('##')){
-                    // ##で始まる場合、発言キャラクターを指定しない
-                    name = null
-                }else if(line.startsWith('# ')){
-                    // # で始まる場合、発言キャラクターを指定する
-                    name = line.slice(2)
-                }
-                currentData.characterName = name
+        //最後の行が指示でないなら、ここで変換処理を終わる
+        if(!line.startsWith('# ') && !line.startsWith('##') && !line.startsWith('---')) break
+        if(line.startsWith('# ') || line.startsWith('##')){ //カーソルが# か##で始まる行まで下がった場合
+            // とりあえず発言キャラクターを登録する
+            let name
+            if(line.startsWith('##')){
+                // ##で始まる場合、発言キャラクターを指定しない
+                name = null
+            }else if(line.startsWith('# ')){
+                // # で始まる場合、発言キャラクターを指定する
+                name = line.slice(2)
+            }
+            currentData.characterName = name
+            // # か##か---で始まる行か最後の行になるまで繰り返す
+            messageLoop: while(i < lines.length - 1){
                 // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
-                if(i === lines.length - 1) break
+                if(i === lines.length - 1) break chatPaletteLoop
                 // まだ行が残っているなら、カーソルを1つ下げる
                 i++
                 line = lines[i]
@@ -50,26 +52,43 @@ function convertTextToJSON(text) {
                     line = lines[i]
                 }
                 // カーソルが```で始まる行まで下がる前に他の指示があれば、次のセクションに移動する
-                if(!line.startsWith('```')) break
-                //TODO
-            }else if(line.startsWith('---')){
-                //カーソルが---で始まる行まで下がった場合、区切り線のデータとして登録する
-                currentData.isBorder = true
+                if(!line.startsWith('```')){
+                    chatPalettes.push(currentData)
+                    continue chatPaletteLoop
+                }
+                let text = "";
+                if(line.endsWith('```')){ // ```で始まって```で終わる行のとき
+                    text = line.slice(3,-3) // 最初の行の左右を切り抜いて登録する
+                }else{
+                    text = line.slice(3) // 最初の行の左を切り抜いて登録する
+                    // 次の```で終わる行までカーソルを下げる
+                    while(i < lines.length -1){
+                        if(line.endsWith('```')) break
+                        //1行分カーソルを進める
+                        i++
+                        line = lines[i]
+                        if(line.endsWith('```')) break // まだテキストが```で終わっていない場合
+                        text += "\n" + line // ```間のテキストをメッセージとして登録する
+                    }
+                    if(line.endsWith('```')){
+                        text += "\n" + line.slice(0,-3); // 最後の行の右を切り抜いて登録する
+                    }else{ // ```で終わらずにテキストが終わった場合
+                        text += "\n" + line
+                    }
+                }
+                currentData.messages.push(text)
             }
-            currentData.characterName = line + ":" + i
-            //作成したデータを登録する
-            chatPalettes.push(currentData)
-            if(i === lines.length - 1){
-                // カーソルが最後の行まで下がったなら、変換処理を終わる
-                break
-            }else{
-                // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
-                if(i === lines.length - 1) break
-                // まだ行が残っているなら、カーソルを1つ下げる
-                i++
-                line = lines[i]
-            }
+        }else if(line.startsWith('---')){
+            //カーソルが---で始まる行まで下がった場合、区切り線のデータとして登録する
+            currentData.isBorder = true
         }
+        //作成したデータを登録する
+        chatPalettes.push(currentData)
+        // カーソルが最後の行まで下がったなら、変換処理を終わる
+        if(i === lines.length - 1)break chatPaletteLoop
+        // まだ行が残っているなら、カーソルを1つ下げる
+        i++
+        line = lines[i]
     }
     return chatPalettes;
 }
