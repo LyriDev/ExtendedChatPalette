@@ -22,7 +22,7 @@ function convertTextToJSON(text) {
             line = lines[i]
         }
         //最後の行が指示でないなら、ここで変換処理を終わる
-        if(!line.startsWith('# ') && !line.startsWith('##') && !line.startsWith('---')) break
+        if(i === lines.length - 1) break
         if(line.startsWith('# ') || line.startsWith('##')){ //カーソルが# か##で始まる行まで下がった場合
             // とりあえず発言キャラクターを登録する
             let name
