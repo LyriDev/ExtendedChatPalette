@@ -22,7 +22,7 @@ function convertTextToJSON(text) {
             line = lines[i]
         }
         //最後の行が指示でないなら、ここで変換処理を終わる
-        if(!line.startsWith('# ') && !line.startsWith('##') && !line.startsWith('---')) break
+        if(i === lines.length - 1) break
         if(line.startsWith('# ') || line.startsWith('##')){ //カーソルが# か##で始まる行まで下がった場合
             // とりあえず発言キャラクターを登録する
             let name
@@ -34,10 +34,10 @@ function convertTextToJSON(text) {
                 name = line.slice(2)
             }
             currentData.characterName = name
+            // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
+            if(i === lines.length - 1) break chatPaletteLoop
             // # か##か---で始まる行か最後の行になるまで繰り返す
             messageLoop: while(i < lines.length - 1){
-                // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
-                if(i === lines.length - 1) break chatPaletteLoop
                 // まだ行が残っているなら、カーソルを1つ下げる
                 i++
                 line = lines[i]
@@ -77,6 +77,8 @@ function convertTextToJSON(text) {
                     }
                 }
                 currentData.messages.push(text)
+                // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
+                if(i === lines.length - 1) break chatPaletteLoop
             }
         }else if(line.startsWith('---')){
             //カーソルが---で始まる行まで下がった場合、区切り線のデータとして登録する
@@ -119,6 +121,9 @@ const textData3 = `あああ
 ううう
 \`\`\`ブリスクがあなたに懸賞金をかけたわ。
 # 無効な名前
+---
+##
+\`\`\`無効な終了
 生死を問わずにね。\`\`\`
 えええ
 \`\`\`あなたは私のカモ。\`\`\`
