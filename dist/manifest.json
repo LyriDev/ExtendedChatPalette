@@ -11,10 +11,7 @@
     "permissions": [ 
         "activeTab", 
         "scripting", 
-        "storage",
-        "declarativeNetRequest",
-        "declarativeNetRequestFeedback",
-        "cookies"
+        "storage"
     ],
     "action": {
         "default_icon": "image/icon128.png",
