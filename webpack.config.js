@@ -8,9 +8,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isProduction = process.env.NODE_ENV == "production";
 
 const config = {
-  entry: "./src/index.ts",
+  entry: {
+    app: "./src/indexApp.tsx",
+    popup:"./src/indexPopup.tsx"
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
+    filename: '[name].js'
   },
   devServer: {
     open: true,
@@ -18,10 +22,13 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: './src/popup.html',
+      chunks: ['popup'],
+      filename: 'popup.html',
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.css'
+      filename: '[name].css',
+      chunkFilename: '[id].css',
     }),
   ],
   module: {

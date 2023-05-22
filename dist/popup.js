@@ -1,0 +1,1 @@
+(()=>{"use strict";console.log("Hello World!");var e=document.getElementById("root");e&&(e.innerHTML="hoge")})();

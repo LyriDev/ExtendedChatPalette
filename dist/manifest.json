@@ -16,12 +16,12 @@
     "action": {
         "default_icon": "image/icon128.png",
         "default_title": "拡張チャットパレット",
-        "default_popup": "index.html"
+        "default_popup": "popup.html"
     },
     "content_scripts": [{
         "matches": ["https://ccfolia.com/rooms/*"],
-        "js": ["main.js"],
-        "css": ["style.css"],
+        "js": ["app.js"],
+        "css": ["app.css"],
         "run_at": "document_end"
     }]
 }

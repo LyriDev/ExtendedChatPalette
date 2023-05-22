@@ -14,5 +14,5 @@
       "DOM"
     ]
   },
-  "files": ["src/index.ts"]
+  "files": ["src/indexApp.tsx"]
 }
