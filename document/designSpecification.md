@@ -182,3 +182,12 @@ figmaによりデザイン設計を行う。
 - isBorder
     区切り線のデータかどうかを表す論理型プロパティです。
 ## コンポーネント設計
+## 開発に必要なモジュール等
+```
+npm init -y
+npm install typescript @types/node --save-dev
+tsc --init
+npm install webpack ts-loader @webpack-cli/generators
+npm install css-loader sass-loader sass mini-css-extract-plugin webpack-fix-style-only-entries --save-dev
+npm i -S react react-dom @types/react @types/react-dom
+```

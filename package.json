@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Lyri-Nought/ExtendedChatPalette#readme",
   "devDependencies": {
-    "@types/node": "^20.2.1",
+    "@types/node": "^20.2.3",
     "css-loader": "^6.7.4",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.6",
@@ -41,6 +41,10 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "dependencies": {
-    "@webpack-cli/generators": "^3.0.4"
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "@webpack-cli/generators": "^3.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
