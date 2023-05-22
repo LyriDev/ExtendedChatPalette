@@ -14,7 +14,7 @@
         "storage"
     ],
     "action": {
-        "default_icon": "image/icon128.png",
+        "default_icon": "image/icon.png",
         "default_title": "拡張チャットパレット",
         "default_popup": "popup.html"
     },
