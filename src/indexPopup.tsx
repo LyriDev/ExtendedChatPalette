@@ -1,5 +1,11 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import "./style/popup.scss"
+import Popup from './components/Popup';
 
-console.log("Hello World!");
-const hoge = document.getElementById("root")
-if(hoge) hoge.innerHTML="hoge"
+ReactDOM.render(
+    <React.StrictMode>
+        <Popup />
+    </React.StrictMode>,
+    document.getElementById('root')
+);
