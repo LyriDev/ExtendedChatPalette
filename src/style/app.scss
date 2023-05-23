@@ -1,0 +1,95 @@
+/* tooltip */
+.exTooltip {
+    position: relative;
+
+    &:after,
+    &:before {
+        position: absolute;
+        display: none;
+    }
+
+    &:after {
+        z-index: 9999;
+        padding: 4px 8px;
+        content: attr(aria-label);
+        font-size: 0.75rem;
+        text-align: center;
+        white-space: pre;
+        text-decoration: none;
+        letter-spacing: normal;
+        text-transform: none;
+        word-wrap: break-word;
+        opacity: 0;
+        color: #fff;
+        border-radius: 3px;
+        background: rgba(0, 0, 0, 0.8);
+        background-color: #161616;
+        text-shadow: none;
+    }
+
+    &:before {
+        z-index: 10000;
+        width: 0;
+        height: 0;
+        content: '';
+        opacity: 0;
+        color: #161616;
+        color: rgba(0, 0, 0, 0.8);
+        border: 5px solid transparent;
+    }
+
+    &:hover:before,
+    &:hover:after,
+    &:active:before,
+    &:active:after,
+    &:focus:before,
+    &:focus:after {
+        display: inline-block;
+        animation-name: fadein;
+        animation-duration: 0.3s;
+        text-decoration: none;
+        opacity: 1;
+    }
+
+    /* tooltip position */
+    &.bottom:after,
+    &.bottom-right:after,
+    &.bottom-left:after {
+        top: 100%;
+        left: 0; /* 左寄りにするためにleftプロパティを0に設定 */
+        margin-top: 14px;
+    }
+
+    &.bottom:after {
+        right: auto;
+        left: calc((50% + 8px * 2)* -1);
+    }
+
+    &.bottom-right:after {
+        right: auto;
+        left: 50%;
+    }
+
+
+
+
+    /* tooltip animation */
+    @keyframes fadein
+    {
+        0%
+        {
+            display: none;
+            opacity: 0;
+        }
+        1%
+        {
+            display: block;
+            opacity: 0;
+        }
+        100%
+        {
+            display: block;
+            opacity: 1;
+        }
+    }
+}

@@ -4,7 +4,7 @@ import Icon from "./../../svg/Icon"
 
 function ExChatPaletteButton() {
     return (
-        <button className="MuiButtonBase-root MuiIconButton-root sc-bWXABl iZZULD" tabIndex={0} type="button">
+        <button className="exTooltip bottom MuiButtonBase-root MuiIconButton-root sc-bWXABl iZZULD" tabIndex={0} type="button" aria-label="拡張チャットパレット">
             <span className="MuiIconButton-label">
                 <Icon />
             </span>
