@@ -184,24 +184,22 @@ figmaによりデザイン設計を行う。
 ## コンポーネント設計
 ### 拡張チャットパレット画面
 #### コンポーネント一覧
-- App (ルートコンポーネント)
-    - ExChatPaletteView (拡張チャットパレット)
-        - HeaderView (チャットパレットのヘッダー)
-        - TabBarView (タブ切り替え用のタブバー)
-            - TabView (タブ切り替え用のタブ)
-        - ChatPaletteList (チャットパレットのリスト)
-            - ChatPaletteItem (チャットパレットのアイテム)
-        - OptionsView (チャットパレットのオプション)
-    - ExChatPaletteEdit (チャットパレットの編集画面)
-        - HeaderEdit (チャットパレットのヘッダー)
-        - EditHelpPopup (ヘルプポップアップ)
-        - TabBarEdit (タブ切り替え用のタブバー)
-            - TabEdit (タブ切り替え用のタブ)
-        - ChatPaletteEditor (チャットパレットの編集画面のテキスト入力欄)
-    - ExtensionChatPaletteButton (アクセス用拡張チャットパレットボタン)
-    - HamburgerListTab (アクセス用拡張チャットパレット欄)
+- ExChatPaletteView (拡張チャットパレット)
+    - HeaderView (チャットパレットのヘッダー)
+    - TabBarView (タブ切り替え用のタブバー)
+        - TabView (タブ切り替え用のタブ)
+    - ChatPaletteList (チャットパレットのリスト)
+        - ChatPaletteItem (チャットパレットのアイテム)
+    - OptionsView (チャットパレットのオプション)
+- ExChatPaletteEdit (チャットパレットの編集画面)
+    - HeaderEdit (チャットパレットのヘッダー)
+    - EditHelpPopup (ヘルプポップアップ)
+    - TabBarEdit (タブ切り替え用のタブバー)
+        - TabEdit (タブ切り替え用のタブ)
+    - ChatPaletteEditor (チャットパレットの編集画面のテキスト入力欄)
+- ExChatPaletteButton (アクセス用拡張チャットパレットボタン)
+- HamburgerListTab (アクセス用拡張チャットパレット欄)
 #### コンポーネントの説明
-- App: ルートコンポーネントで、全体の状態管理やデータの取得などを行います。
 - ExChatPaletteView: 拡張チャットパレットの閲覧用メインコンポーネントで、タブ切り替えやチャットパレットの一覧などを管理します。
 - HeaderView: 拡張チャットパレットのヘッダーを表し、編集画面への遷移やページを閉じる機能などを管理します。
 - TabBarView: タブ切り替え用のタブバーを表し、複数のタブを含みます。
