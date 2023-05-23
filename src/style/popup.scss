@@ -1,3 +1,19 @@
 body{
-    width: 200px;
+    background-color: #202020;
+    color: white;
+    .App{
+        width: fit-content;
+        h3{
+            white-space: nowrap;
+        }
+        table {
+            margin: 10px auto;
+            background-color: #2a2a2a;
+            border-collapse:  collapse;
+            th,td {
+                padding: 10px;
+                border: solid 1px white;
+            }
+        }
+    }
 }

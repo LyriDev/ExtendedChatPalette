@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Lyri-Nought/ExtendedChatPalette#readme",
   "devDependencies": {
+    "@svgr/webpack": "^8.0.1",
     "@types/chrome": "^0.0.236",
     "@types/node": "^20.2.3",
     "css-loader": "^6.7.4",
