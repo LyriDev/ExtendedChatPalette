@@ -8,7 +8,7 @@ import HamburgerListTab from "./components/App/HamburgerListTab"
 async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパレットボタンを追加する関数
     // 「マイキャラクター一覧」ボタンを取得する
     let targetElement: HTMLElement|null = await challengeQuery("#root > div > header > div > button.MuiButtonBase-root.MuiIconButton-root.sc-bWXABl.iZZULD");
-    if (!targetElement) return; // 数秒待機してもターゲットとなる要素が見つからなければ処理を止める
+    if (!targetElement) return; // 一定時間待機してもターゲットとなる要素が見つからなければ処理を止める
 
     // 工事中モード等でボタンが無効になっていたらfalseを代入する
     const isButtonEnable: boolean = !(targetElement.classList.contains("Mui-disabled"))
