@@ -62,14 +62,14 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
         // 変更が検出された際に実行されるコールバック関数
         for(const mutation of mutationsList) {
             if ((mutation.type === 'childList') && (mutation.addedNodes.length > 0)) {
-                console.log('ページ内での要素の追加を検知しました');
                 // ここに追加された要素に対する処理を記述
-                const tabBarList = document.querySelector("body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul")// レスポンシブデザイン用のul要素
-                const firstLiElement = tabBarList?.querySelector('li:first-child');
+                console.log('ページ内での要素の追加を検知しました');
+                // レスポンシブデザイン用のul要素内の一番上の要素「マイキャラクター」欄(であると予測される要素)を取得する
+                const MyCharacterColumn = document.querySelector("body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul > li:first-child")
                 // ul要素の一番上の子要素であるli要素のテキストが「マイキャラクター」なら、
-                if (firstLiElement?.textContent === "マイキャラクター"){
+                if (MyCharacterColumn?.textContent === "マイキャラクター"){
                     // 「マイキャラクター」欄の前に「拡張チャットパレット」欄を追加する
-                    firstLiElement.before(reactElement)
+                    MyCharacterColumn.before(reactElement)
                     console.log("リストに拡張チャットパレット欄を追加しました");
                 }
             }
