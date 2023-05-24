@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 
+import SimpleTabs from "./../App/ExChatPaletteEdit"
+
 function Popup() {
     const [enableExDodge, setEnableExDodge] = useState(true); // 拡張回避の設定データ
 
@@ -44,6 +46,7 @@ function Popup() {
                     <th colSpan={2}>ルーム名</th>
                 </tr>
             </table>
+            <SimpleTabs />
         </div>
     );
 }
