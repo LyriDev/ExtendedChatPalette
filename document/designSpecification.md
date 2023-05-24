@@ -232,5 +232,4 @@ npm install webpack ts-loader @webpack-cli/generators
 npm install css-loader sass-loader sass mini-css-extract-plugin webpack-fix-style-only-entries --save-dev
 npm i -S react react-dom @types/react @types/react-dom
 npm install --save-dev @types/chrome
-npm install --save-dev @svgr/webpack
 ```
