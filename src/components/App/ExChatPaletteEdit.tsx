@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { AppBar, Tabs, Tab, Typography, Box } from '@mui/material';
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 
-const TabPanelRoot = styled('div')(({ theme }) => ({
-  flexGrow: 1,
-  backgroundColor: theme.palette.background.paper,
-}));
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
 
-const TabPanelContent = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(3),
-}));
-
-function TabPanel(props: { children: React.ReactNode; index: number; value: number }) {
+function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <TabPanelRoot
+    <div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -24,21 +23,20 @@ function TabPanel(props: { children: React.ReactNode; index: number; value: numb
       {...other}
     >
       {value === index && (
-        <TabPanelContent>
+        <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
-        </TabPanelContent>
+        </Box>
       )}
-    </TabPanelRoot>
+    </div>
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#f50057', // プライマリーカラーを赤色に設定
+    },
+  },
   typography: {
     button: {
       textTransform: "none",
@@ -46,23 +44,35 @@ const theme = createTheme({
   },
 });
 
-export default function SimpleTabs() {
-  const [value, setValue] = useState(0);
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+export default function BasicTabs() {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <TabPanelRoot>
-        <AppBar position="static">
-          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+      <Box sx={{ width: '100%' } }>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={value}
+            textColor="primary"
+            indicatorColor="primary"
+            onChange={handleChange}
+            aria-label="basic tabs example">
             <Tab label="Item One" {...a11yProps(0)} />
             <Tab label="Item Two" {...a11yProps(1)} />
             <Tab label="Item Three" {...a11yProps(2)} />
           </Tabs>
-        </AppBar>
+        </Box>
         <TabPanel value={value} index={0}>
           Item One
         </TabPanel>
@@ -72,14 +82,7 @@ export default function SimpleTabs() {
         <TabPanel value={value} index={2}>
           Item Three
         </TabPanel>
-      </TabPanelRoot>
+      </Box>
     </ThemeProvider>
   );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
 }
