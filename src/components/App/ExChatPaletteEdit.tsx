@@ -34,14 +34,31 @@ function TabPanel(props: TabPanelProps) {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#f50057', // プライマリーカラーを赤色に設定
+      main: '#fff', // プライマリーカラーを赤色に設定
     },
   },
   typography: {
     button: {
       textTransform: "none",
+      fontWeight: 'bold'
     },
   },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#bdbdbd', // 非アクティブなタブの文字色を指定
+        },
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          backgroundColor: '#f50057', // 下線の色を赤に設定
+        }
+      }
+    }
+  }
 });
 
 function a11yProps(index: number) {
@@ -67,7 +84,8 @@ export default function BasicTabs() {
             textColor="primary"
             indicatorColor="primary"
             onChange={handleChange}
-            aria-label="basic tabs example">
+            aria-label="basic tabs example"
+          >
             <Tab label="Item One" {...a11yProps(0)} />
             <Tab label="Item Two" {...a11yProps(1)} />
             <Tab label="Item Three" {...a11yProps(2)} />
