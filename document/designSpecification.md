@@ -233,4 +233,5 @@ npm install css-loader sass-loader sass mini-css-extract-plugin webpack-fix-styl
 npm i -S react react-dom @types/react @types/react-dom
 npm install --save-dev @types/chrome
 npm install @mui/material @emotion/react @emotion/styled
+npm install  react-hooks-use-modal
 ```
