@@ -25,7 +25,7 @@ document.body.appendChild(reactElement); */
 ReactDOM.render(
     <React.StrictMode>
         <Popup />
-        {/* <ExChatPaletteView /> */}
+        <ExChatPaletteView />
         <ExChatPaletteButton  isActive={true} />
     </React.StrictMode>,
     document.getElementById('root')

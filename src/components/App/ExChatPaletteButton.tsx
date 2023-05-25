@@ -10,28 +10,18 @@ interface MyComponentProps {
 
 export default function ExChatPaletteButton({ isActive }: MyComponentProps) { // 拡張チャットパレットボタン
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
     const [Modal, open, close, isOpen] = useModal('root', {
         preventScroll: true,
     });
     
     const classNames = `exTooltip bottom MuiButtonBase-root MuiIconButton-root sc-bWXABl iZZULD ${isActive ? "" : "Mui-disabled"}`
 
-    useEffect(() => {
-        if (isModalOpen) {
-            open();
-        } else {
-            close();
-        }
-    }, [isModalOpen, open, close]);
-
     console.log('portal-root')
     console.log(document.createElement('portal-root'))
 
     return (
         <div>
-            <button onClick={() => setIsModalOpen(true)} className={classNames} tabIndex={0} type="button" aria-label="拡張チャットパレット">
+            <button onClick={open} className={classNames} tabIndex={0} type="button" aria-label="拡張チャットパレット">
                 <span className="MuiIconButton-label">
                     <Icon />
                 </span>
@@ -40,7 +30,7 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
             {isOpen && (
                 ReactDOM.createPortal(
                 <Modal>
-                    <ExChatPaletteEdit close={close} setIsModalOpen={setIsModalOpen} />
+                    <ExChatPaletteEdit close={close} />
                 </Modal>,
                 document.getElementById('portal-root') as HTMLElement
                 )
