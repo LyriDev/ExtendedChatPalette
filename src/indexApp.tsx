@@ -20,7 +20,7 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
 
     // Reactコンポーネントをレンダリングし、DOM要素を取得
     const container = document.createElement('div');
-    ReactDOM.render(<ExChatPaletteButton  isActive={isButtonEnable} portalRoot={portalRoot} />, container);
+    ReactDOM.render(<ExChatPaletteButton  isActive={isButtonEnable} />, container);
     const reactElement = container.firstChild;
 
     // 「マイキャラクター一覧」の要素の前に拡張チャットパレットボタンを追加する

@@ -6,14 +6,9 @@ import Icon from "./../../svg/Icon"
 
 interface MyComponentProps {
     isActive: boolean;
-    portalRoot: HTMLElement;
 }
 
-function hoge(){
-    console.log("hoge")
-}
-
-export default function ExChatPaletteButton({ isActive, portalRoot }: MyComponentProps) { // 拡張チャットパレットボタン
+export default function ExChatPaletteButton({ isActive }: MyComponentProps) { // 拡張チャットパレットボタン
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,11 +27,10 @@ export default function ExChatPaletteButton({ isActive, portalRoot }: MyComponen
     }, [isModalOpen, open, close]);
 
     console.log('portal-root')
-    console.log(portalRoot)
+    console.log(document.createElement('portal-root'))
 
     return (
         <div>
-            <button onClick={() => hoge()}>hoge</button>
             <button onClick={() => setIsModalOpen(true)} className={classNames} tabIndex={0} type="button" aria-label="拡張チャットパレット">
                 <span className="MuiIconButton-label">
                     <Icon />
@@ -46,9 +40,9 @@ export default function ExChatPaletteButton({ isActive, portalRoot }: MyComponen
             {isOpen && (
                 ReactDOM.createPortal(
                 <Modal>
-                    <ExChatPaletteEdit close={close} />
+                    <ExChatPaletteEdit close={close} setIsModalOpen={setIsModalOpen} />
                 </Modal>,
-                portalRoot
+                document.getElementById('portal-root') as HTMLElement
                 )
             )}
         </div>
