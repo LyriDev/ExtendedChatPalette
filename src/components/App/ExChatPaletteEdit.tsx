@@ -1,5 +1,6 @@
 import * as React from 'react';
 import TabsContent from './TabsContent'
+import HeaderEdit from './HeaderEdit'
 
 const modalStyle: React.CSSProperties = {
   backgroundColor: 'rgba(44, 44, 44, 0.87)',
@@ -13,11 +14,7 @@ const headerStyle: React.CSSProperties = {
 export default function ExChatPaletteEdit({ close }: { close: () => void }) {
   return (
       <div style={modalStyle}>
-        <div style={headerStyle}>
-          <h1>Title</h1>
-          <p>This is a customizable modal.</p>
-          <button onClick={close}>CLOSE</button>
-        </div>
+        <HeaderEdit headerStyle={headerStyle} close={close}/>
         <TabsContent headerStyle={headerStyle} />
       </div>
   );
