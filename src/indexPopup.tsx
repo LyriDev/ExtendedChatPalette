@@ -13,12 +13,12 @@ const portalRoot = document.createElement('div');
 portalRoot.id = 'portal-root';
 document.body.appendChild(portalRoot);
 
-/* // Reactコンポーネントをレンダリングし、DOM要素を取得
+// Reactコンポーネントをレンダリングし、DOM要素を取得
 const container = document.createElement('div');
-ReactDOM.render(<ExChatPaletteButton  isActive={true} portalRoot={portalRoot} />, container);
+ReactDOM.render(<ExChatPaletteButton  isActive={true} />, container);
 const reactElement = container.firstChild as HTMLElement;
 
-document.body.appendChild(reactElement); */
+document.body.appendChild(reactElement);
 
 
 
@@ -26,7 +26,7 @@ ReactDOM.render(
     <React.StrictMode>
         <Popup />
         <ExChatPaletteView />
-        <ExChatPaletteButton  isActive={true} />
+{/*         <ExChatPaletteButton  isActive={true} /> */}
     </React.StrictMode>,
     document.getElementById('root')
 );
