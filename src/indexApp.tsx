@@ -26,7 +26,7 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
         <React.StrictMode>
             <ExChatPaletteButton  isActive={isButtonEnable} />
         </React.StrictMode>,
-        targetElement
+        container
     );
 }
 
@@ -59,11 +59,8 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
     // 監視するDOMノードを取得
     const targetNode:HTMLElement = document.body
 
-    // Reactコンポーネントをレンダリングし、DOM要素を取得
-    const container: HTMLElement = document.createElement('div');
-    ReactDOM.render(<HamburgerListTab />, container);
-    const reactElement: ChildNode|null = container.firstChild;
-    if(!reactElement) return;
+    // Reactコンポーネントを入れる用ののDOM要素でできた外枠
+    const container: HTMLElement = document.createElement("div")
 
     // MutationObserverオブジェクトを作成
     const observer: MutationObserver = new MutationObserver(function(mutationsList, observer) {
@@ -77,7 +74,13 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
                 // ul要素の一番上の子要素であるli要素のテキストが「マイキャラクター」なら、
                 if (MyCharacterColumn?.textContent === "マイキャラクター"){
                     // 「マイキャラクター」欄の前に「拡張チャットパレット」欄を追加する
-                    MyCharacterColumn.before(reactElement)
+                    MyCharacterColumn.before(container)
+                    ReactDOM.render(
+                        <React.StrictMode>
+                            <HamburgerListTab />
+                        </React.StrictMode>,
+                        container
+                    );
                     console.log("リストに拡張チャットパレット欄を追加しました");
                 }
             }

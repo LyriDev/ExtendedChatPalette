@@ -16,9 +16,6 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
     
     const classNames = `exTooltip bottom MuiButtonBase-root MuiIconButton-root sc-bWXABl iZZULD ${isActive ? "" : "Mui-disabled"}`
 
-    console.log('portal-root')
-    console.log(document.createElement('portal-root'))
-
     return (
         <div>
             <button onClick={open} className={classNames} tabIndex={0} type="button" aria-label="拡張チャットパレット">
@@ -27,14 +24,9 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
                 </span>
                 <span className="MuiTouchRipple-root"></span>
             </button>
-            {isOpen && (
-                ReactDOM.createPortal(
-                <Modal>
-                    <ExChatPaletteEdit close={close} />
-                </Modal>,
-                document.getElementById('portal-root') as HTMLElement
-                )
-            )}
+            <Modal>
+                <ExChatPaletteEdit close={close} />
+            </Modal>
         </div>
     );
 }
