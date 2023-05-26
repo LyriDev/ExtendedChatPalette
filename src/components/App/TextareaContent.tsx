@@ -29,7 +29,7 @@ export default function TextareaContent(props: { value?: string | number | reado
     return (
         <div>
             <HelpContent />
-            <textarea style={textareaStyle} rows={6} value={text} onChange={handleChange} />
+            <textarea style={textareaStyle} rows={12} value={text} onChange={handleChange} />
         </div>
     );
 }
