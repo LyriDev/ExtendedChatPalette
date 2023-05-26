@@ -8,7 +8,6 @@ function addPortalRoot(): void{ // ポータル(モーダルメニュー追加�
     // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成
     const portalRoot = document.createElement('div');
     portalRoot.id = 'portal-root';
-    portalRoot.style.zIndex = "1202";
     document.body.appendChild(portalRoot);
 }
 

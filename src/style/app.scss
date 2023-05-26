@@ -1,5 +1,11 @@
-#portal-root{
-    z-index: 9998;
+body{
+    #root{
+        position: relative;
+        z-index: 1;
+    }
+    #portal-root{
+        z-index: 2000;
+    }
 }
 
 /* tooltip */
