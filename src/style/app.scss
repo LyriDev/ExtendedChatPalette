@@ -9,6 +9,7 @@ body{
         div:has(.editMenu) {
             position: relative;
             width: 100%;
+            max-width: 600px;
             display: flex;
             justify-content: center;
             align-items: center; 
@@ -84,29 +85,6 @@ body{
     &.bottom-right:after {
         right: auto;
         left: 50%;
-    }
-
-    &.top:after,
-    &.top-left:after,
-    &.top-right:after {
-        right: 50%;
-        bottom: 100%;
-        margin-bottom: 14px;
-    }
-
-    &.top-right:after{
-        right: auto;
-        left: 50%;
-        margin-left: -15px;
-    }
-
-    &.top-left:after {
-        margin-right: -15px;
-    }
-
-    &.top:after {
-        right: 0;
-        left: 0;
     }
 
     /* tooltip animation */

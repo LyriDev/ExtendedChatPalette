@@ -24,9 +24,6 @@ export default function HeaderEdit({ close }: { close: () => void }) {
     return (
             <div style={headerStyle}>
                 <div>拡張チャットパレット</div>
-                <button className="exTooltip top-right" aria-label={helpText}>
-                    <span><Help /></span>
-                </button>
                 <button onClick={close}>
                     <span><Close /></span>
                 </button>

@@ -46,7 +46,7 @@ async function challengeQuery(query: string, timeLimit: number = 60): Promise<HT
                 if(targetElement !== null){
                     console.log(`目標の要素を発見しました\ndocument.querySelector("${query}")\n${targetElement}`)
                 }else{
-                    console.log("タイムアウト。目標の要素を発見できませんでした")
+                    throw new Error("タイムアウト。目標の要素を発見できませんでした")
                 }
             }
         }, intervalInSeconds * 1000);
