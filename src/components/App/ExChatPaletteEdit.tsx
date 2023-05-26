@@ -17,7 +17,7 @@ interface MyComponentProps {
 
 export default function ExChatPaletteEdit({ close }: MyComponentProps) {
   return (
-      <div style={modalStyle} id="modal-menu">
+      <div style={modalStyle}>
         <HeaderEdit headerStyle={headerStyle} close={close}/>
         <TabsContent headerStyle={headerStyle} />
       </div>

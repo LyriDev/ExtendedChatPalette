@@ -4,6 +4,13 @@ import "./style/app.scss"
 import ExChatPaletteButton from './components/App/ExChatPaletteButton';
 import HamburgerListTab from "./components/App/HamburgerListTab"
 
+function addPortalRoot(): void{ // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成する関数
+    // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成
+    const portalRoot = document.createElement('div');
+    portalRoot.id = 'portal-root';
+    portalRoot.style.zIndex = "1202";
+    document.body.appendChild(portalRoot);
+}
 
 async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパレットボタンを追加する関数
     // 「マイキャラクター一覧」ボタンを取得する
@@ -12,11 +19,6 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
 
     // 工事中モード等でボタンが無効になっていたらfalseを代入する
     const isButtonEnable: boolean = !(targetElement.classList.contains("Mui-disabled"))
-
-    // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成
-    const portalRoot = document.createElement('div');
-    portalRoot.id = 'portal-root';
-    document.body.appendChild(portalRoot);
 
     // 「マイキャラクター一覧」の要素の前に拡張チャットパレットボタンを追加する
     const container: HTMLElement = document.createElement("div")
@@ -95,7 +97,7 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
 }
 
 window.onload = async function(){
-    console.log("hello world");
+    addPortalRoot()
     addExChatPaletteButton();
     addExChatPaletteList()
 };

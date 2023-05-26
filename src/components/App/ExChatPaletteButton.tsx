@@ -10,7 +10,7 @@ interface MyComponentProps {
 
 export default function ExChatPaletteButton({ isActive }: MyComponentProps) { // 拡張チャットパレットボタン
 
-    const [Modal, open, close, isOpen] = useModal('root', {
+    const [Modal, open, close, isOpen] = useModal('portal-root', {
         preventScroll: true,
     });
     
