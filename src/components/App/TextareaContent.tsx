@@ -5,7 +5,7 @@ import HelpContent from "./HelpContent"
 const textareaStyle: React.CSSProperties = {
     borderRadius: '4px',
     margin: "16px 24px 8px",
-    padding: "6px 12px 0",
+    padding: "6px 12px",
     color: "#fff",
     fontSize: "1rem",
     fontWeight: "400",
@@ -17,7 +17,6 @@ const textareaStyle: React.CSSProperties = {
     background: "none",
     backgroundColor: 'rgba(255, 255, 255, 0.09)',
     width: "calc(100% - (24px + 12px)*2)",
-    height: "100%"
 };
 
 export default function TextareaContent(props: { value?: string | number | readonly string[] }) {
@@ -30,7 +29,7 @@ export default function TextareaContent(props: { value?: string | number | reado
     return (
         <div>
             <HelpContent />
-            <textarea style={textareaStyle} value={text} onChange={handleChange} />
+            <textarea style={textareaStyle} rows={6} value={text} onChange={handleChange} />
         </div>
     );
 }

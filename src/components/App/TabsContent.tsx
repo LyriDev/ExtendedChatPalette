@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import TextareaContent from "./TextareaContent"
 
-
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -27,6 +26,10 @@ function TabPanel(props: TabPanelProps) {
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
+        style={{
+
+            maxWidth: "600px",
+        }}
         {...other}
         >
         {value === index && (

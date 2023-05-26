@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 const ulStyle: React.CSSProperties = {
+    fontSize: "0.75rem",
     margin: "16px 24px 8px",
-    width: "calc(100% - 24px*2)",
+    width: "calc(100% - (24px*2 + (1rem + 5px)))", // 100% - ( 左右のmargin + liのmarker )
 };
 
 export default function HelpContent() {

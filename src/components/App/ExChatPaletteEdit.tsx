@@ -8,7 +8,7 @@ const menuStyle: React.CSSProperties = {
   borderRadius: '4px',
   maxHeight: "calc(100% - 64px)",
   maxWidth: "600px",
-  width: "calc(100% - 64px)"
+  width: "calc(100% - 64px)",
 };
 
 interface MyComponentProps {

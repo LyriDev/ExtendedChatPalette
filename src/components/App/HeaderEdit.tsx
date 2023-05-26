@@ -1,17 +1,5 @@
 import * as React from 'react';
 import Close from '../../svg/Close'
-import Help from '../../svg/Help'
-
-const helpText: string =
-`・「# 名前」
-　この行の次の行以降に、"名前"で指定されたキャラに紐付けられたメッセージを登録できます。
-・「\`\`\`メッセージ\`\`\`」
-　キャラに紐付けられたメッセージを登録できます。
-・「##」
-　この行の次の行以降に、現在キャラで発言するメッセージを登録できます。
-・「---」
-　この行にボーダーを作成できます。
-`
 
 const headerStyle: React.CSSProperties = {
     backgroundColor: '#212121',

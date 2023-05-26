@@ -8,13 +8,23 @@ body{
         z-index: 2000;
         div:has(.editMenu) {
             position: relative;
-            width: 100%;
-            max-width: 600px;
             display: flex;
             justify-content: center;
             align-items: center; 
         }
     }
+}
+
+/* li marker */
+ul {
+	list-style-type: none; /* ブラウザによるリスト見出しの非表示 */
+	position: relative; /* カスタム見出し表示位置調整のための準備 */
+	padding-left: calc(1rem + 5px); /* liボックス要素の、本文インデント位置の設定 */
+}
+li:before { /* liブロック要素の『前に置く』要素として、指定する */
+	display: block; /* 見出しをブロック要素として表示する */
+	position: absolute; /* カスタム見出しの表示位置調整を有効にする */
+	left: 5px; /* カスタム見出しの表示位置調整（ulブロック要素内左端からカウント） */
 }
 
 /* tooltip */
