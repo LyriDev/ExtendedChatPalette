@@ -18,13 +18,16 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
     portalRoot.id = 'portal-root';
     document.body.appendChild(portalRoot);
 
-    // Reactコンポーネントをレンダリングし、DOM要素を取得
-    const container = document.createElement('div');
-    ReactDOM.render(<ExChatPaletteButton  isActive={isButtonEnable} portalRoot={portalRoot} />, container);
-    const reactElement = container.firstChild;
-
     // 「マイキャラクター一覧」の要素の前に拡張チャットパレットボタンを追加する
-    if(reactElement instanceof Node) targetElement.before(reactElement);
+    const container: HTMLElement = document.createElement("div")
+    targetElement.before(container)
+
+    ReactDOM.render(
+        <React.StrictMode>
+            <ExChatPaletteButton  isActive={isButtonEnable} portalRoot={portalRoot} />
+        </React.StrictMode>,
+        targetElement
+    );
 }
 
 async function challengeQuery(query: string, timeLimit: number = 60): Promise<HTMLElement|null>{ // 指定された要素が見つかるまで数秒くらい待機する関数
