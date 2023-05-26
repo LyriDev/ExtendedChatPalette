@@ -6,6 +6,13 @@ body{
     #portal-root{
         position: relative;
         z-index: 2000;
+        div:has(.editMenu) {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
     }
 }
 

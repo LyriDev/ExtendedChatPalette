@@ -11,10 +11,15 @@ interface TabPanelProps {
     value: number;
 }
 
+const tabsStyle: React.CSSProperties = {
+    backgroundColor: '#212121',
+    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
+};
+
 const textareaStyle: React.CSSProperties = {
     backgroundColor: 'rgba(255, 255, 255, 0.09)',
     borderRadius: '4px',
-    margin: "8px 24px"
+    margin: "16px  24px 8px"
 };
 
 function TabPanel(props: TabPanelProps) {
@@ -40,29 +45,29 @@ function TabPanel(props: TabPanelProps) {
 const theme = createTheme({
     palette: {
         primary: {
-        main: '#fff', // プライマリーカラーを赤色に設定
+            main: '#fff', // プライマリーカラーを白色に設定
         },
     },
     typography: {
         button: {
-        textTransform: "none",
-        fontWeight: 'bold'
+            textTransform: "none",
+            fontWeight: 'bold'
         },
     },
     components: {
         MuiTab: {
-        styleOverrides: {
-            root: {
-            color: '#bdbdbd', // 非アクティブなタブの文字色を指定
+            styleOverrides: {
+                root: {
+                    color: '#bdbdbd', // 非アクティブなタブの文字色を指定
+                },
             },
         },
-        },
         MuiTabs: {
-        styleOverrides: {
-            indicator: {
-            backgroundColor: '#f50057', // 下線の色を赤に設定
+            styleOverrides: {
+                indicator: {
+                    backgroundColor: '#f50057', // 下線の色を赤に設定
+                }
             }
-        }
         }
     }
 });
@@ -74,7 +79,7 @@ function a11yProps(index: number) {
     };
 }
 
-export default function TabsContent({ headerStyle }: { headerStyle: React.CSSProperties }) {
+export default function TabsContent() {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -84,7 +89,7 @@ export default function TabsContent({ headerStyle }: { headerStyle: React.CSSPro
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ width: '100%' } }>
-                <Box style={headerStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs
                     value={value}
                     textColor="primary"

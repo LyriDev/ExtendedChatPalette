@@ -13,7 +13,14 @@ const helpText: string =
 　この行にボーダーを作成できます。
 `
 
-export default function HeaderEdit({ headerStyle, close }: { headerStyle: React.CSSProperties, close: () => void }) {
+const headerStyle: React.CSSProperties = {
+    backgroundColor: '#212121',
+    padding: "0 24px",
+    minHeight: "64px",
+    borderRadius: "4px 4px 0 0"
+};
+
+export default function HeaderEdit({ close }: { close: () => void }) {
     return (
             <div style={headerStyle}>
                 <div>拡張チャットパレット</div>

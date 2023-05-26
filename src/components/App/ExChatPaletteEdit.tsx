@@ -11,19 +11,15 @@ const menuStyle: React.CSSProperties = {
   width: "calc(100% - 64px)"
 };
 
-const headerStyle: React.CSSProperties = {
-  backgroundColor: '#212121',
-};
-
 interface MyComponentProps {
   close: () => void;
 }
 
 export default function ExChatPaletteEdit({ close }: MyComponentProps) {
   return (
-      <div style={menuStyle}>
-        <HeaderEdit headerStyle={headerStyle} close={close}/>
-        <TabsContent headerStyle={headerStyle} />
+      <div className="editMenu" style={menuStyle}>
+        <HeaderEdit  close={close}/>
+        <TabsContent />
       </div>
   );
 }
