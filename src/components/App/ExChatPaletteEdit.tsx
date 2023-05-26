@@ -3,6 +3,7 @@ import TabsContent from './TabsContent'
 import HeaderEdit from './HeaderEdit'
 
 const modalStyle: React.CSSProperties = {
+  color: "#fff",
   backgroundColor: 'rgba(44, 44, 44, 0.87)',
   borderRadius: '4px',
 };
