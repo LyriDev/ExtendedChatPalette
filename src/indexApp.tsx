@@ -24,7 +24,7 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
 
     ReactDOM.render(
         <React.StrictMode>
-            <ExChatPaletteButton  isActive={isButtonEnable} portalRoot={portalRoot} />
+            <ExChatPaletteButton  isActive={isButtonEnable} />
         </React.StrictMode>,
         targetElement
     );

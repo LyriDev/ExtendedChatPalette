@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 
-import ExChatPaletteView from "../App/ExChatPaletteView"
-
 export default function Popup() {
     const [enableExDodge, setEnableExDodge] = useState(true); // 拡張回避の設定データ
 
@@ -46,7 +44,6 @@ export default function Popup() {
                     <th colSpan={2}>ルーム名</th>
                 </tr>
             </table>
-            <ExChatPaletteView />
         </div>
     );
 }

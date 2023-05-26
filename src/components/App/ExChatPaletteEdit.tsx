@@ -11,7 +11,11 @@ const headerStyle: React.CSSProperties = {
   backgroundColor: '#212121',
 };
 
-export default function ExChatPaletteEdit({ close }: { close: () => void }) {
+interface MyComponentProps {
+  close: () => void;
+}
+
+export default function ExChatPaletteEdit({ close }: MyComponentProps) {
   return (
       <div style={modalStyle}>
         <HeaderEdit headerStyle={headerStyle} close={close}/>

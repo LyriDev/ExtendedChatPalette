@@ -17,7 +17,7 @@ export default function HeaderEdit({ headerStyle, close }: { headerStyle: React.
     return (
             <div style={headerStyle}>
                 <div>拡張チャットパレット</div>
-                <button className="exTooltip" aria-label={helpText}>
+                <button className="exTooltip top-right" aria-label={helpText}>
                     <span><Help /></span>
                 </button>
                 <button onClick={close}>
