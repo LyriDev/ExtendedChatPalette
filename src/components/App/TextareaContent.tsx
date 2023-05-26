@@ -13,6 +13,7 @@ const textareaStyle: React.CSSProperties = {
     lineHeight: "1.1876em",
     letterSpacing: "0.00938em",
     border: "0",
+    outline: "none",
     resize: "none",
     background: "none",
     backgroundColor: 'rgba(255, 255, 255, 0.09)',
