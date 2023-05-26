@@ -14,6 +14,7 @@ interface TabPanelProps {
 const textareaStyle: React.CSSProperties = {
     backgroundColor: 'rgba(255, 255, 255, 0.09)',
     borderRadius: '4px',
+    margin: "8px 24px"
 };
 
 function TabPanel(props: TabPanelProps) {
@@ -28,7 +29,7 @@ function TabPanel(props: TabPanelProps) {
         {...other}
         >
         {value === index && (
-            <Box sx={{ p: 3 }}>
+            <Box>
                 <Typography style={textareaStyle}>{children}</Typography>
             </Box>
         )}
