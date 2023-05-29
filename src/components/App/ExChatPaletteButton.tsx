@@ -3,8 +3,6 @@ import { useModal } from 'react-hooks-use-modal';
 import ExChatPaletteEdit from './ExChatPaletteEdit';
 import Icon from "./../../svg/Icon"
 
-import { getRoomData, getTabNames } from "../../data/DataControl"
-
 interface MyComponentProps {
     isActive: boolean;
 }

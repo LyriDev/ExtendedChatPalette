@@ -47,7 +47,7 @@ export async function getSettings(): Promise<Settings>{
     });
 }
 
-export async function getTabNames(roomId: string): Promise<string[]>{
+export async function getTabNames(roomId: string = getRoomId()): Promise<string[]>{
     let initialData: string[] = ["メイン"] //デフォルト値
     return new Promise<string[]>((resolve, reject) => {
         chrome.storage.local.get(["data", roomId, "tabs"], function(response){
@@ -65,7 +65,7 @@ export async function getTabNames(roomId: string): Promise<string[]>{
     });
 }
 
-export async function getTexts(roomId: string): Promise<string[]>{
+export async function getTexts(roomId: string = getRoomId()): Promise<string[]>{
     let initialData: string[] = [""] //デフォルト値
     return new Promise<string[]>((resolve, reject) => {
         chrome.storage.local.get(["data", roomId, "tabs"], function(response){
@@ -83,7 +83,7 @@ export async function getTexts(roomId: string): Promise<string[]>{
     });
 }
 
-export async function saveTabData(roomId: string, roomName: string, tabNames: string[], texts: string[]): Promise<void>{
+export async function saveTabData(tabNames: string[], texts: string[], roomId: string = getRoomId(), roomName: string = getRoomName()): Promise<void>{
     return new Promise<void>((resolve, reject) => {
         if(tabNames.length !== texts.length){
             throw new Error("tabNames と texts の数が違います");

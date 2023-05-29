@@ -8,7 +8,7 @@ export function TabNameProvider({children}){
 
     useEffect(() => {
         (async() => {
-            const response = await getTabNames()
+            const response: string[] = await getTabNames()
             setTabNames(response)
         })()
     }, []);
