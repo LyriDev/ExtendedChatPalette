@@ -14,12 +14,14 @@ type Tab = {
     chatPalettes: ChatPalette[];
 };
 
-export type DataModel = {
-    settings: Settings;
-    data: {
-        [roomId: string]: {
+export type Data = {
+    [roomId: string]: {
         roomName: string;
         tabs: Tab[];
-        };
     };
+};
+
+export type DataModel = {
+    settings: Settings;
+    data: Data;
 };
