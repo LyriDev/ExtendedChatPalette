@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import { useModal } from 'react-hooks-use-modal';
 import ExChatPaletteEdit from './ExChatPaletteEdit';
 import Icon from "./../../svg/Icon"

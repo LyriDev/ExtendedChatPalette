@@ -23,3 +23,24 @@ export function getTexts(): string[]{
     });
     return result;
 }
+
+export function saveTabData(roomId: string, roomName: string, tabNames: string[], texts: string[]): void{
+    if(tabNames.length !== texts.length){
+        throw new Error("tabNames と texts の数が違います");
+        return;
+    }
+    const result: object[] = new Array;
+    for(let i: number = 0; i < tabNames.length; i++){
+        const currentData: object = {
+            tabName: tabNames[i],
+            originText: texts[i]
+        }
+        result.push(currentData)
+    }
+    const sendData: object = {};
+    sendData["data"][`${roomId}`]["tabs"] = result;
+    
+    chrome.storage.local.set(sendData, function() {
+        console.log('データが保存されました');
+    });
+}
