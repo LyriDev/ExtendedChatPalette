@@ -1,17 +1,29 @@
 import React from 'react';
-import { useState } from "react";
-import { saveTabData, getTabNames, getTexts } from '../../data/DataControl';
+import { useState, useEffect } from "react";
+import { getSettings, saveTabData, getTabNames, getTexts } from '../../data/DataControl';
 
 export default function Popup() {
     const [enableExDodge, setEnableExDodge] = useState(true); // 拡張回避の設定データ
 
+    useEffect(() => {
+        (async() => {
+            const response = await getSettings()
+            setEnableExDodge(response.enableExDodge)
+        })()
+    }, []);
+
     // 拡張回避の設定データを変更し、ストレージに保存する関数
-    function changeDodgeSettings(): void{
-        const newSettings = {
-            enableExDodge: !enableExDodge
-        };
-        chrome.storage.local.set({ settings: newSettings }, function() {
-            setEnableExDodge(newSettings.enableExDodge);
+    async function changeDodgeSettings(): Promise<void>{
+        return new Promise<void>((resolve, reject) => {
+            const newData = {
+                settings: {
+                    enableExDodge: !enableExDodge
+                }
+            };
+            chrome.storage.local.set(newData, function() {
+                setEnableExDodge(newData.settings.enableExDodge);
+                resolve();
+            });
         });
     }
 

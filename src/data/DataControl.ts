@@ -1,4 +1,20 @@
-import { Tab } from "./DataModel"
+import { Settings, Tab } from "./DataModel"
+
+export async function getSettings(): Promise<Settings>{
+    let initialData: Settings = { //デフォルト値
+        enableExDodge : true
+    }
+    return new Promise<Settings>((resolve, reject) => {
+        chrome.storage.local.get(["settings"], function(response){
+            try{
+                const settings: Settings = response["settings"] as Settings
+                resolve(settings);
+            }catch(error) {
+                resolve(initialData);
+            }
+        });
+    });
+}
 
 export async function getTabNames(roomId: string): Promise<string[]>{
     let initialData: string[] = ["メイン"] //デフォルト値
