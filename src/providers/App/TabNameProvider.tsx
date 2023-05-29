@@ -7,7 +7,7 @@ export function TabNameProvider({children}){
     const [tabNames, setTabNames] = useState<string[]>([]);
 
     useEffect(() => {
-        const receivedData: string[] = getTabNames()
+        const receivedData: string[] = getTabNames("")
         setTabNames(receivedData)
     }, []);
 

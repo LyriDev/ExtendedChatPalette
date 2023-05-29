@@ -7,7 +7,7 @@ export function TextProvider({children}){
     const [texts, setTexts] = useState<string[]>([]);
 
     useEffect(() => {
-        const receivedData: string[] = getTexts()
+        const receivedData: string[] = getTexts("")
         setTexts(receivedData)
     }, []);
 

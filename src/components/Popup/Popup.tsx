@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { saveTabData, getTabNames, getTexts } from '../../data/DataControl';
 
 export default function Popup() {
     const [enableExDodge, setEnableExDodge] = useState(true); // 拡張回避の設定データ
@@ -28,6 +29,9 @@ export default function Popup() {
         <div className="App">
             <button onClick={deleteAllData}>clearData</button>
             <button onClick={getAllData}>getData</button>
+            <button onClick={() => saveTabData("roAd8g","お部屋",["メイン","サブ","NPC用"],["hoge","fuga","1d100"])}>saveTabData</button>
+            <button onClick={() => getTabNames("roAd8g").then((value) => console.log(value))}>getTabNames</button>
+            <button onClick={() => getTexts("roAd8g").then((value) => console.log(value))}>getTexts</button>
             <h3>拡張チャットパレット 設定</h3>
             <div>
                 <input

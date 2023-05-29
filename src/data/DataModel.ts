@@ -8,7 +8,7 @@ type ChatPalette = {
     isBorder: boolean;
 };
 
-type Tab = {
+export type Tab = {
     tabName: string;
     originText: string;
     chatPalettes: ChatPalette[];
