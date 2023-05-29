@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getTabNames } from "./../data/DataControl"
+import { getTabNames } from "../../data/DataControl"
 
 export const TabNameContext = createContext<[string[], React.Dispatch<React.SetStateAction<string[]>>] | null>(null)
 

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getTexts } from "./../data/DataControl"
+import { getTexts } from "../../data/DataControl"
 
 export const TextContext = createContext<[string[], React.Dispatch<React.SetStateAction<string[]>>] | null>(null)
 
