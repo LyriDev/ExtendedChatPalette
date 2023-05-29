@@ -135,6 +135,7 @@ figmaによりデザイン設計を行う。
 - \-\-\-
     - "\-\-\-"と指定することで、拡張チャットパレット表示時にその行に区切り線を作成する。
 ## データモデル
+[型宣言ファイル](./../src/DataModel.ts)
 ```bash
 ├── settings/ #object
 │   └── enableExDodge #boolean
