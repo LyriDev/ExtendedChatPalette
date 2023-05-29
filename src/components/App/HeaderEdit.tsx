@@ -20,12 +20,12 @@ const theme = createTheme({
     }
 });
 
-export default function HeaderEdit({ close }: { close: () => void }) {
+export default function HeaderEdit() {
     return (
             <div style={headerStyle}>
                 <div>拡張チャットパレット</div>
                 <ThemeProvider theme={theme}>
-                    <IconButton edge="end" color="primary" aria-label="close"  onClick={() => close()} style={{margin: "0 -12px 0 auto"}}>
+                    <IconButton edge="end" color="primary" aria-label="close"  onClick={() => console.log("")} style={{margin: "0 -12px 0 auto"}}>
                         <Close />
                     </IconButton>
                 </ThemeProvider>
