@@ -60,6 +60,45 @@ export default function Popup() {
                     <th colSpan={2}>ルーム名</th>
                 </tr>
             </table>
+            <Test />
         </div>
     );
+}
+
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+function Test(){
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const openMenu = Boolean(anchorEl);
+    const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(e.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    return (
+        <div>
+            <Typography
+            sx={{ mr: "20px", cursor: "pointer", color: "#616161" }}
+            aria-controls="basic-menu"
+            aria-haspopup="true"
+            aria-expanded={openMenu ? "true" : undefined}
+            onClick={handleClick}
+            >
+                Categories
+            </Typography>
+            {/* ドロップダウンアイテム */}
+            <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={openMenu}
+            onClose={handleClose}
+            >
+                <MenuItem onClick={handleClose}>Men</MenuItem>
+                <MenuItem onClick={handleClose}>Women</MenuItem>
+            </Menu>
+        </div>
+    )
 }
