@@ -36,7 +36,7 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
                     key={index}
                     label={tabName}
                     {...a11yProps(index)}
-                    sx={{ width: 'fit-content', padding: '6px 12px', minHeight: "48px" ,minWidth: "0"}}
+                    sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
                     />
                 ))}
             </Tabs>
