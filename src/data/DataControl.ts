@@ -1,4 +1,4 @@
-import { Settings, Tab } from "./DataModel"
+import { Data, Settings, Tab } from "./DataModel"
 
 function clipUrl(url: string): string{ // URLのクエリ文字列やURLフラグメントを取り除いた、URLのパス部分を取得する関数
     const urlObj: URL = new URL(url);
@@ -88,24 +88,27 @@ export async function saveTabData(tabNames: string[], texts: string[], roomId: s
         if(tabNames.length !== texts.length){
             throw new Error("tabNames と texts の数が違います");
         }
-        const result: object[] = new Array;
-        for(let i: number = 0; i < tabNames.length; i++){
-            const currentData: object = {
-                tabName: tabNames[i],
-                originText: texts[i]
-            }
-            result.push(currentData)
-        }
-        const sendData: object = {
-            data: {
-                [roomId]: {
-                    roomName: roomName,
-                    tabs: result
+        // 既存のデータを取得
+        chrome.storage.local.get("data", function(response) {
+            const existingData = response.data || {}; // 既存のデータ
+            const result: object[] = new Array;
+            for(let i: number = 0; i < tabNames.length; i++){
+                const currentData: object = {
+                    tabName: tabNames[i],
+                    originText: texts[i]
                 }
+                result.push(currentData)
             }
-        };
-        chrome.storage.local.set(sendData, function() {
-            resolve(sendData);
+            // 既存のデータと新しいデータをマージ
+            existingData[roomId] = {
+                roomName: roomName,
+                tabs: result
+            };
+            // 既存のデータをデータベースに保存する
+            const sendData: object = { data: existingData }
+            chrome.storage.local.set(sendData, function() {
+                resolve(sendData);
+            });
         });
     });
 }
