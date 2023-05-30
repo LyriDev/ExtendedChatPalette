@@ -1,19 +1,53 @@
-import React, { useEffect, useContext } from 'react';
-import TabsContent from './TabsContent'
+import React, { useState, useEffect, useContext } from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import { ModalContext } from "./../../providers/App/ModalProvider"
+import TabsContent from './TabsContent'
+import HeaderEdit from './HeaderEdit'
+import TabBarEdit from "./TabBarEdit"
 
 const menuStyle: React.CSSProperties = {
   color: "#fff",
   backgroundColor: 'rgba(44, 44, 44, 0.87)',
-  borderRadius: '4px',
   maxHeight: "calc(100% - 64px)",
   maxWidth: "600px",
-  width: "100%",
-  boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12);"
+  width: "100%"
 };
+
+const theme = createTheme({
+  palette: {
+      primary: {
+          main: '#fff', // プライマリーカラーを白色に設定
+      },
+  },
+  typography: {
+      button: {
+          textTransform: "none",
+          fontWeight: 'bold'
+      },
+  },
+  components: {
+      MuiTab: {
+          styleOverrides: {
+              root: {
+                  color: '#bdbdbd', // 非アクティブなタブの文字色を指定
+              },
+          },
+      },
+      MuiTabs: {
+          styleOverrides: {
+              indicator: {
+                  backgroundColor: '#f50057', // 下線の色を赤に設定
+              }
+          }
+      }
+  }
+});
 
 export default function ExChatPaletteEdit() {
   const resource = useContext(ModalContext);
+
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     return () => {
@@ -23,8 +57,16 @@ export default function ExChatPaletteEdit() {
 });
 
   return (
-      <div className="editMenu" style={menuStyle}>
-        <TabsContent />
+      <div className="editMenu MuiPaper-elevation24 MuiPaper-rounded" style={menuStyle}>
+          <ThemeProvider theme={theme}>
+            <Box sx={{ width: '100%' } }>
+                <div className="MuiPaper-elevation4">
+                    <HeaderEdit/>
+                    <TabBarEdit value={value} setValue={setValue} />
+                </div>
+                <TabsContent value={value}/>
+            </Box>
+        </ThemeProvider>
       </div>
   );
 }
