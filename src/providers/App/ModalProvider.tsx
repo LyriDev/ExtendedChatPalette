@@ -8,31 +8,27 @@ type ModalData = {
     Modal: React.FC<ModalWrapperProps<Record<string, unknown>>>,
     open: () => void,
     close: () => void,
-    isOpen: boolean,
     save: () => Promise<void>
 }
 
 export const ModalContext = createContext<ModalData | null>(null)
 
 export function ModalProvider({children}: {children: ReactNode}){
-    const resourceTabNames = useContext(TabNameContext);
-    const resourceTexts = useContext(TextContext);
+    const [tabNames, setTabNames] = useContext(TabNameContext) || [];
+    const [texts, setTexts] = useContext(TextContext) || [];
 
     const [Modal, open, close, isOpen] = useModal('portal-root', {
-        preventScroll: true,
+        preventScroll: true
     });
 
-    async function save(): Promise<void>{ // データを保存して、モーダルメニューを閉じる関数
-        if(!resourceTabNames?.[0]) throw new Error("タブのデータが存在しません")
-        if(!resourceTexts?.[0]) throw new Error("テキストのデータが存在しません")
-        const tabNames: string[] =resourceTabNames?.[0]
-        const texts: string[] = resourceTexts?.[0]
+    async function save(): Promise<void>{ // データを保存する関数
+        if(!tabNames) throw new Error("タブのデータが存在しません")
+        if(!texts) throw new Error("テキストのデータが存在しません")
         await saveTabData(tabNames, texts)
-        close()
     }
 
     return (
-        <ModalContext.Provider value={{Modal, open, close, isOpen, save}}>
+        <ModalContext.Provider value={{Modal, open, close, save}}>
             {children}
         </ModalContext.Provider>
     );

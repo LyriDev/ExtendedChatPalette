@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ExChatPaletteEdit from './ExChatPaletteEdit';
 import Icon from "./../../svg/Icon"
 import { ModalContext } from "./../../providers/App/ModalProvider"
@@ -13,7 +13,7 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
 
     return (
         <div>
-            <button onClick={() =>resource?.open()} className={classNames} tabIndex={0} type="button" aria-label="拡張チャットパレット">
+            <button onClick={() => resource?.open()} className={classNames} tabIndex={0} type="button" aria-label="拡張チャットパレット">
                 <span className="MuiIconButton-label">
                     <Icon />
                 </span>

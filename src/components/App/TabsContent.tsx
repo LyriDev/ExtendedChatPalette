@@ -81,8 +81,8 @@ function a11yProps(index: number) {
 }
 
 export default function TabsContent() {
-    const resourceTabNames = useContext(TabNameContext);
-    const resourceTexts = useContext(TextContext);
+    const [tabNames, setTabNames] = useContext(TabNameContext) || [];
+    const [texts, setTexts] = useContext(TextContext) || [];
 
     const [value, setValue] = useState(0);
 
@@ -101,12 +101,12 @@ export default function TabsContent() {
                     onChange={handleChange}
                     aria-label="basic tabs example"
                     >
-                        {resourceTabNames?.[0].map((tabName, index) => (
+                        {tabNames?.map((tabName, index) => (
                             <Tab key={index} label={tabName} {...a11yProps(index)} />
                         ))}
                     </Tabs>
                 </Box>
-                {resourceTexts?.[0].map((text, index) => (
+                {texts?.map((text, index) => (
                     <TabPanel value={value} index={index}>
                         <TextareaContent index={index}/>
                     </TabPanel>

@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useEffect, useContext } from 'react';
 import TabsContent from './TabsContent'
 import HeaderEdit from './HeaderEdit'
+import { ModalContext } from "./../../providers/App/ModalProvider"
 
 const menuStyle: React.CSSProperties = {
   color: "#fff",
@@ -13,6 +14,15 @@ const menuStyle: React.CSSProperties = {
 };
 
 export default function ExChatPaletteEdit() {
+  const resource = useContext(ModalContext);
+
+  useEffect(() => {
+    return () => {
+        // アンマウントされる直前に実行される処理を記述する
+        resource?.save()
+    };
+}, []);
+
   return (
       <div className="editMenu" style={menuStyle}>
         <HeaderEdit/>

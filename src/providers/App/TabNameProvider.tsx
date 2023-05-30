@@ -14,7 +14,7 @@ export function TabNameProvider({children}: {children: ReactNode}){
     }, []);
 
     return (
-        <TabNameContext.Provider value={[tabNames, setTabNames] }>
+        <TabNameContext.Provider value={[tabNames, setTabNames]}>
             {children}
         </TabNameContext.Provider>
     );
