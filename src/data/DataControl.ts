@@ -83,8 +83,8 @@ export async function getTexts(roomId: string = getRoomId()): Promise<string[]>{
     });
 }
 
-export async function saveTabData(tabNames: string[], texts: string[], roomId: string = getRoomId(), roomName: string = getRoomName()): Promise<void>{
-    return new Promise<void>((resolve, reject) => {
+export async function saveTabData(tabNames: string[], texts: string[], roomId: string = getRoomId(), roomName: string = getRoomName()): Promise<object>{
+    return new Promise<object>((resolve, reject) => {
         if(tabNames.length !== texts.length){
             throw new Error("tabNames と texts の数が違います");
         }
@@ -105,7 +105,7 @@ export async function saveTabData(tabNames: string[], texts: string[], roomId: s
             }
         };
         chrome.storage.local.set(sendData, function() {
-            resolve();
+            resolve(sendData);
         });
     });
 }

@@ -21,7 +21,7 @@ export default function ExChatPaletteEdit() {
         // アンマウントされる直前に実行される処理を記述する
         resource?.save()
     };
-}, []);
+});
 
   return (
       <div className="editMenu" style={menuStyle}>
