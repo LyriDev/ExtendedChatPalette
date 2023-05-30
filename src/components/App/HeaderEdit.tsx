@@ -3,8 +3,6 @@ import IconButton from '@mui/material/IconButton';
 import Close from '../../svg/Close'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { ModalContext } from "./../../providers/App/ModalProvider"
-import { TabNameContext } from "./../../providers/App/TabNameProvider"
-import { TextContext } from "./../../providers/App/TextProvider"
 
 const headerStyle: React.CSSProperties = {
     backgroundColor: '#212121',

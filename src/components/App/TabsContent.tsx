@@ -7,6 +7,7 @@ import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import TextareaContent from "./TextareaContent"
 import { TabNameContext } from "./../../providers/App/TabNameProvider"
 import { TextContext } from "./../../providers/App/TextProvider"
+import HeaderEdit from './HeaderEdit'
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -14,9 +15,12 @@ interface TabPanelProps {
     value: number;
 }
 
+const headerStyle: React.CSSProperties = {
+    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
+};
+
 const tabsStyle: React.CSSProperties = {
     backgroundColor: '#212121',
-    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
 };
 
 function TabPanel(props: TabPanelProps) {
@@ -29,7 +33,6 @@ function TabPanel(props: TabPanelProps) {
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         style={{
-
             maxWidth: "600px",
         }}
         {...other}
@@ -93,19 +96,27 @@ export default function TabsContent() {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ width: '100%' } }>
-                <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs
-                    value={value}
-                    textColor="primary"
-                    indicatorColor="primary"
-                    onChange={handleChange}
-                    aria-label="basic tabs example"
-                    >
-                        {tabNames?.map((tabName, index) => (
-                            <Tab key={index} label={tabName} {...a11yProps(index)} />
-                        ))}
-                    </Tabs>
-                </Box>
+                <div style={headerStyle}>
+                    <HeaderEdit/>
+                    <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs
+                        value={value}
+                        textColor="primary"
+                        indicatorColor="primary"
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                        >
+                            {tabNames?.map((tabName, index) => (
+                                <Tab
+                                key={index}
+                                label={tabName}
+                                {...a11yProps(index)}
+                                sx={{ fontSize: 15 }}
+                                />
+                            ))}
+                        </Tabs>
+                    </Box>
+                </div>
                 {texts?.map((text, index) => (
                     <TabPanel value={value} index={index}>
                         <TextareaContent index={index}/>
