@@ -96,8 +96,8 @@ function Test(){
             open={openMenu}
             onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Men</MenuItem>
-                <MenuItem onClick={handleClose}>Women</MenuItem>
+                <MenuItem onClick={() => {console.log("Men"); handleClose()}}>Men</MenuItem>
+                <MenuItem onClick={() => {console.log("Women"); handleClose()}}>Women</MenuItem>
             </Menu>
         </div>
     )
