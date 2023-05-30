@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode  } from 'react';
 import { useModal, ModalWrapperProps } from 'react-hooks-use-modal';
-import { saveTabData } from "./../../data/DataControl"
+import { saveTabData } from "../../data/DataControl"
 
 type ModalData = {
     Modal: React.FC<ModalWrapperProps<Record<string, unknown>>>,
