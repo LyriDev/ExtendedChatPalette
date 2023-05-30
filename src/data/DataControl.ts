@@ -104,6 +104,8 @@ export async function saveTabData(tabNames: string[], texts: string[], roomId: s
                 }
             }
         };
+        console.log("sendData")
+        console.log(sendData)
         chrome.storage.local.set(sendData, function() {
             console.log('データが保存されました');
             resolve();

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { useState } from "react";
+import React, { useState, useContext}  from 'react';
 import HelpContent from "./HelpContent"
+import { TextContext } from "./../../providers/App/TextProvider"
 
 const textareaStyle: React.CSSProperties = {
     borderRadius: '4px',
@@ -20,17 +20,21 @@ const textareaStyle: React.CSSProperties = {
     width: "calc(100% - (24px + 12px)*2)",
 };
 
-export default function TextareaContent(props: { value?: string | number | readonly string[] }) {
-    const [text, setText] = useState<string>(props.value ? props.value.toString() : '');
+export default function TextareaContent({ index }: { index: number}) {
+    const resource = useContext(TextContext);
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setText(event.target.value);
+    function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>): void{
+        if(!resource?.[0]) throw new Error("配列データが存在しません")
+        const text = event.target.value // textareaのvalue
+        const newArray = [...resource?.[0]]; // 配列のコピーを作成
+        newArray[index] = text; // index番目の要素を変更
+        resource?.[1](newArray); // 変更された配列を新しい状態として設定
     };
 
     return (
         <div>
             <HelpContent />
-            <textarea style={textareaStyle} rows={12} value={text} onChange={handleChange} />
+            <textarea style={textareaStyle} rows={12} value={resource?.[0]?.[index]} onChange={handleChange} />
         </div>
     );
 }

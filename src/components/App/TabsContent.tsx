@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React, { useState, useContext } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import TextareaContent from "./TextareaContent"
+import { TabNameContext } from "./../../providers/App/TabNameProvider"
+import { TextContext } from "./../../providers/App/TextProvider"
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -79,7 +81,10 @@ function a11yProps(index: number) {
 }
 
 export default function TabsContent() {
-    const [value, setValue] = React.useState(0);
+    const resourceTabNames = useContext(TabNameContext);
+    const resourceTexts = useContext(TextContext);
+
+    const [value, setValue] = useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -96,20 +101,16 @@ export default function TabsContent() {
                     onChange={handleChange}
                     aria-label="basic tabs example"
                     >
-                        <Tab label="Item One" {...a11yProps(0)} />
-                        <Tab label="Item Two" {...a11yProps(1)} />
-                        <Tab label="Item Three" {...a11yProps(2)} />
+                        {resourceTabNames?.[0].map((tabName, index) => (
+                            <Tab key={index} label={tabName} {...a11yProps(index)} />
+                        ))}
                     </Tabs>
                 </Box>
-                <TabPanel value={value} index={0}>
-                    <TextareaContent value={"Item One"}/>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                Item Two
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                Item Three
-                </TabPanel>
+                {resourceTexts?.[0].map((text, index) => (
+                    <TabPanel value={value} index={index}>
+                        <TextareaContent index={index}/>
+                    </TabPanel>
+                ))}
             </Box>
         </ThemeProvider>
     );

@@ -1,7 +1,10 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Close from '../../svg/Close'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { ModalContext } from "./../../providers/App/ModalProvider"
+import { TabNameContext } from "./../../providers/App/TabNameProvider"
+import { TextContext } from "./../../providers/App/TextProvider"
 
 const headerStyle: React.CSSProperties = {
     backgroundColor: '#212121',
@@ -21,11 +24,13 @@ const theme = createTheme({
 });
 
 export default function HeaderEdit() {
+    const resource = useContext(ModalContext);
+
     return (
             <div style={headerStyle}>
                 <div>拡張チャットパレット</div>
                 <ThemeProvider theme={theme}>
-                    <IconButton edge="end" color="primary" aria-label="close"  onClick={() => console.log("")} style={{margin: "0 -12px 0 auto"}}>
+                    <IconButton edge="end" color="primary" aria-label="close"  onClick={resource?.save} style={{margin: "0 -12px 0 auto"}}>
                         <Close />
                     </IconButton>
                 </ThemeProvider>
