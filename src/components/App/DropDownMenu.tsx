@@ -37,6 +37,7 @@ export default function DropDownMenu({index, anchorEl, open, handleClose, handle
     function swapTabData(event: React.SyntheticEvent, leftOrRight: 1|-1){ // タブの順番を入れ替える関数
         const nextIndex: number = index + leftOrRight;
         if(!tabNames || !setTabNames || !texts || !setTexts) throw new Error("データが存在しません");
+        if(tabNames.length !== texts.length) throw new Error("tabNames と texts の数が違います");
         if((0 > nextIndex) || (tabNames.length <= nextIndex)) throw new Error("これ以上はタブを動かせません");
         swapStringArrayStates({data: tabNames, setData: setTabNames}, leftOrRight)
         swapStringArrayStates({data: texts, setData: setTexts}, leftOrRight)
@@ -74,13 +75,17 @@ export default function DropDownMenu({index, anchorEl, open, handleClose, handle
             <MenuItem onClick={(event: React.SyntheticEvent) => {
                 swapTabData(event, -1); // 現在タブを左に移動する
                 handleClose();
-            }}>
+            }}
+            disabled={(tabNames && (0 > index - 1)) ? true : false}
+            >
                 左に移動
             </MenuItem>
             <MenuItem onClick={(event: React.SyntheticEvent) => {
                 swapTabData(event, 1); // 現在タブを右に移動する
                 handleClose();
-            }}>
+            }}
+            disabled={(tabNames && (tabNames?.length <= index + 1)) ? true : false}
+            >
                 右に移動
             </MenuItem>
             <MenuItem onClick={handleClose}>メニュー３</MenuItem>
