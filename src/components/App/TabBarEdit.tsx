@@ -19,6 +19,7 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
     const [tabNames, setTabNames] = useContext(TabNameContext) || [];
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        console.log("change:"+newValue)
         setValue(newValue);
     };
 
@@ -37,6 +38,7 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
                     label={tabName}
                     {...a11yProps(index)}
                     sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
+                    onClick={() => {if(index === value) }}
                     />
                 ))}
             </Tabs>
