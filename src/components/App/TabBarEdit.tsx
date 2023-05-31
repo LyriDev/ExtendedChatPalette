@@ -65,9 +65,11 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
             {tabNames?.map((tabName, index) => (
                 <DropDownMenu
                 key={index}
+                index={index}
                 anchorEl={anchors[index]}
                 open={opens[index][0]}
                 handleClose={closeHandlers[index]}
+                handleChange={handleChange}
                 />
             ))}
         </Box>

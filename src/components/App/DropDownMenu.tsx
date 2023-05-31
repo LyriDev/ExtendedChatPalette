@@ -1,8 +1,48 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { TabNameContext } from "./../../providers/App/TabNameProvider"
+import { TextContext } from "./../../providers/App/TextProvider"
 
-export default function DropDownMenu({anchorEl, open, handleClose}: {anchorEl: any, open: boolean, handleClose: () => void}){
+interface StringArrayStates{
+    data: string[] | undefined,
+    setData: React.Dispatch<React.SetStateAction<string[]>> | undefined
+}
+
+interface MyProps{
+    index: number,
+    anchorEl: any,
+    open: boolean,
+    handleClose: () => void,
+    handleChange: (event: React.SyntheticEvent, newValue: number) => void
+}
+
+export default function DropDownMenu({index, anchorEl, open, handleClose, handleChange}: MyProps){
+    const [tabNames, setTabNames] = useContext(TabNameContext) || [];
+    const [texts, setTexts] = useContext(TextContext) || [];
+
+    function swapStringArrayStates(states: StringArrayStates, leftOrRight: 1|-1): void{ // useStateで管理された文字列型配列の順番を入れ替える関数
+        if(states.data && states.setData){
+            const data: string[] = states.data.slice();
+            const setData: React.Dispatch<React.SetStateAction<string[]>> = states.setData;
+            const nextIndex: number = index + leftOrRight;
+            if((0 > nextIndex) || (data.length <= nextIndex)) throw new Error("これ以上は配列を動かせません");
+            const temp: string = data[index]
+            data[index] = data[nextIndex];
+            data[nextIndex] = temp;
+            setData(data);
+        }
+    }
+
+    function swapTabData(event: React.SyntheticEvent, leftOrRight: 1|-1){ // タブの順番を入れ替える関数
+        const nextIndex: number = index + leftOrRight;
+        if(!tabNames || !setTabNames || !texts || !setTexts) throw new Error("データが存在しません");
+        if((0 > nextIndex) || (tabNames.length <= nextIndex)) throw new Error("これ以上はタブを動かせません");
+        swapStringArrayStates({data: tabNames, setData: setTabNames}, leftOrRight)
+        swapStringArrayStates({data: texts, setData: setTexts}, leftOrRight)
+        handleChange(event, index + leftOrRight)
+    }
+
     return (
         <Menu
         // ここでボタンの位置にメニューを紐づける
@@ -31,8 +71,18 @@ export default function DropDownMenu({anchorEl, open, handleClose}: {anchorEl: a
         style={{zIndex: 10000}}
         disablePortal  // ポータルの無効化
         >
-            <MenuItem onClick={handleClose}>メニュー１</MenuItem>
-            <MenuItem onClick={handleClose}>メニュー２</MenuItem>
+            <MenuItem onClick={(event: React.SyntheticEvent) => {
+                swapTabData(event, -1); // 現在タブを左に移動する
+                handleClose();
+            }}>
+                左に移動
+            </MenuItem>
+            <MenuItem onClick={(event: React.SyntheticEvent) => {
+                swapTabData(event, 1); // 現在タブを右に移動する
+                handleClose();
+            }}>
+                右に移動
+            </MenuItem>
             <MenuItem onClick={handleClose}>メニュー３</MenuItem>
         </Menu>
     );

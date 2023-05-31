@@ -21,20 +21,20 @@ const textareaStyle: React.CSSProperties = {
 };
 
 export default function TextareaContent({ index }: { index: number}) {
-    const [tabNames, setTabNames] = useContext(TextContext) || [];
+    const [texts, setTexts] = useContext(TextContext) || [];
 
     function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>): void{
-        if(!(tabNames && setTabNames)) throw new Error("useContextのエラー")
+        if(!(texts && setTexts)) throw new Error("useContextのエラー")
         const text = event.target.value // textareaのvalue
-        const newArray = [...tabNames]; // 配列のコピーを作成
+        const newArray = [...texts]; // 配列のコピーを作成
         newArray[index] = text; // index番目の要素を変更
-        setTabNames(newArray); // 変更された配列を新しい状態として設定
+        setTexts(newArray); // 変更された配列を新しい状態として設定
     };
 
     return (
         <div>
             <HelpContent />
-            <textarea style={textareaStyle} rows={12} value={tabNames?.[index]} onChange={handleChange} />
+            <textarea style={textareaStyle} rows={12} value={texts?.[index]} onChange={handleChange} />
         </div>
     );
 }
