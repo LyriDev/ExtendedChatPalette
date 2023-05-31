@@ -11,22 +11,22 @@ interface StringArrayStates{
 
 interface MyProps{
     index: number,
-    anchorEl: any,
+    anchors: React.MutableRefObject<React.RefObject<HTMLDivElement>[]>,
     open: boolean,
     handleClose: () => void,
     handleChange: (event: React.SyntheticEvent, newValue: number) => void,
     // ドロップダウンメニューに必要なプロパティ群
-    opens: boolean[],
-    setOpens: React.Dispatch<React.SetStateAction<boolean[]>>,
-    anchors: React.RefObject<HTMLDivElement>[],
-    setAnchors: React.Dispatch<React.SetStateAction<React.RefObject<HTMLDivElement>[]>>,
-    clickHandlers: (() => void)[],
-    setClickHandlers: React.Dispatch<React.SetStateAction<(() => void)[]>>,
-    closeHandlers: (() => void)[],
-    setCloseHandlers: React.Dispatch<React.SetStateAction<(() => void)[]>>
+    // opens: boolean[],
+    // setOpens: React.Dispatch<React.SetStateAction<boolean[]>>,
+    // anchors: React.RefObject<HTMLDivElement>[],
+    // setAnchors: React.Dispatch<React.SetStateAction<React.RefObject<HTMLDivElement>[]>>,
+    // clickHandlers: (() => void)[],
+    // setClickHandlers: React.Dispatch<React.SetStateAction<(() => void)[]>>,
+    // closeHandlers: (() => void)[],
+    // setCloseHandlers: React.Dispatch<React.SetStateAction<(() => void)[]>>
 }
 
-export default function DropDownMenu({index, anchorEl, open, handleClose, handleChange}: MyProps){
+export default function DropDownMenu({index, anchors, open, handleClose, handleChange}: MyProps){
     const [tabNames, setTabNames] = useContext(TabNameContext) || [];
     const [texts, setTexts] = useContext(TextContext) || [];
 
@@ -72,10 +72,10 @@ export default function DropDownMenu({index, anchorEl, open, handleClose, handle
         deleteStringArrayStates({data: tabNames, setData: setTabNames});
         deleteStringArrayStates({data: texts, setData: setTexts});
         handleChange(event, 0) // タブ削除後の配列の最後列にindexを設定する
-/*         const lastIndex: number = tabNames.length -1; // タブ削除後の配列の長さ
-        if(lastIndex < index){ // 削除したらindexがタブの長さからはみ出るとき、
-            handleChange(event, lastIndex) // タブ削除後の配列の最後列にindexを設定する
-        } */
+        // const lastIndex: number = tabNames.length -1; // タブ削除後の配列の長さ
+        // if(lastIndex < index){ // 削除したらindexがタブの長さからはみ出るとき、
+        //     handleChange(event, lastIndex) // タブ削除後の配列の最後列にindexを設定する
+        // }
     }
 
     return (
@@ -83,7 +83,7 @@ export default function DropDownMenu({index, anchorEl, open, handleClose, handle
         // ここでボタンの位置にメニューを紐づける
         // この紐づけのお陰でメニューがボタンの隣に出現する
         // これが無いと画面の変なところでメニューが出現することになる
-        anchorEl={anchorEl.current}
+        anchorEl={anchors.current[index]?.current}
         open={open} // メニューの出現を管理
         disableAutoFocusItem={false} // Falseだと、メニューを開いた時にメニューアイテムがフォーカスの対象になる
         autoFocus={false} // Trueだとメニューが開いた時に一番上のメニューアイテムのオートフォーカスされる
