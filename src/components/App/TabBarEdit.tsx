@@ -60,6 +60,20 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
         }
     }, [tabNames]);
 
+
+    const [tabs, setTabs] = useState([
+        { label: 'Tab 1' },
+        { label: 'Tab 2' },
+        { label: 'Tab 3' },
+    ]);
+    const handleLabelChange = (index:any, value:any) => {
+        setTabs((prevTabs) => {
+            const newTabs = [...prevTabs];
+            newTabs[index].label = value;
+            return newTabs;
+        });
+    };
+
     return (
         <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
@@ -83,6 +97,12 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
                     }}
                     />
                 ))}
+                <EditableTab
+                key={0}
+                label={"ラベル"}
+                index={0}
+                onLabelChange={handleLabelChange}
+                />
             </Tabs>
             {tabNames?.map((tabName, index) => (
                 <DropDownMenu
@@ -97,3 +117,40 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
         </Box>
     );
 }
+
+import TextField from '@mui/material/TextField';
+const EditableTab = ({ label, index, onLabelChange }:any) => {
+    const [editing, setEditing] = useState(false);
+    const [value, setValue] = useState(label);
+
+    const handleInputChange = (event:any) => {
+        setValue(event.target.value);
+    };
+
+    const handleTabClick = () => {
+        setEditing(true);
+    };
+
+    const handleInputBlur = () => {
+        setEditing(false);
+        onLabelChange(index, value);
+    };
+
+    return (
+        <Tab
+            label={
+                editing ? (
+                    <TextField
+                    value={value}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    autoFocus
+                    />
+                ) : (
+                    label
+            )
+            }
+            onClick={handleTabClick}
+        />
+    );
+};
