@@ -24,20 +24,43 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
     };
 
     // ドロップダウンメニューに必要なプロパティ群
-    const [opens, setOpens] = useState<Array<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>>([]); // メニューの開閉を管理
-    const [anchors, setAnchors] = useState<Array<React.RefObject<HTMLDivElement>>>([]); // メニューを配置するHTML要素を格納する
-    const [clickHandlers, setClickHandlers] = useState<Array<() => void>>([]); // メニュー開閉ハンドル
-    const [closeHandlers, setCloseHandlers] = useState<Array<() => void>>([]); // メニューを閉めるハンドル
-    if(tabNames){
-        for(let i: number = 0; i < tabNames.length; i++){
-            const [open, setOpen] = useState<boolean>(false);
-            const anchorEl = useRef<HTMLDivElement>(null);
-            opens.push([open, setOpen]);
-            anchors.push(anchorEl);
-            clickHandlers.push(() => { setOpen(!open) });
-            closeHandlers.push(() => { setOpen(false) });
+    const [opens, setOpens] = useState<boolean[]>([]); // メニューの開閉を管理
+    const [anchors, setAnchors] = useState<React.RefObject<HTMLDivElement>[]>([]); // メニューを配置するHTML要素を格納する
+    const [clickHandlers, setClickHandlers] = useState<(() => void)[]>([]); // メニュー開閉ハンドル
+    const [closeHandlers, setCloseHandlers] = useState<(() => void)[]>([]); // メニューを閉めるハンドル
+    useEffect(() => {
+        if(tabNames){
+            const newOpens: boolean[] = [...opens];
+            const newAnchors: React.RefObject<HTMLDivElement>[] = [...anchors];
+            const newClickHandlers: (() => void)[] = [...clickHandlers];
+            const newCloseHandlers: (() => void)[] = [...closeHandlers];
+            for(let i: number = 0; i < tabNames.length; i++){
+                // opensを初期化する
+                newOpens.push(false);
+                // anchorsを初期化する
+                const anchorEl = useRef<HTMLDivElement>(null);
+                newAnchors.push(anchorEl);
+                // clickHandlersを初期化する
+                newClickHandlers.push(() => {
+                    const copyOpens: boolean[] = [...opens];
+                    copyOpens[i]=(!open);
+                    setOpens(copyOpens);
+                });
+                // closeHandlersを初期化する
+                newCloseHandlers.push(() => {
+                    const copyOpens: boolean[] = [...opens];
+                    copyOpens[i]=(false);
+                    setOpens(copyOpens);
+                });
+            }
+            setOpens(newOpens);
+            setAnchors(newAnchors);
+            setClickHandlers(newClickHandlers);
+            setCloseHandlers(newCloseHandlers);
         }
-    }
+        console.log("opens",opens)
+        console.log("anchors",anchors)
+    }, [tabNames]);
 
     return (
         <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -68,7 +91,7 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
                 key={index}
                 index={index}
                 anchorEl={anchors[index]}
-                open={opens[index][0]}
+                open={opens[index]}
                 handleClose={closeHandlers[index]}
                 handleChange={handleChange}
                 // ドロップダウンメニューに必要なプロパティ群

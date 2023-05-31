@@ -15,8 +15,9 @@ interface MyProps{
     open: boolean,
     handleClose: () => void,
     handleChange: (event: React.SyntheticEvent, newValue: number) => void,
-    opens: [boolean, React.Dispatch<React.SetStateAction<boolean>>][],
-    setOpens: React.Dispatch<React.SetStateAction<[boolean, React.Dispatch<React.SetStateAction<boolean>>][]>>,
+    // ドロップダウンメニューに必要なプロパティ群
+    opens: boolean[],
+    setOpens: React.Dispatch<React.SetStateAction<boolean[]>>,
     anchors: React.RefObject<HTMLDivElement>[],
     setAnchors: React.Dispatch<React.SetStateAction<React.RefObject<HTMLDivElement>[]>>,
     clickHandlers: (() => void)[],
