@@ -105,8 +105,7 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
             <MenuItem onClick={(event: React.SyntheticEvent) => {
                 handleClose();
                 console.log("wait start")
-                event.preventDefault()
-                sleep(500).then((response) => {
+                sleep(100).then((response) => {
                     console.log("wait end")
                     handleTabEdit(index); // 現在タブをタブ名編集中にする
                 })
