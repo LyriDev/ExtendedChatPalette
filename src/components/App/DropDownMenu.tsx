@@ -13,7 +13,7 @@ interface MyProps{
     index: number,
     anchors: React.MutableRefObject<React.RefObject<HTMLDivElement>[]>,
     open: boolean,
-    handleClose: () => void,
+    handleClose: () => Promise<void>,
     handleTabChange: (event: React.SyntheticEvent, newValue: number) => void,
     handleTabEdit(index: number): void
 }
@@ -103,12 +103,9 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
         disablePortal  // ポータルの無効化
         >
             <MenuItem onClick={(event: React.SyntheticEvent) => {
-                handleClose();
-                console.log("wait start")
-                sleep(100).then((response) => {
-                    console.log("wait end")
+                handleClose().then((response) => {
                     handleTabEdit(index); // 現在タブをタブ名編集中にする
-                })
+                });
             }}
             >
                 名前を変更

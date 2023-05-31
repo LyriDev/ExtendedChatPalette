@@ -29,14 +29,14 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
     // const [anchors, setAnchors] = useState(useRef([])); // メニューを配置するHTML要素を格納する
     const anchors: React.MutableRefObject<React.RefObject<HTMLDivElement>[]> = useRef<RefObject<HTMLDivElement>[]>([])
     const [clickHandlers, setClickHandlers] = useState<(() => void)[]>([]); // メニュー開閉ハンドル
-    const [closeHandlers, setCloseHandlers] = useState<(() => void)[]>([]); // メニューを閉めるハンドル
+    const [closeHandlers, setCloseHandlers] = useState<(() => Promise<void>)[]>([]); // メニューを閉めるハンドル
     // タブ名編集に必要なプロパティ群
     const [editingArray, setEditingArray] = useState<boolean[]>([]); // タブ名編集中かどうかを管理
     useEffect(() => {
         if(tabNames){
             const newOpens: boolean[] = [...opens];
             const newClickHandlers: (() => void)[] = [...clickHandlers];
-            const newCloseHandlers: (() => void)[] = [...closeHandlers];
+            const newCloseHandlers: (() => Promise<void>)[] = [...closeHandlers];
             const newEditingArray: boolean[] = [...editingArray];
             for(let i: number = 0; i < tabNames.length; i++){
                 // opensを初期化する
@@ -52,11 +52,14 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                     setOpens(copyOpens);
                 });
                 // closeHandlersを初期化する
-                newCloseHandlers.push(() => {
-                    const copyOpens: boolean[] = [...opens];
-                    copyOpens[i]=(false);
-                    setOpens(copyOpens);
-                });
+                newCloseHandlers.push(() =>
+                    new Promise<void>((resolve, reject) => {
+                        const copyOpens: boolean[] = [...opens];
+                        copyOpens[i]=(false);
+                        setOpens(copyOpens);
+                        resolve();
+                    }
+                ));
                 // editingArrayを初期化する
                 newEditingArray.push(false);
             }
@@ -66,11 +69,6 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
             setEditingArray(newEditingArray);
         }
     }, [tabNames]);
-
-    // テスト用(後で削除する)
-    useEffect(() => {
-        console.log("editingArray: after",editingArray)
-    }, [editingArray]);
 
     function handleTabNameChange(index: number, value: string){ // tabNameのindex番目の要素をvalueで上書きする関数
         if(!(tabNames && setTabNames)) throw new Error("tabNamesが存在しません。")
