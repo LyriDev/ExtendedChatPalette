@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef, RefObject, createRef } 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import { TabNameContext } from "./../../providers/App/TabNameProvider"
 import DropDownMenu from "./DropDownMenu"
 
@@ -29,11 +30,16 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
     const anchors: React.MutableRefObject<React.RefObject<HTMLDivElement>[]> = useRef<RefObject<HTMLDivElement>[]>([])
     const [clickHandlers, setClickHandlers] = useState<(() => void)[]>([]); // メニュー開閉ハンドル
     const [closeHandlers, setCloseHandlers] = useState<(() => void)[]>([]); // メニューを閉めるハンドル
+    // タブ名編集に必要なプロパティ群
+    const [editingArray, setEditingArray] = useState<boolean[]>([]); // タブ名編集中かどうかを管理
+    const [tabValues, setTabValues] = useState<string[]>([]); // タブのvalueを管理
     useEffect(() => {
         if(tabNames){
             const newOpens: boolean[] = [...opens];
             const newClickHandlers: (() => void)[] = [...clickHandlers];
             const newCloseHandlers: (() => void)[] = [...closeHandlers];
+            const newEditingArray: boolean[] = [...editingArray];
+            const newTabValues: string[] = [...tabValues];
             for(let i: number = 0; i < tabNames.length; i++){
                 // opensを初期化する
                 newOpens.push(false);
@@ -53,18 +59,42 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                     copyOpens[i]=(false);
                     setOpens(copyOpens);
                 });
+                // editingArrayを初期化する
+                newEditingArray.push(false);
+                // tabValuesを初期化する
+                newTabValues.push(tabNames[i]);
             }
             setOpens(newOpens);
             setClickHandlers(newClickHandlers);
             setCloseHandlers(newCloseHandlers);
+            setEditingArray(newEditingArray);
+            setTabValues(newTabValues);
         }
     }, [tabNames]);
 
-    function handleTabNameChange(index:number, value:string){ // tabNameのindex番目の要素をvalueで上書きする関数
+    function handleTabNameChange(index: number, value: string){ // tabNameのindex番目の要素をvalueで上書きする関数
         if(!(tabNames && setTabNames)) throw new Error("tabNamesが存在しません。")
         const newTabNames: string[] = [...tabNames]
         newTabNames[index] = value
         setTabNames(newTabNames)
+    }
+
+    // タブ名編集に必要な関数群
+    function handleInputChange(index: number, event: React.ChangeEvent<HTMLInputElement>){ // Inputが変更されたらtabValuesのindex番目のvalueを変更する関数
+        const newTabValues: string[] = [...tabValues];
+        newTabValues[index] = event.target.value;
+        setTabValues(newTabValues);
+    };
+    function handleTabClick(index: number): void{ // タブがクリックされたらタブ名を編集中にする関数
+        const newEditingArray: boolean[] = [...editingArray];
+        newEditingArray[index] = true;
+        setEditingArray(newEditingArray);
+    };
+    function handleInputBlur(index: number): void{ // Inputからフォーカスが外れたらタブ名の編集中状態を終了する関数
+        const newEditingArray: boolean[] = [...editingArray];
+        newEditingArray[index] = false;
+        setEditingArray(newEditingArray);
+        handleTabNameChange(index, tabValues[index]);
     }
 
     return (
@@ -77,27 +107,30 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
             aria-label="basic tabs example"
             >
                 {tabNames?.map((tabName, index) => (
-                    <EditableTab
-                    key={index}
-                    index={index}
-                    label={tabName}
-                    handleTabNameChange={handleTabNameChange}
-                    focusIndex={focusIndex}
-                    anchor={anchors.current[index]}
-                    clickHandler={clickHandlers[index]}
-                    />
-/*                     <Tab
-                    key={index}
-                    label={tabName}
-                    {...a11yProps(index)}
-                    sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
-                    ref={anchors.current[index]}
-                    onClick={(event) => { 
-                        if (focusIndex === index) {
-                            clickHandlers[index]();
+                        <Tab
+                        key={index}
+                        label={
+                            editingArray[index] ? (
+                                <TextField
+                                value={value}
+                                onChange={handleInputChange(index)}
+                                onBlur={handleInputBlur(index)}
+                                autoFocus
+                                />
+                            ) : (
+                                tabName
+                            )
                         }
-                    }}
-                    /> */
+                        {...a11yProps(index)}
+                        sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
+                        ref={anchors.current[index]}
+                        onClick={(event) => { 
+                            if (focusIndex === index) {
+                                //handleTabClick()
+                                clickHandlers[index]();
+                            }
+                        }}
+                    />
                 ))}
             </Tabs>
             {tabNames?.map((tabName, index) => (
@@ -113,71 +146,3 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
         </Box>
     );
 }
-
-import TextField from '@mui/material/TextField';
-interface MyProps{
-    index: number
-    label: string,
-    handleTabNameChange: (index: number, value: string) => void,
-    focusIndex: number,
-    anchor: RefObject<HTMLDivElement>,
-    clickHandler: (() => void)
-}
-function EditableTab({ label, index, handleTabNameChange, focusIndex, anchor, clickHandler }: MyProps){
-    // const [editing, setEditing] = useState<boolean>(false);
-    // const [value, setValue] = useState<string>(label);
-
-    // function handleInputChange(event: React.ChangeEvent<HTMLInputElement>){
-    //     setValue(event.target.value);
-    // };
-
-    // function handleTabClick(): void{
-    //     setEditing(true);
-    // };
-
-    // function handleInputBlur(): void{
-    //     setEditing(false);
-    //     handleTabNameChange(index, value);
-    // }
-
-    return (
-/*         <Tab
-            key={index}
-            label={
-                
-                label
-                // editing ? (
-                //     <TextField
-                //     value={value}
-                //     onChange={handleInputChange}
-                //     onBlur={handleInputBlur}
-                //     autoFocus
-                //     />
-                // ) : (
-                //     label
-                // )
-            }
-            {...a11yProps(index)}
-            sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
-            ref={anchor}
-            onClick={(event) => { 
-                if (focusIndex === index) {
-                    //handleTabClick()
-                    clickHandler();
-                }
-            }}
-        /> */
-        <Tab
-        key={index}
-        label={label}
-        {...a11yProps(index)}
-        sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
-        ref={anchor}
-        onClick={(event) => { 
-            if (focusIndex === index) {
-                clickHandler();
-            }
-        }}
-        />
-    );
-};
