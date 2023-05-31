@@ -15,15 +15,6 @@ interface MyProps{
     open: boolean,
     handleClose: () => void,
     handleChange: (event: React.SyntheticEvent, newValue: number) => void,
-    // ドロップダウンメニューに必要なプロパティ群
-    // opens: boolean[],
-    // setOpens: React.Dispatch<React.SetStateAction<boolean[]>>,
-    // anchors: React.RefObject<HTMLDivElement>[],
-    // setAnchors: React.Dispatch<React.SetStateAction<React.RefObject<HTMLDivElement>[]>>,
-    // clickHandlers: (() => void)[],
-    // setClickHandlers: React.Dispatch<React.SetStateAction<(() => void)[]>>,
-    // closeHandlers: (() => void)[],
-    // setCloseHandlers: React.Dispatch<React.SetStateAction<(() => void)[]>>
 }
 
 export default function DropDownMenu({index, anchors, open, handleClose, handleChange}: MyProps){

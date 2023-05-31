@@ -32,8 +32,6 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
     useEffect(() => {
         if(tabNames){
             const newOpens: boolean[] = [...opens];
-            console.log("opens",opens)
-            console.log("newOpens",newOpens)
             const newClickHandlers: (() => void)[] = [...clickHandlers];
             const newCloseHandlers: (() => void)[] = [...closeHandlers];
             for(let i: number = 0; i < tabNames.length; i++){
@@ -46,7 +44,7 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
                 // clickHandlersを初期化する
                 newClickHandlers.push(() => {
                     const copyOpens: boolean[] = [...opens];
-                    copyOpens[i]=(!open);
+                    copyOpens[i]=(!copyOpens[i]);
                     setOpens(copyOpens);
                 });
                 // closeHandlersを初期化する
@@ -60,9 +58,19 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
             setClickHandlers(newClickHandlers);
             setCloseHandlers(newCloseHandlers);
         }
-        console.log("opens",opens)
-        console.log("anchors",anchors)
     }, [tabNames]);
+
+    useEffect(() => {
+        console.log("opens",opens)
+    }, [opens]);
+
+    useEffect(() => {
+        console.log("clickHandlers",clickHandlers)
+    }, [clickHandlers]);
+
+    useEffect(() => {
+        console.log("anchors",anchors)
+    }, [anchors]);
 
     return (
         <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -96,15 +104,6 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
                 open={opens[index]}
                 handleClose={closeHandlers[index]}
                 handleChange={handleChange}
-                // ドロップダウンメニューに必要なプロパティ群
-                // opens={opens}
-                // setOpens={setOpens}
-                // anchors={anchors}
-                // setAnchors={setAnchors}
-                // clickHandlers={clickHandlers}
-                // setClickHandlers={setClickHandlers}
-                // closeHandlers={closeHandlers}
-                // setCloseHandlers={setCloseHandlers}
                 />
             ))}
         </Box>
