@@ -54,7 +54,11 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
                     {...a11yProps(index)}
                     sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
                     ref={anchors[index]}
-                    onClick={clickHandlers[index]}
+                    onClick={(event) => { 
+                        if (value === index) {
+                            clickHandlers[index]();
+                        }
+                    }}
                     />
                 ))}
             </Tabs>
