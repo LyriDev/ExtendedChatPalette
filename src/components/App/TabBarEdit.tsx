@@ -141,7 +141,7 @@ function EditableTab({ label, index, handleTabNameChange, focusIndex, anchor, cl
     // }
 
     return (
-        <Tab
+/*         <Tab
             key={index}
             label={
                 
@@ -166,6 +166,18 @@ function EditableTab({ label, index, handleTabNameChange, focusIndex, anchor, cl
                     clickHandler();
                 }
             }}
+        /> */
+        <Tab
+        key={index}
+        label={label}
+        {...a11yProps(index)}
+        sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
+        ref={anchor}
+        onClick={(event) => { 
+            if (focusIndex === index) {
+                clickHandler();
+            }
+        }}
         />
     );
 };
