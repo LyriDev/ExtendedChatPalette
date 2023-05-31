@@ -110,7 +110,7 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                                 <TextField
                                 value={tabName}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {handleInputChange(index, event)}}
-                                // onBlur={() => {handleInputBlur(index)}}
+                                onBlur={() => {handleInputBlur(index)}}
                                 autoFocus
                                 />
                             ) : (
