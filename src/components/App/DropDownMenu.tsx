@@ -44,6 +44,31 @@ export default function DropDownMenu({index, anchorEl, open, handleClose, handle
         handleChange(event, index + leftOrRight)
     }
 
+    function deleteStringArrayStates(states: StringArrayStates){ // useStateで管理された文字列型配列の要素を削除する関数
+        if(states.data && states.setData){
+            try{
+                const data: string[] = states.data.slice();
+                const setData: React.Dispatch<React.SetStateAction<string[]>> = states.setData;
+                data.splice(index,1);
+                setData(data);
+            }catch(error){
+                throw error;
+            }
+        }
+    }
+
+    function deleteTabData(event: React.SyntheticEvent){ // 現在タブを削除する関数
+        if(!tabNames || !setTabNames || !texts || !setTexts) throw new Error("データが存在しません");
+        if(tabNames.length !== texts.length) throw new Error("tabNames と texts の数が違います");
+        deleteStringArrayStates({data: tabNames, setData: setTabNames});
+        deleteStringArrayStates({data: texts, setData: setTexts});
+        handleChange(event, 0) // タブ削除後の配列の最後列にindexを設定する
+/*         const lastIndex: number = tabNames.length -1; // タブ削除後の配列の長さ
+        if(lastIndex < index){ // 削除したらindexがタブの長さからはみ出るとき、
+            handleChange(event, lastIndex) // タブ削除後の配列の最後列にindexを設定する
+        } */
+    }
+
     return (
         <Menu
         // ここでボタンの位置にメニューを紐づける
@@ -72,6 +97,13 @@ export default function DropDownMenu({index, anchorEl, open, handleClose, handle
         style={{zIndex: 10000}}
         disablePortal  // ポータルの無効化
         >
+            <MenuItem onClick={(event: React.SyntheticEvent) => {
+                deleteTabData(event); // 現在タブを削除する
+                handleClose();
+            }}
+            >
+                削除
+            </MenuItem>
             <MenuItem onClick={(event: React.SyntheticEvent) => {
                 swapTabData(event, -1); // 現在タブを左に移動する
                 handleClose();
