@@ -86,6 +86,18 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                     anchor={anchors.current[index]}
                     clickHandler={clickHandlers[index]}
                     />
+/*                     <Tab
+                    key={index}
+                    label={tabName}
+                    {...a11yProps(index)}
+                    sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
+                    ref={anchors.current[index]}
+                    onClick={(event) => { 
+                        if (focusIndex === index) {
+                            clickHandlers[index]();
+                        }
+                    }}
+                    /> */
                 ))}
             </Tabs>
             {tabNames?.map((tabName, index) => (
@@ -112,25 +124,27 @@ interface MyProps{
     clickHandler: (() => void)
 }
 function EditableTab({ label, index, handleTabNameChange, focusIndex, anchor, clickHandler }: MyProps){
-    const [editing, setEditing] = useState<boolean>(false);
-    const [value, setValue] = useState<string>(label);
+    // const [editing, setEditing] = useState<boolean>(false);
+    // const [value, setValue] = useState<string>(label);
 
-    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>){
-        setValue(event.target.value);
-    };
+    // function handleInputChange(event: React.ChangeEvent<HTMLInputElement>){
+    //     setValue(event.target.value);
+    // };
 
-    function handleTabClick(): void{
-        setEditing(true);
-    };
+    // function handleTabClick(): void{
+    //     setEditing(true);
+    // };
 
-    function handleInputBlur(): void{
-        setEditing(false);
-        handleTabNameChange(index, value);
-    }
+    // function handleInputBlur(): void{
+    //     setEditing(false);
+    //     handleTabNameChange(index, value);
+    // }
 
     return (
         <Tab
+            key={index}
             label={
+                
                 label
                 // editing ? (
                 //     <TextField
@@ -143,7 +157,6 @@ function EditableTab({ label, index, handleTabNameChange, focusIndex, anchor, cl
                 //     label
                 // )
             }
-            key={index}
             {...a11yProps(index)}
             sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
             ref={anchor}
