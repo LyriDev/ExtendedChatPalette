@@ -60,18 +60,6 @@ export default function TabBarEdit({value, setValue}: {value: number, setValue: 
         }
     }, [tabNames]);
 
-    useEffect(() => {
-        console.log("opens",opens)
-    }, [opens]);
-
-    useEffect(() => {
-        console.log("clickHandlers",clickHandlers)
-    }, [clickHandlers]);
-
-    useEffect(() => {
-        console.log("anchors",anchors)
-    }, [anchors]);
-
     return (
         <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs

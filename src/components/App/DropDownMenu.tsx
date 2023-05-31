@@ -60,13 +60,17 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleC
     function deleteTabData(event: React.SyntheticEvent){ // 現在タブを削除する関数
         if(!tabNames || !setTabNames || !texts || !setTexts) throw new Error("データが存在しません");
         if(tabNames.length !== texts.length) throw new Error("tabNames と texts の数が違います");
-        deleteStringArrayStates({data: tabNames, setData: setTabNames});
-        deleteStringArrayStates({data: texts, setData: setTexts});
-        handleChange(event, 0) // タブ削除後の配列の最後列にindexを設定する
-        // const lastIndex: number = tabNames.length -1; // タブ削除後の配列の長さ
-        // if(lastIndex < index){ // 削除したらindexがタブの長さからはみ出るとき、
-        //     handleChange(event, lastIndex) // タブ削除後の配列の最後列にindexを設定する
-        // }
+        if(tabNames.length <= 1) throw new Error("これ以上タブを削除できません")
+        const checkText: string = `「${tabNames[index]}」タブを本当に削除しますか？\n削除するとタブに含まれるチャットパレットも削除されます。`
+        const isDelete: boolean = window.confirm(checkText)
+        if(isDelete){
+            deleteStringArrayStates({data: tabNames, setData: setTabNames});
+            deleteStringArrayStates({data: texts, setData: setTexts});
+            const lastIndex: number = tabNames.length -1; // タブ削除後の配列の長さ
+            if(lastIndex <= index){ // 削除したらindexがタブの長さからはみ出るとき、
+                handleChange(event, lastIndex - 1) // タブ削除後の配列の最後列にindexを設定する
+            }
+        }
     }
 
     return (
@@ -101,6 +105,7 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleC
                 deleteTabData(event); // 現在タブを削除する
                 handleClose();
             }}
+            disabled={(tabNames && (tabNames?.length <= 1)) ? true : false}
             >
                 削除
             </MenuItem>
