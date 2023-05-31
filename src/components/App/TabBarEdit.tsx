@@ -79,12 +79,12 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                 {tabNames?.map((tabName, index) => (
                     <EditableTab
                     key={index}
-                    label={tabName}
                     index={index}
+                    label={tabName}
                     handleTabNameChange={handleTabNameChange}
                     focusIndex={focusIndex}
-                    anchors={anchors}
-                    clickHandlers={clickHandlers}
+                    anchor={anchors.current[index]}
+                    clickHandler={clickHandlers[index]}
                     />
                 ))}
             </Tabs>
@@ -108,10 +108,10 @@ interface MyProps{
     label: string,
     handleTabNameChange: (index: number, value: string) => void,
     focusIndex: number,
-    anchors: React.MutableRefObject<React.RefObject<HTMLDivElement>[]>,
-    clickHandlers: (() => void)[]
+    anchor: RefObject<HTMLDivElement>,
+    clickHandler: (() => void)
 }
-function EditableTab({ label, index, handleTabNameChange, focusIndex, anchors, clickHandlers }: MyProps){
+function EditableTab({ label, index, handleTabNameChange, focusIndex, anchor, clickHandler }: MyProps){
     const [editing, setEditing] = useState<boolean>(false);
     const [value, setValue] = useState<string>(label);
 
@@ -131,25 +131,26 @@ function EditableTab({ label, index, handleTabNameChange, focusIndex, anchors, c
     return (
         <Tab
             label={
-                editing ? (
-                    <TextField
-                    value={value}
-                    onChange={handleInputChange}
-                    onBlur={handleInputBlur}
-                    autoFocus
-                    />
-                ) : (
-                    label
-                )
+                label
+                // editing ? (
+                //     <TextField
+                //     value={value}
+                //     onChange={handleInputChange}
+                //     onBlur={handleInputBlur}
+                //     autoFocus
+                //     />
+                // ) : (
+                //     label
+                // )
             }
             key={index}
             {...a11yProps(index)}
             sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
-            ref={anchors.current[index]}
+            ref={anchor}
             onClick={(event) => { 
                 if (focusIndex === index) {
                     //handleTabClick()
-                    clickHandlers[index]();
+                    clickHandler();
                 }
             }}
         />
