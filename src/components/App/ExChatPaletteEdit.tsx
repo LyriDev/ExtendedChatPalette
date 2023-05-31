@@ -19,6 +19,10 @@ const theme = createTheme({
         primary: {
             main: '#fff', // プライマリーカラーを白色に設定
         },
+        secondary: {
+            main: 'rgba(0,0,0,0)', // セカンダリーカラーを無色に設定
+        },
+        
     },
     typography: {
         button: {

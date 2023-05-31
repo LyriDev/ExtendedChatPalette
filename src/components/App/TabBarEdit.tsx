@@ -12,8 +12,8 @@ const tabsStyle: React.CSSProperties = {
 
 function a11yProps(index: number) {
     return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
+        id: `ExChatPalette-tab-${index}`,
+        'aria-controls': `ExChatPalette-tabpanel-${index}`,
     };
 }
 
@@ -67,6 +67,7 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
         }
     }, [tabNames]);
 
+    // テスト用(後で削除する)
     useEffect(() => {
         console.log("editingArray: after",editingArray)
     }, [editingArray]);
@@ -97,10 +98,12 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
         <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
             value={focusIndex}
-            textColor="primary"
-            indicatorColor="primary"
+            textColor={
+                // どれか一つでもタブ名編集中ならタブのテキストカラーを白色から無色に変更する(アニメーションカラーも無色になる)
+                editingArray.every((value) => value === false) ? "primary" : "secondary"
+            }
             onChange={handleTabChange}
-            aria-label="basic tabs example"
+            aria-label="ExChatPalette Edit Tabs"
             >
                 {tabNames?.map((tabName, index) => (
                         <Tab

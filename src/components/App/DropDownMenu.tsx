@@ -103,8 +103,13 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
         disablePortal  // ポータルの無効化
         >
             <MenuItem onClick={(event: React.SyntheticEvent) => {
-                handleTabEdit(index); // 現在タブをタブ名編集中にする
                 handleClose();
+                console.log("wait start")
+                event.preventDefault()
+                sleep(500).then((response) => {
+                    console.log("wait end")
+                    handleTabEdit(index); // 現在タブをタブ名編集中にする
+                })
             }}
             >
                 名前を変更
@@ -136,3 +141,5 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
         </Menu>
     );
 }
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
