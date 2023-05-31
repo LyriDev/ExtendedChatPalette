@@ -14,10 +14,10 @@ interface MyProps{
     anchors: React.MutableRefObject<React.RefObject<HTMLDivElement>[]>,
     open: boolean,
     handleClose: () => void,
-    handleChange: (event: React.SyntheticEvent, newValue: number) => void,
+    handleTabChange: (event: React.SyntheticEvent, newValue: number) => void,
 }
 
-export default function DropDownMenu({index, anchors, open, handleClose, handleChange}: MyProps){
+export default function DropDownMenu({index, anchors, open, handleClose, handleTabChange}: MyProps){
     const [tabNames, setTabNames] = useContext(TabNameContext) || [];
     const [texts, setTexts] = useContext(TextContext) || [];
 
@@ -41,7 +41,7 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleC
         if((0 > nextIndex) || (tabNames.length <= nextIndex)) throw new Error("これ以上はタブを動かせません");
         swapStringArrayStates({data: tabNames, setData: setTabNames}, leftOrRight)
         swapStringArrayStates({data: texts, setData: setTexts}, leftOrRight)
-        handleChange(event, index + leftOrRight)
+        handleTabChange(event, index + leftOrRight)
     }
 
     function deleteStringArrayStates(states: StringArrayStates){ // useStateで管理された文字列型配列の要素を削除する関数
@@ -68,7 +68,7 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleC
             deleteStringArrayStates({data: texts, setData: setTexts});
             const lastIndex: number = tabNames.length -1; // タブ削除後の配列の長さ
             if(lastIndex <= index){ // 削除したらindexがタブの長さからはみ出るとき、
-                handleChange(event, lastIndex - 1) // タブ削除後の配列の最後列にindexを設定する
+                handleTabChange(event, lastIndex - 1) // タブ削除後の配列の最後列にindexを設定する
             }
         }
     }

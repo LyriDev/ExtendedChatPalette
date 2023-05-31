@@ -7,15 +7,15 @@ import { TextContext } from "./../../providers/App/TextProvider"
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
-    value: number;
+    focusIndex: number;
 }
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const { children, focusIndex, index, ...other } = props;
 
     return (
         <div
         role="tabpanel"
-        hidden={value !== index}
+        hidden={focusIndex !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
         style={{
@@ -23,7 +23,7 @@ function TabPanel(props: TabPanelProps) {
         }}
         {...other}
         >
-        {value === index && (
+        {focusIndex === index && (
             <Box>
                 <Typography>{children}</Typography>
             </Box>
@@ -32,13 +32,13 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-export default function TabsContent({value}: {value: number}) {
+export default function TabsContent({focusIndex}: {focusIndex: number}) {
     const [texts, setTexts] = useContext(TextContext) || [];
 
     return (
         <div>
             {texts?.map((text, index) => (
-                <TabPanel value={value} index={index}>
+                <TabPanel focusIndex={focusIndex} index={index}>
                     <TextareaContent index={index}/>
                 </TabPanel>
             ))}

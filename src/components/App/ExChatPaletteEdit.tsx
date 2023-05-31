@@ -47,7 +47,7 @@ const theme = createTheme({
 export default function ExChatPaletteEdit() {
     const resource = useContext(ModalContext);
 
-    const [value, setValue] = useState(0);
+    const [focusIndex, setFocusIndex] = useState<number>(0);
 
     useEffect(() => {
         return () => {
@@ -62,9 +62,9 @@ export default function ExChatPaletteEdit() {
                 <Box sx={{ width: '100%' } }>
                     <div className="MuiPaper-elevation4">
                         <HeaderEdit/>
-                        <TabBarEdit value={value} setValue={setValue} />
+                        <TabBarEdit focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                     </div>
-                    <TabsContent value={value}/>
+                    <TabsContent focusIndex={focusIndex}/>
                 </Box>
             </ThemeProvider>
         </div>
