@@ -15,9 +15,10 @@ interface MyProps{
     open: boolean,
     handleClose: () => void,
     handleTabChange: (event: React.SyntheticEvent, newValue: number) => void,
+    handleTabEdit(index: number): void
 }
 
-export default function DropDownMenu({index, anchors, open, handleClose, handleTabChange}: MyProps){
+export default function DropDownMenu({index, anchors, open, handleClose, handleTabChange, handleTabEdit}: MyProps){
     const [tabNames, setTabNames] = useContext(TabNameContext) || [];
     const [texts, setTexts] = useContext(TextContext) || [];
 
@@ -102,6 +103,13 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
         disablePortal  // ポータルの無効化
         >
             <MenuItem onClick={(event: React.SyntheticEvent) => {
+                handleTabEdit(index); // 現在タブをタブ名編集中にする
+                handleClose();
+            }}
+            >
+                名前を変更
+            </MenuItem>
+            <MenuItem onClick={(event: React.SyntheticEvent) => {
                 deleteTabData(event); // 現在タブを削除する
                 handleClose();
             }}
@@ -125,7 +133,6 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
             >
                 右に移動
             </MenuItem>
-            <MenuItem onClick={handleClose}>メニュー３</MenuItem>
         </Menu>
     );
 }

@@ -32,14 +32,12 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
     const [closeHandlers, setCloseHandlers] = useState<(() => void)[]>([]); // メニューを閉めるハンドル
     // タブ名編集に必要なプロパティ群
     const [editingArray, setEditingArray] = useState<boolean[]>([]); // タブ名編集中かどうかを管理
-    const [tabValues, setTabValues] = useState<string[]>([]); // タブのvalueを管理
     useEffect(() => {
         if(tabNames){
             const newOpens: boolean[] = [...opens];
             const newClickHandlers: (() => void)[] = [...clickHandlers];
             const newCloseHandlers: (() => void)[] = [...closeHandlers];
             const newEditingArray: boolean[] = [...editingArray];
-            const newTabValues: string[] = [...tabValues];
             for(let i: number = 0; i < tabNames.length; i++){
                 // opensを初期化する
                 newOpens.push(false);
@@ -61,16 +59,17 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                 });
                 // editingArrayを初期化する
                 newEditingArray.push(false);
-                // tabValuesを初期化する
-                newTabValues.push(tabNames[i]);
             }
             setOpens(newOpens);
             setClickHandlers(newClickHandlers);
             setCloseHandlers(newCloseHandlers);
             setEditingArray(newEditingArray);
-            setTabValues(newTabValues);
         }
     }, [tabNames]);
+
+    useEffect(() => {
+        console.log("editingArray: after",editingArray)
+    }, [editingArray]);
 
     function handleTabNameChange(index: number, value: string){ // tabNameのindex番目の要素をvalueで上書きする関数
         if(!(tabNames && setTabNames)) throw new Error("tabNamesが存在しません。")
@@ -80,22 +79,19 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
     }
 
     // タブ名編集に必要な関数群
-    function handleInputChange(index: number, event: React.ChangeEvent<HTMLInputElement>){ // Inputが変更されたらtabValuesのindex番目のvalueを変更する関数
-        const newTabValues: string[] = [...tabValues];
-        newTabValues[index] = event.target.value;
-        setTabValues(newTabValues);
-    };
-    function handleTabClick(index: number): void{ // タブがクリックされたらタブ名を編集中にする関数
-        const newEditingArray: boolean[] = [...editingArray];
-        newEditingArray[index] = true;
-        setEditingArray(newEditingArray);
+    function handleInputChange(index: number, event: React.ChangeEvent<HTMLInputElement>){ // Inputが変更されたらtabNamesのindex番目を変更する関数
+        handleTabNameChange(index, event.target.value);
     };
     function handleInputBlur(index: number): void{ // Inputからフォーカスが外れたらタブ名の編集中状態を終了する関数
         const newEditingArray: boolean[] = [...editingArray];
         newEditingArray[index] = false;
         setEditingArray(newEditingArray);
-        handleTabNameChange(index, tabValues[index]);
     }
+    function handleTabEdit(index: number): void{ // タブ名を編集中にする関数
+        const newEditingArray: boolean[] = [...editingArray];
+        newEditingArray[index] = true;
+        setEditingArray(newEditingArray);
+    };
 
     return (
         <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -112,9 +108,9 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                         label={
                             editingArray[index] ? (
                                 <TextField
-                                value={value}
-                                onChange={handleInputChange(index)}
-                                onBlur={handleInputBlur(index)}
+                                value={tabName}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {handleInputChange(index, event)}}
+                                // onBlur={() => {handleInputBlur(index)}}
                                 autoFocus
                                 />
                             ) : (
@@ -124,9 +120,9 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                         {...a11yProps(index)}
                         sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
                         ref={anchors.current[index]}
-                        onClick={(event) => { 
-                            if (focusIndex === index) {
-                                //handleTabClick()
+                        onClick={(event) => {
+                            // タブ名編集中でない、かつ現在タブが選択中で、クリックされたとき
+                            if ((!editingArray[index]) && (focusIndex === index)) {
                                 clickHandlers[index]();
                             }
                         }}
@@ -141,6 +137,7 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                 open={opens[index]}
                 handleClose={closeHandlers[index]}
                 handleTabChange={handleTabChange}
+                handleTabEdit={handleTabEdit}
                 />
             ))}
         </Box>
