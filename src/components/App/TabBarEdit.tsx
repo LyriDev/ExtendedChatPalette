@@ -3,7 +3,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import Add from "./../../svg/Add"
 import { TabNameContext } from "./../../providers/App/TabNameProvider"
+import { TextContext } from "./../../providers/App/TextProvider"
 import DropDownMenu from "./DropDownMenu"
 
 const tabsStyle: React.CSSProperties = {
@@ -19,6 +22,7 @@ function a11yProps(index: number) {
 
 export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: number, setFocusIndex: React.Dispatch<React.SetStateAction<number>>}) {
     const [tabNames, setTabNames] = useContext(TabNameContext) || [];
+    const [texts, setTexts] = useContext(TextContext) || [];
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setFocusIndex(newValue);
@@ -77,6 +81,18 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
         setTabNames(newTabNames)
     }
 
+    function addTab(tabName: string = "タブ", text: string = ""){ // タブを一つ追加する関数
+        if(!(tabNames && setTabNames)) throw new Error("tabNamesが存在しません。")
+        if(!(texts && setTexts)) throw new Error("textsが存在しません。")
+        const newTabNames: string[] = [...tabNames]
+        newTabNames.push(tabName)
+        setTabNames(newTabNames)
+        const newTexts: string[] = [...texts]
+        newTexts.push(text)
+        setTexts(newTexts)
+        setFocusIndex(newTabNames.length-1);
+    }
+
     // タブ名編集に必要な関数群
     function handleInputChange(index: number, event: React.ChangeEvent<HTMLInputElement>){ // Inputが変更されたらtabNamesのindex番目を変更する関数
         handleTabNameChange(index, event.target.value);
@@ -130,6 +146,17 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                         }}
                     />
                 ))}
+                <IconButton
+                edge="end"
+                color="primary"
+                aria-label="add"
+                onClick={() => {addTab()}}
+                style={{
+                    margin: "0 -12px 0 auto"
+                }}>
+                    <Add />
+                </IconButton>
+                
             </Tabs>
             {tabNames?.map((tabName, index) => (
                 <DropDownMenu
