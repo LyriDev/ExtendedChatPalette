@@ -38,25 +38,26 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
     const [editingArray, setEditingArray] = useState<boolean[]>([]); // タブ名編集中かどうかを管理
     useEffect(() => {
         if(tabNames){
-            const newOpens: boolean[] = [...opens];
-            const newClickHandlers: (() => void)[] = [...clickHandlers];
-            const newCloseHandlers: (() => Promise<void>)[] = [...closeHandlers];
-            const newEditingArray: boolean[] = [...editingArray];
+            const newOpens: boolean[] = [];
+            const newClickHandlers: (() => void)[] = [];
+            const newCloseHandlers: (() => Promise<void>)[] = [];
+            const newEditingArray: boolean[] = [];
+            const nowEditIndex: number = editingArray.findIndex((value) => value === true); //今タブ名編集中がtrueになっているタブの番号
             for(let i: number = 0; i < tabNames.length; i++){
                 // opensを初期化する
-                newOpens.push(false);
+                newOpens[i] = (false);
                 // anchorsを初期化する
                 tabNames.forEach((_, index) => {
                     anchors.current[index] = createRef<HTMLDivElement>()
                 })
                 // clickHandlersを初期化する
-                newClickHandlers.push(() => {
+                newClickHandlers[i] = (() => {
                     const copyOpens: boolean[] = [...opens];
                     copyOpens[i]=(!copyOpens[i]);
                     setOpens(copyOpens);
                 });
                 // closeHandlersを初期化する
-                newCloseHandlers.push(() =>
+                newCloseHandlers[i] = (() =>
                     new Promise<void>((resolve, reject) => {
                         const copyOpens: boolean[] = [...opens];
                         copyOpens[i]=(false);
@@ -65,7 +66,7 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                     }
                 ));
                 // editingArrayを初期化する
-                newEditingArray.push(false);
+                newEditingArray[i] = ((i === nowEditIndex)); // 編集中のタブ以外はfalseを設定する
             }
             setOpens(newOpens);
             setClickHandlers(newClickHandlers);
@@ -101,6 +102,12 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
         const newEditingArray: boolean[] = [...editingArray];
         newEditingArray[index] = false;
         setEditingArray(newEditingArray);
+
+        // 不正な値が設定されようとしたとき、代わりに「タブ」というタブ名を設定する
+        const defaultTabName: string = "タブ"
+        if(tabNames?.[index].trim() === ""){
+            handleTabNameChange(index, defaultTabName);
+        }
     }
     function handleTabEdit(index: number): void{ // タブ名を編集中にする関数
         const newEditingArray: boolean[] = [...editingArray];
@@ -116,6 +123,8 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                 // どれか一つでもタブ名編集中ならタブのテキストカラーを白色から無色に変更する(アニメーションカラーも無色になる)
                 editingArray.every((value) => value === false) ? "primary" : "secondary"
             }
+            variant="scrollable"
+            scrollButtons="auto"
             onChange={handleTabChange}
             aria-label="ExChatPalette Edit Tabs"
             >
@@ -126,10 +135,20 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                             editingArray[index] ? (
                                 <TextField
                                 value={tabName}
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {handleInputChange(index, event)}}
-                                onBlur={() => {handleInputBlur(index)}}
-                                autoFocus
                                 color="info"
+                                autoFocus
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    handleInputChange(index, event);
+                                }}
+                                onBlur={() => {
+                                    handleInputBlur(index);
+                                }}
+                                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                                    if (event.key === 'Enter') { // タブ名編集中にEnterキーが押されたら、
+                                        const inputElement:HTMLInputElement = event.target as HTMLInputElement;
+                                        inputElement.blur(); // input要素のフォーカスを解除する
+                                    }
+                                }}
                                 />
                             ) : (
                                 tabName
@@ -152,7 +171,11 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                 aria-label="add"
                 onClick={() => {addTab()}}
                 style={{
-                    margin: "0 -12px 0 auto"
+                    margin: "0",
+                    padding: "12px",
+                    borderRadius: "50%",
+                    display: "inline-flex",
+                    alignItems: "center",
                 }}>
                     <Add />
                 </IconButton>
