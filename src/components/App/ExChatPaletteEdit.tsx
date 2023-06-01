@@ -48,6 +48,14 @@ const theme = createTheme({
                 }
             }
         },
+        MuiMenu: {
+            styleOverrides: {
+                paper: {
+                    color: "#fff",
+                    backgroundColor: "rgba(44, 44, 44, 0.87)" // Menuコンポーネントの背景色を赤に設定
+                }
+            },
+        },
         // TextField 関連のコンポーネントのスタイルを調整する
         MuiOutlinedInput: {
             styleOverrides: {

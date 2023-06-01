@@ -88,12 +88,12 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
         transitionDuration={"auto"} // メニューの開閉のアニメーション速度を設定できる
         sx={{}} // CSS in JS を記述できる(HTMLのstyle属性の役割を果たす)
         anchorOrigin={{ // 紐づけたHTML要素のどこを標準位置にしてメニューを配置するか設定できる
-        vertical: "bottom",
-        horizontal: "right"
+            vertical: "bottom",
+            horizontal: "left"
         }}
         transformOrigin={{ // メニューの起点を設定できる。アニメーションもこの起点から生えるように出現する
-        vertical: "top",
-        horizontal: "right"
+            vertical: "top",
+            horizontal: "left"
         }}
         MenuListProps={{}} // Menuコンポーネント内部で使用されているMenuListコンポーネントのPropsを変更できる
         PaperProps={{ // Menuコンポーネント内部で使用されているPaperコンポーネントのPropsを変更できる
@@ -102,38 +102,50 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
         style={{zIndex: 10000}}
         disablePortal  // ポータルの無効化
         >
-            <MenuItem onClick={(event: React.SyntheticEvent) => {
-                handleClose().then((response) => {
-                    handleTabEdit(index); // 現在タブをタブ名編集中にする
-                });
-            }}
-            >
-                名前を変更
-            </MenuItem>
-            <MenuItem onClick={(event: React.SyntheticEvent) => {
-                deleteTabData(event); // 現在タブを削除する
-                handleClose();
-            }}
-            disabled={(tabNames && (tabNames?.length <= 1)) ? true : false}
-            >
-                削除
-            </MenuItem>
-            <MenuItem onClick={(event: React.SyntheticEvent) => {
-                swapTabData(event, -1); // 現在タブを左に移動する
-                handleClose();
-            }}
-            disabled={(tabNames && (0 > index - 1)) ? true : false}
-            >
-                左に移動
-            </MenuItem>
-            <MenuItem onClick={(event: React.SyntheticEvent) => {
-                swapTabData(event, 1); // 現在タブを右に移動する
-                handleClose();
-            }}
-            disabled={(tabNames && (tabNames?.length <= index + 1)) ? true : false}
-            >
-                右に移動
-            </MenuItem>
+                <MenuItem
+                onClick={(event: React.SyntheticEvent) => {
+                    handleClose().then((response) => {
+                        handleTabEdit(index); // 現在タブをタブ名編集中にする
+                    });
+                }}
+                >
+                    名前を変更
+                </MenuItem>
+                <MenuItem
+                onClick={(event: React.SyntheticEvent) => {
+                    deleteTabData(event); // 現在タブを削除する
+                    handleClose();
+                }}
+                disabled={(tabNames && (tabNames?.length <= 1)) ? true : false}
+                >
+                    削除
+                </MenuItem>
+                <hr
+                style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.12)",
+                    border: "none",
+                    height: "1px",
+                    margin: "8px 0"
+                }} 
+                />
+                <MenuItem
+                onClick={(event: React.SyntheticEvent) => {
+                    swapTabData(event, -1); // 現在タブを左に移動する
+                    handleClose();
+                }}
+                disabled={(tabNames && (0 > index - 1)) ? true : false}
+                >
+                    左に移動
+                </MenuItem>
+                <MenuItem
+                onClick={(event: React.SyntheticEvent) => {
+                    swapTabData(event, 1); // 現在タブを右に移動する
+                    handleClose();
+                }}
+                disabled={(tabNames && (tabNames?.length <= index + 1)) ? true : false}
+                >
+                    右に移動
+                </MenuItem>
         </Menu>
     );
 }
