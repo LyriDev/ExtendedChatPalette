@@ -195,10 +195,10 @@ figmaによりデザイン設計を行う。
 - ExChatPaletteEdit (チャットパレットの編集画面)
     - HeaderEdit (チャットパレットのヘッダー)
     - TabBarEdit (タブ切り替え用のタブバー)
-        - TabEditPopup (タブ編集用のポップアップ)
+        - DropDownMenu (タブ編集用のポップアップ)
     - TabsContent (タブ下のコンテンツ)
-        - HelpContent (拡張チャットパレットのヘルプ)
         - TextareaContent (チャットパレットの編集画面のテキスト入力欄)
+            - HelpContent (拡張チャットパレットのヘルプ)
 - ExChatPaletteButton (アクセス用拡張チャットパレットボタン)
 - HamburgerListTab (アクセス用拡張チャットパレット欄)
 #### コンポーネントの説明
@@ -212,7 +212,7 @@ figmaによりデザイン設計を行う。
 - ExChatPaletteEdit: 拡張チャットパレットの編集用メインコンポーネントで、タブの編集やチャットパレットの編集などを管理します。
 - HeaderEdit: 拡張チャットパレットのヘッダーを表し、編集画面を閉じるボタンなどを管理します。
 - TabBarEdit: タブ切り替え用のタブバーを表し、複数のタブを含みます。
-- TabEditPopup: タブ編集用のポップアップを表し、タブ名の変更、タブの追加や削除などを行います。
+- DropDownMenu: タブ編集用のポップアップを表し、タブ名の変更、タブの追加や削除などを行います。
 - TabsContent: タブ下のコンテンツを表し、タブ切り替え可能な、チャットパレット編集画面のメインとなるコンテンツを管理します。
 - HelpContent: 拡張チャットパレットのヘルプを表し、拡張チャットパレット記法の説明を管理します。
 - TextareaContent: チャットパレットの編集画面のテキスト入力欄を表し、プレーンテキストによる拡張チャットパレットの入力を受け付けます。
@@ -236,4 +236,5 @@ npm i -S react react-dom @types/react @types/react-dom
 npm install --save-dev @types/chrome
 npm install @mui/material @emotion/react @emotion/styled
 npm install  react-hooks-use-modal
+npm install react-draggable --save
 ```
