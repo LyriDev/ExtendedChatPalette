@@ -17,11 +17,14 @@ const menuStyle: React.CSSProperties = {
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#fff', // プライマリーカラーを白色に設定
+            main: "#fff" // プライマリーカラーを白色に設定
         },
         secondary: {
-            main: 'rgba(0,0,0,0)', // セカンダリーカラーを無色に設定
+            main: "rgba(0,0,0,0)" // セカンダリーカラーを無色に設定
         },
+        info: {
+            main: "#2196F3" // インフォメーションカラーを青色に設定
+        }
         
     },
     typography: {
@@ -42,6 +45,18 @@ const theme = createTheme({
             styleOverrides: {
                 indicator: {
                     backgroundColor: '#f50057', // 下線の色を赤に設定
+                }
+            }
+        },
+        // TextField 関連のコンポーネントのスタイルを調整する
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    color: "#fff",
+                    padding: "0"
+                },
+                input: {
+                    padding: "6px 12px"
                 }
             }
         }

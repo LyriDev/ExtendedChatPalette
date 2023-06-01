@@ -113,6 +113,7 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {handleInputChange(index, event)}}
                                 onBlur={() => {handleInputBlur(index)}}
                                 autoFocus
+                                color="info"
                                 />
                             ) : (
                                 tabName
