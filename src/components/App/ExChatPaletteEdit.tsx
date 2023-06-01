@@ -24,8 +24,10 @@ const theme = createTheme({
         },
         info: {
             main: "#2196F3" // インフォメーションカラーを青色に設定
+        },
+        action: {
+            hover: "rgba(255, 255, 255, 0.08)"
         }
-        
     },
     typography: {
         button: {
