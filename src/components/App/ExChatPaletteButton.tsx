@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import ExChatPaletteEdit from './Edit/ExChatPaletteEdit';
 import Icon from "./../../svg/Icon"
+import { PaletteWindowContext } from "./../../providers/App/PaletteWindowProvider"
 import { ModalContext } from "./../../providers/App/ModalProvider"
 
 interface MyComponentProps {
@@ -8,7 +8,9 @@ interface MyComponentProps {
 }
 
 export default function ExChatPaletteButton({ isActive }: MyComponentProps) { // 拡張チャットパレットボタン
-    const resource = useContext(ModalContext);
+    const [menuVisible, setMenuVisible, openMenu, closeMenu] = useContext(PaletteWindowContext) || []; // 拡張チャットパレットが開いているかどうかを管理するコンテキスト
+    const resource = useContext(ModalContext);  // モーダルメニュー用のコンテキスト
+
     const classNames = `exTooltip bottom MuiButtonBase-root MuiIconButton-root sc-bWXABl iZZULD ${isActive ? "" : "Mui-disabled"}`
 
     return (
@@ -19,11 +21,6 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
                 </span>
                 <span className="MuiTouchRipple-root"></span>
             </button>
-            {resource?.Modal && (
-                <resource.Modal>
-                    <ExChatPaletteEdit />
-                </resource.Modal>
-            )}
         </div>
     );
 }

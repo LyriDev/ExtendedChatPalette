@@ -76,7 +76,7 @@ const theme = createTheme({
 export default function ExChatPaletteEdit() {
     const resource = useContext(ModalContext);
 
-    const [focusIndex, setFocusIndex] = useState<number>(0);
+    const [focusIndex, setFocusIndex] = useState<number>(0); // フォーカスしているタブのindex(Edit用)
 
     useEffect(() => {
         return () => {

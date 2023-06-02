@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import "./style/app.scss"
-import { ModalProvider } from "./providers/App/ModalProvider"
-import { TabNameProvider } from "./providers/App/TabNameProvider"
-import { TextProvider } from "./providers/App/TextProvider"
+import { PaletteWindowProvider } from "./providers/App/PaletteWindowProvider"
 import HamburgerListTab from "./components/App/HamburgerListTab"
 import ExChatPaletteButton from "./components/App/ExChatPaletteButton"
 
@@ -37,13 +35,9 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
 
     ReactDOM.render(
         <React.StrictMode>
-            <TabNameProvider>
-                <TextProvider>
-                    <ModalProvider>
-                            <ExChatPaletteButton isActive={isButtonEnable} />
-                    </ModalProvider>
-                </TextProvider>
-            </TabNameProvider>
+            <PaletteWindowProvider>
+                <ExChatPaletteButton isActive={isButtonEnable} />
+            </PaletteWindowProvider>
         </React.StrictMode>,
         container
     );
@@ -62,7 +56,7 @@ async function challengeQuery(query: string, timeLimit: number = 60): Promise<HT
                 clearInterval(intervalId);
                 resolve(targetElement);
                 if(targetElement !== null){
-                    console.log(`目標の要素を発見しました\ndocument.querySelector("${query}")\n${targetElement}`)
+                    console.log(`目標の要素を発見しました\ndocument.querySelector("${query}")`,targetElement)
                 }else{
                     throw new Error("タイムアウト。目標の要素を発見できませんでした")
                 }
@@ -96,7 +90,9 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
                     MyCharacterColumn.before(container)
                     ReactDOM.render(
                         <React.StrictMode>
-                            <HamburgerListTab />
+                            <PaletteWindowProvider>
+                                <HamburgerListTab />
+                            </PaletteWindowProvider>
                         </React.StrictMode>,
                         container
                     );

@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Close from '../../../svg/Close'
 import Edit from '../../../svg/Edit'
+import { PaletteWindowContext } from "./../../../providers/App/PaletteWindowProvider"
 import { ModalContext } from "../../../providers/App/ModalProvider"
 
-export default function HeaderEdit({ isDragging, closeMenu }: {isDragging: boolean, closeMenu: () => void}) {
-    const resource = useContext(ModalContext);
+export default function HeaderEdit({ isDragging }: {isDragging: boolean}) {
+    const [menuVisible, setMenuVisible, openMenu, closeMenu] = useContext(PaletteWindowContext) || []; // 拡張チャットパレットが開いているかどうかを管理するコンテキスト
+    const resource = useContext(ModalContext); // モーダルメニュー用のコンテキスト
 
     return (
             <div
@@ -23,11 +24,10 @@ export default function HeaderEdit({ isDragging, closeMenu }: {isDragging: boole
                 <div
                     style={{
                         fontSize: "0.875rem",
-                        // fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
                         fontWeight: "bold"
                     }}
                 >
-                    チャットパレット
+                    拡張チャットパレット
                 </div>
                 <div style={{margin: "0 0 0 auto"}}>
                     <IconButton
