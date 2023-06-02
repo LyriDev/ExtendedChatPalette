@@ -29,7 +29,7 @@ export default function HamburgerListTab() { // レスポンシブデザイン�
             menuVisible={menuVisible}
             closeMenu={closeMenu}
             />,
-            document.getElementById("portal-root")
+            document.getElementById("portal-root-ExtendedChatPalette")
         );
     });
 

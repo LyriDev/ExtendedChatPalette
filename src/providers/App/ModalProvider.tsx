@@ -17,7 +17,7 @@ export function ModalProvider({children}: {children: ReactNode}){
     const [tabNames, setTabNames] = useContext(TabNameContext) || [];
     const [texts, setTexts] = useContext(TextContext) || [];
 
-    const [Modal, open, close, isOpen] = useModal('portal-root', {
+    const [Modal, open, close, isOpen] = useModal('portal-root-Modal', {
         preventScroll: true
     });
 

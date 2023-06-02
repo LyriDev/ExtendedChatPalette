@@ -3,7 +3,7 @@ body{
         position: relative;
         z-index: 1;
     }
-    #portal-root{
+    #portal-root-Modal{
         position: relative;
         z-index: 2000;
         div:has(.editMenu) {
@@ -12,6 +12,16 @@ body{
             justify-content: center;
             align-items: center; 
         }
+    }
+    #portal-root-ExtendedChatPalette{
+        position: relative;
+        z-index: 1202;
+/*         div:has(.viewMenu) {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        } */
     }
 }
 

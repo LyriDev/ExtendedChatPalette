@@ -97,7 +97,7 @@ export default function DropDownMenu({index, anchors, open, handleClose, handleT
         }}
         MenuListProps={{}} // Menuコンポーネント内部で使用されているMenuListコンポーネントのPropsを変更できる
         PaperProps={{ // Menuコンポーネント内部で使用されているPaperコンポーネントのPropsを変更できる
-        elevation: 8 // PaperProps.elevationはメニューのシャドーを調整できる（超重要！）
+            elevation: 8 // PaperProps.elevationはメニューのシャドーを調整できる（超重要！）
         }}
         style={{zIndex: 10000}}
         disablePortal  // ポータルの無効化

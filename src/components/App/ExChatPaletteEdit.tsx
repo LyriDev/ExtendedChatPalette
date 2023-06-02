@@ -54,7 +54,7 @@ const theme = createTheme({
             styleOverrides: {
                 paper: {
                     color: "#fff",
-                    backgroundColor: "rgba(44, 44, 44, 0.87)" // Menuコンポーネントの背景色を赤に設定
+                    backgroundColor: "rgba(44, 44, 44, 0.87)" // Menuコンポーネントの背景色を設定
                 }
             },
         },
@@ -86,10 +86,11 @@ export default function ExChatPaletteEdit() {
     });
 
     return (
-        <div className="editMenu MuiPaper-elevation24 MuiPaper-rounded" style={menuStyle}>
+        <div className="editMenu" style={menuStyle}>
             <ThemeProvider theme={theme}>
-                <Box sx={{ width: '100%' } }>
-                    <div className="MuiPaper-elevation4">
+                <Box
+                sx={{width: '100%'}}>
+                    <div>
                         <HeaderEdit/>
                         <TabBarEdit focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                     </div>

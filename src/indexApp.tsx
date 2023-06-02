@@ -7,10 +7,16 @@ import { TextProvider } from "./providers/App/TextProvider"
 import HamburgerListTab from "./components/App/HamburgerListTab"
 import ExChatPaletteButton from "./components/App/ExChatPaletteButton"
 
-function addPortalRoot(): void{ // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成する関数
-    // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成
+function addModalPortalRoot(): void{ // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成する関数
+    // ポータルを追加するためのルート要素を作成
     const portalRoot = document.createElement('div');
-    portalRoot.id = 'portal-root';
+    portalRoot.id = 'portal-root-Modal';
+    document.body.appendChild(portalRoot);
+}
+function addPalettePortalRoot(): void{ // ポータル(拡張チャットパレットメニュー追加用)を追加するためのルート要素を作成する関数
+    // ポータルを追加するためのルート要素を作成
+    const portalRoot = document.createElement('div');
+    portalRoot.id = 'portal-root-ExtendedChatPalette';
     document.body.appendChild(portalRoot);
 }
 
@@ -108,7 +114,8 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
 }
 
 window.onload = async function(){
-    addPortalRoot()
+    addModalPortalRoot()
+    addPalettePortalRoot()
     addExChatPaletteButton();
     addExChatPaletteList()
 };
