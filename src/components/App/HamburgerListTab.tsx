@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,12 +19,15 @@ export default function HamburgerListTab() { // レスポンシブデザイン�
         setMenuVisible(true);
     };
 
-    if (menuVisible) {
-        return ReactDOM.createPortal(
-            <ExChatPaletteView />,
-            document.body
-        );
-    }
+    useEffect(() => {
+        // menuVisibleがtrueになったら、ポータルに<ExChatPaletteView />を追加する
+        if (menuVisible) {
+            ReactDOM.render(
+                <ExChatPaletteView />,
+                document.getElementById("portal-root")
+            );
+        }
+    }, [menuVisible]);
 
     return (
         <ThemeProvider theme={theme}>

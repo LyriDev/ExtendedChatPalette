@@ -14,7 +14,10 @@ function addPortalRoot(): void{ // ポータル(モーダルメニュー追加�
 async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパレットボタンを追加する関数
     // 「マイキャラクター一覧」ボタンを取得する
     let targetElement: HTMLElement|null = await challengeQuery("#root > div > header > div > button.MuiButtonBase-root.MuiIconButton-root.sc-bWXABl.iZZULD");
-    if (!targetElement) return; // 一定時間待機してもターゲットとなる要素が見つからなければ処理を止める
+    if (!targetElement){
+         // 一定時間待機してもターゲットとなる要素が見つからなければ処理を止める
+        throw new Error("拡張チャットパレットボタンを追加できませんでした")
+    }
 
     // 工事中モード等でボタンが無効になっていたらfalseを代入する
     const isButtonEnable: boolean = !(targetElement.classList.contains("Mui-disabled"))
