@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import { getSettings, saveTabData, getTabNames, getTexts } from '../../data/DataControl';
+import { getSettings, saveTabData, getTabNames, getTexts, getChatPalettes } from '../../data/DataControl';
 
 export default function Popup() {
     const [enableExDodge, setEnableExDodge] = useState(true); // 拡張回避の設定データ
@@ -44,6 +44,7 @@ export default function Popup() {
             <button onClick={() => saveTabData(["メイン","サブ","NPC用"],["hoge","fuga","1d100"],"jCzJmypt5","お部屋")}>saveTabData</button>
             <button onClick={() => getTabNames("jCzJmypt5").then((value) => console.log(value))}>getTabNames</button>
             <button onClick={() => getTexts("jCzJmypt5").then((value) => console.log(value))}>getTexts</button>
+            <button onClick={() => getChatPalettes("jCzJmypt5").then((value) => console.log(value))}>getChatPalettes</button>
             <h3>拡張チャットパレット 設定</h3>
             <div>
                 <input

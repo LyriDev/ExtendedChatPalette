@@ -2,7 +2,7 @@ export type Settings = {
     enableExDodge: boolean;
 };
 
-type ChatPalette = {
+export type ChatPalette = {
     characterName: string | null;
     messages: string[];
     isBorder: boolean;
@@ -22,6 +22,6 @@ export type Data = {
 };
 
 export type DataModel = {
-    settings: Settings;
-    data: Data;
+    settings?: Settings;
+    data?: Data;
 };

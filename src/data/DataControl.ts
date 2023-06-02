@@ -1,4 +1,4 @@
-import { Data, Settings, Tab } from "./DataModel"
+import {DataModel, Settings, Data, Tab, ChatPalette } from "./DataModel"
 
 function clipUrl(url: string): string{ // URLのクエリ文字列やURLフラグメントを取り除いた、URLのパス部分を取得する関数
     const urlObj: URL = new URL(url);
@@ -82,20 +82,43 @@ export async function getTexts(roomId: string = getRoomId()): Promise<string[]>{
         });
     });
 }
+export async function getChatPalettes(roomId: string = getRoomId()): Promise<ChatPalette[][]>{
+    let initialData: ChatPalette[][] = [] //デフォルト値
+    return new Promise<ChatPalette[][]>((resolve, reject) => {
+        chrome.storage.local.get(["data", roomId, "tabs"], function(response){
+            try{
+                const data: Tab[] = response["data"][roomId]["tabs"] as Tab[]
+                const chatPalettes: ChatPalette[][] = new Array;
+                data.forEach(element => {
+                    chatPalettes.push(element.chatPalettes)
+                });
+                resolve(chatPalettes);
+            }catch(error) {
+                resolve(initialData);
+            }
+        });
+    });
+}
 
-export async function saveTabData(tabNames: string[], texts: string[], roomId: string = getRoomId(), roomName: string = getRoomName()): Promise<object>{
-    return new Promise<object>((resolve, reject) => {
+export async function saveTabData(
+    tabNames: string[],
+    texts: string[],
+    roomId: string = getRoomId(),
+    roomName: string = getRoomName()
+): Promise<DataModel>{
+    return new Promise<DataModel>((resolve, reject) => {
         if(tabNames.length !== texts.length){
             throw new Error("tabNames と texts の数が違います");
         }
         // 既存のデータを取得
         chrome.storage.local.get("data", function(response) {
-            const existingData = response.data || {}; // 既存のデータ
-            const result: object[] = new Array;
+            const existingData: Data = response.data || {}; // 既存のデータ
+            const result: Tab[] = new Array;
             for(let i: number = 0; i < tabNames.length; i++){
-                const currentData: object = {
+                const currentData: Tab = {
                     tabName: tabNames[i],
-                    originText: texts[i]
+                    originText: texts[i],
+                    chatPalettes: convertTextToJSON(texts[i]+"\n")
                 }
                 result.push(currentData)
             }
@@ -105,10 +128,105 @@ export async function saveTabData(tabNames: string[], texts: string[], roomId: s
                 tabs: result
             };
             // 既存のデータをデータベースに保存する
-            const sendData: object = { data: existingData }
+            const sendData: DataModel = { data: existingData }
             chrome.storage.local.set(sendData, function() {
                 resolve(sendData);
             });
         });
     });
+}
+
+function convertTextToJSON(text: string) :ChatPalette[]{ // プレーンテキストを拡張チャットパレットデータに変換する関数
+    const lines: string[] = text.split('\n');
+
+    let chatPalettes: ChatPalette[] = []
+    let currentData: ChatPalette = {} as ChatPalette
+    let i: number = 0
+    let line: string = lines[i]
+
+    chatPaletteLoop: while(i < lines.length){
+        currentData = {
+            characterName: "",
+            messages: [],
+            isBorder: false
+        }
+        // # か##か---で始まる行までカーソルを下げる
+        // あるいは、最後の行になるまでカーソルを下げる
+        while(i < lines.length - 1){
+            if(line.startsWith('# ')) break
+            if(line.startsWith('##')) break
+            if(line.startsWith('---')) break
+            i++
+            line = lines[i]
+        }
+        //最後の行が指示でないなら、ここで変換処理を終わる
+        if(i === lines.length - 1) break
+        if(line.startsWith('# ') || line.startsWith('##')){ //カーソルが# か##で始まる行まで下がった場合
+            // とりあえず発言キャラクターを登録する
+            let name: string | null = null
+            // ##で始まる場合、発言キャラクターを指定しない
+            if(line.startsWith('# ')){
+                // # で始まる場合、発言キャラクターを指定する
+                name = line.slice(2)
+            }
+            currentData.characterName = name
+            // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
+            if(i === lines.length - 1) break chatPaletteLoop
+            // # か##か---で始まる行か最後の行になるまで繰り返す
+            messageLoop: while(i < lines.length - 1){
+                // まだ行が残っているなら、カーソルを1つ下げる
+                i++
+                line = lines[i]
+                // # か##か---か```で始まる行までカーソルを下げる
+                // あるいは、最後の行になるまでカーソルを下げる
+                while(i < lines.length - 1){
+                    if(line.startsWith('# ')) break
+                    if(line.startsWith('##')) break
+                    if(line.startsWith('---')) break
+                    if(line.startsWith('```')) break
+                    i++
+                    line = lines[i]
+                }
+                // カーソルが```で始まる行まで下がる前に他の指示があれば、次のセクションに移動する
+                if(!line.startsWith('```')){
+                    chatPalettes.push(currentData)
+                    continue chatPaletteLoop
+                }
+                let text = "";
+                if(line.endsWith('```')){ // ```で始まって```で終わる行のとき
+                    text = line.slice(3,-3) // 最初の行の左右を切り抜いて登録する
+                }else{
+                    text = line.slice(3) // 最初の行の左を切り抜いて登録する
+                    // 次の```で終わる行までカーソルを下げる
+                    while(i < lines.length -1){
+                        if(line.endsWith('```')) break
+                        //1行分カーソルを進める
+                        i++
+                        line = lines[i]
+                        if(line.endsWith('```')) break // まだテキストが```で終わっていない場合
+                        text += "\n" + line // ```間のテキストをメッセージとして登録する
+                    }
+                    if(line.endsWith('```')){
+                        text += "\n" + line.slice(0,-3); // 最後の行の右を切り抜いて登録する
+                    }else{ // ```で終わらずにテキストが終わった場合
+                        text += "\n" + line
+                    }
+                }
+                currentData.messages.push(text)
+                // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
+                if(i === lines.length - 1) break chatPaletteLoop
+            }
+        }else if(line.startsWith('---')){
+            //カーソルが---で始まる行まで下がった場合、区切り線のデータとして登録する
+            currentData.isBorder = true
+        }
+        //作成したデータを登録する
+        chatPalettes.push(currentData)
+        // カーソルが最後の行まで下がったなら、変換処理を終わる
+        if(i === lines.length - 1)break chatPaletteLoop
+        // まだ行が残っているなら、カーソルを1つ下げる
+        i++
+        line = lines[i]
+    }
+    return chatPalettes;
 }

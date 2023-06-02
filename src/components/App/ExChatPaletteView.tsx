@@ -6,7 +6,6 @@ export default function ExChatPaletteView({menuVisible, closeMenu}: {menuVisible
     const [coordinateY, setCoordinateY] = useState<number>(-window.innerHeight / 2); // 拡張チャットパレットのx座標
 
     useEffect(() => {
-        console.log("menuVisible:", menuVisible); // 追加
         // 拡張チャットパレットが非表示になったら、
         if(!menuVisible){
             // 拡張チャットパレットを画面中央の位置に戻しておく
