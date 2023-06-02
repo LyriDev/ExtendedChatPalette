@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "./style/app.scss"
+import { ModalProvider } from "./providers/App/ModalProvider"
+import { TabNameProvider } from "./providers/App/TabNameProvider"
+import { TextProvider } from "./providers/App/TextProvider"
 import HamburgerListTab from "./components/App/HamburgerListTab"
-import App from "./components/App/App"
+import ExChatPaletteButton from "./components/App/ExChatPaletteButton"
 
 function addPortalRoot(): void{ // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成する関数
     // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成
@@ -28,7 +31,13 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
 
     ReactDOM.render(
         <React.StrictMode>
-            <App isActive={isButtonEnable} />
+            <TabNameProvider>
+                <TextProvider>
+                    <ModalProvider>
+                            <ExChatPaletteButton isActive={isButtonEnable} />
+                    </ModalProvider>
+                </TextProvider>
+            </TabNameProvider>
         </React.StrictMode>,
         container
     );

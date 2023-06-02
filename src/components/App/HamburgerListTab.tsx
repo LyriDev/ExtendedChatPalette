@@ -18,16 +18,20 @@ export default function HamburgerListTab() { // レスポンシブデザイン�
     function openMenu(): void{
         setMenuVisible(true);
     };
+    function closeMenu(): void{
+        setMenuVisible(false);
+    };
 
     useEffect(() => {
-        // menuVisibleがtrueになったら、ポータルに<ExChatPaletteView />を追加する
-        if (menuVisible) {
-            ReactDOM.render(
-                <ExChatPaletteView />,
-                document.getElementById("portal-root")
-            );
-        }
-    }, [menuVisible]);
+        // HamburgerListTabレンダリング時、ExChatPaletteViewをポータルにレンダリングする
+        ReactDOM.render(
+            <ExChatPaletteView
+            menuVisible={menuVisible}
+            closeMenu={closeMenu}
+            />,
+            document.getElementById("portal-root")
+        );
+    });
 
     return (
         <ThemeProvider theme={theme}>
@@ -36,7 +40,7 @@ export default function HamburgerListTab() { // レスポンシブデザイン�
                 // メニュー表示中に、ハンバーガーリストボタンを再度クリックし、メニューを閉じる
                 const HamburgerListButton: HTMLButtonElement | null = document.querySelector("#root > div > header > div > button.MuiButtonBase-root.MuiIconButton-root.sc-eFWqGp.jBnKGh");
                 HamburgerListButton?.click();
-                openMenu();
+                openMenu(); // 拡張チャットパレットを開く
             }}
             >
                 拡張チャットパレット
