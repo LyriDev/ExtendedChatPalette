@@ -83,15 +83,6 @@ export default function ExChatPaletteView({menuVisible, closeMenu}: {menuVisible
             >
                 <ThemeProvider theme={theme}>
                     <Box>
-                        <div className="test">
-                            <b
-                            style={{
-                                cursor: isDragging ? "grabbing" : "grab",
-                            }}
-                            >ここをつかんで移動</b>
-                            <p>ドラッグで移動したい要素</p>
-                            <button onClick={() => {closeMenu()}}>閉じる</button>
-                        </div>
                         <div>
                             <HeaderView isDragging={isDragging} closeMenu={closeMenu}/>
                             {/* <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} /> */}

@@ -20,8 +20,16 @@ export default function HeaderEdit({ isDragging, closeMenu }: {isDragging: boole
                 cursor: isDragging ? "grabbing" : "grab"
             }}
             >
-                <div>拡張チャットパレット</div>
-                <Box style={{margin: "0 0 0 auto"}}>
+                <div
+                    style={{
+                        fontSize: "0.875rem",
+                        // fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                        fontWeight: "bold"
+                    }}
+                >
+                    チャットパレット
+                </div>
+                <div style={{margin: "0 0 0 auto"}}>
                     <IconButton
                     edge="end"
                     color="primary"
@@ -46,7 +54,7 @@ export default function HeaderEdit({ isDragging, closeMenu }: {isDragging: boole
                     >
                         <Close />
                     </IconButton>
-                </Box>
+                </div>
             </div>
     );
 }
