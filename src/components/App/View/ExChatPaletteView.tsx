@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import HeaderView from "./HeaderView"
 
 const theme = createTheme({
     palette: {
@@ -67,7 +68,7 @@ export default function ExChatPaletteView({menuVisible, closeMenu}: {menuVisible
         onDrag={handleDrag}
         onStart={() => {setIsDragging(true)}}
         onStop={() => {setIsDragging(false)}}
-        handle="b"
+        handle="#drag-handle"
         >
             <div
             style={{
@@ -77,14 +78,11 @@ export default function ExChatPaletteView({menuVisible, closeMenu}: {menuVisible
                 backgroundColor: 'rgba(44, 44, 44, 0.87)',
                 minWidth: "320px",
                 minHeight: "280px",
+                boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)"
             }}
             >
                 <ThemeProvider theme={theme}>
-                    <Box
-                        sx={{
-                            elevation: 10
-                        }}
-                    >
+                    <Box>
                         <div className="test">
                             <b
                             style={{
@@ -95,7 +93,7 @@ export default function ExChatPaletteView({menuVisible, closeMenu}: {menuVisible
                             <button onClick={() => {closeMenu()}}>閉じる</button>
                         </div>
                         <div>
-                            {/* <HeaderView/> */}
+                            <HeaderView isDragging={isDragging} closeMenu={closeMenu}/>
                             {/* <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} /> */}
                         </div>
                         {/* <TabsContent focusIndex={focusIndex}/> */}
