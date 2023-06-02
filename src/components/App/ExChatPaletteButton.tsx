@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import ExChatPaletteEdit from './ExChatPaletteEdit';
+import ExChatPaletteEdit from './Edit/ExChatPaletteEdit';
 import Icon from "./../../svg/Icon"
 import { ModalContext } from "./../../providers/App/ModalProvider"
 

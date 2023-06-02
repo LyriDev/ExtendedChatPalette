@@ -4,9 +4,9 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import Add from "./../../svg/Add"
-import { TabNameContext } from "./../../providers/App/TabNameProvider"
-import { TextContext } from "./../../providers/App/TextProvider"
+import Add from "../../../svg/Add"
+import { TabNameContext } from "../../../providers/App/TabNameProvider"
+import { TextContext } from "../../../providers/App/TextProvider"
 import DropDownMenu from "./DropDownMenu"
 
 const tabsStyle: React.CSSProperties = {
@@ -30,7 +30,6 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
 
     // ドロップダウンメニューに必要なプロパティ群
     const [opens, setOpens] = useState<boolean[]>([]); // メニューの開閉を管理
-    // const [anchors, setAnchors] = useState(useRef([])); // メニューを配置するHTML要素を格納する
     const anchors: React.MutableRefObject<React.RefObject<HTMLDivElement>[]> = useRef<RefObject<HTMLDivElement>[]>([])
     const [clickHandlers, setClickHandlers] = useState<(() => void)[]>([]); // メニュー開閉ハンドル
     const [closeHandlers, setCloseHandlers] = useState<(() => Promise<void>)[]>([]); // メニューを閉めるハンドル

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
-import Close from '../../svg/Close'
+import Close from '../../../svg/Close'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import { ModalContext } from "./../../providers/App/ModalProvider"
+import { ModalContext } from "../../../providers/App/ModalProvider"
 
 const headerStyle: React.CSSProperties = {
     backgroundColor: '#212121',

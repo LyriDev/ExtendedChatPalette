@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { ModalContext } from "./../../providers/App/ModalProvider"
+import { ModalContext } from "../../../providers/App/ModalProvider"
 import TabsContent from './TabsContent'
 import HeaderEdit from './HeaderEdit'
 import TabBarEdit from "./TabBarEdit"

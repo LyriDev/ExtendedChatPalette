@@ -1,6 +1,6 @@
 import React, { useState, useContext}  from 'react';
 import HelpContent from "./HelpContent"
-import { TextContext } from "./../../providers/App/TextProvider"
+import { TextContext } from "../../../providers/App/TextProvider"
 
 const textareaStyle: React.CSSProperties = {
     borderRadius: '4px',

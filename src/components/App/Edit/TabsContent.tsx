@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextareaContent from "./TextareaContent"
-import { TextContext } from "./../../providers/App/TextProvider"
+import { TextContext } from "../../../providers/App/TextProvider"
 
 interface TabPanelProps {
     children?: React.ReactNode;

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { TabNameContext } from "./../../providers/App/TabNameProvider"
-import { TextContext } from "./../../providers/App/TextProvider"
+import { TabNameContext } from "../../../providers/App/TabNameProvider"
+import { TextContext } from "../../../providers/App/TextProvider"
 
 interface StringArrayStates{
     data: string[] | undefined,

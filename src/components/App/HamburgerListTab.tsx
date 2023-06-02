@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
-import ExChatPaletteView from "./ExChatPaletteView"
+import ExChatPaletteView from "./View/ExChatPaletteView"
 
 const theme = createTheme({
     palette: {
