@@ -20,7 +20,7 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
         setIsHovered(false);
     };
     const style = {
-        backgroundColor: isHovered ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.00)",
+        backgroundColor: isHovered ? "rgba(255, 255, 255, 0.08)" : "transparent",
         color: isActive ? "#fff" : "rgba(255, 255, 255, 0.3)",
         padding: "12px"
     };

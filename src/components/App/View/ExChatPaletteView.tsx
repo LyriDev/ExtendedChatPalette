@@ -7,6 +7,7 @@ import { PaletteWindowContext } from "./../../../providers/App/PaletteWindowProv
 import { ModalContext } from "./../../../providers/App/ModalProvider"
 import ExChatPaletteEdit from './../Edit/ExChatPaletteEdit';
 import HeaderView from "./HeaderView"
+import TabBarView from "./TabBarView"
 
 const theme = createTheme({
     palette: {
@@ -68,7 +69,7 @@ export default function ExChatPaletteView() {
                         bottom: -menuHeight,
                         left: 0
                     }}
-                    onDrag={(event: DraggableEvent, data: DraggableData)=>{console.log("x",data.x,"y",data.y,"\ninnerWidth",window.innerWidth,"innerHeight",window.innerHeight)}}
+                    // onDrag={(event: DraggableEvent, data: DraggableData)=>{console.log("x",data.x,"y",data.y,"\ninnerWidth",window.innerWidth,"innerHeight",window.innerHeight)}}
                     onStart={() => {setIsDragging(true)}}
                     onStop={() => {setIsDragging(false)}}
                     handle="#drag-handle"
@@ -87,7 +88,7 @@ export default function ExChatPaletteView() {
                                 <Box>
                                     <div>
                                         <HeaderView isDragging={isDragging}/>
-                                        {/* <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} /> */}
+                                        <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                                     </div>
                                     {/* <TabsContent focusIndex={focusIndex}/> */}
                                 </Box>
