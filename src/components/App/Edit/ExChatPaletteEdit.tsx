@@ -90,7 +90,7 @@ export default function ExChatPaletteEdit() {
             <ThemeProvider theme={theme}>
                 <Box
                 sx={{width: '100%'}}>
-                    <div>
+                    <div  className="MuiPaper-elevation4">
                         <HeaderEdit/>
                         <TabBarEdit focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                     </div>

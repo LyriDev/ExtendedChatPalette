@@ -86,7 +86,7 @@ export default function ExChatPaletteView() {
                         >
                             <ThemeProvider theme={theme}>
                                 <Box>
-                                    <div>
+                                    <div  className="MuiPaper-elevation4">
                                         <HeaderView isDragging={isDragging}/>
                                         <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                                     </div>
