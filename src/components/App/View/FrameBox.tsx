@@ -8,6 +8,7 @@ export default function FrameBox() {
         setIsResizing(true);
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
+        console.log("handleMouseDown")
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -24,16 +25,18 @@ export default function FrameBox() {
         containerRef.current.style.height = `${newHeight}px`;
         console.log(`width:${newWidth}px, height:${newHeight}px`)
         }
+        console.log("handleMouseMove\n","isResizing:",isResizing,"\ncontainerRef.current:",containerRef.current)
     };
 
     const handleMouseUp = () => {
         setIsResizing(false);
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+        console.log("handleMouseUp")
     };
 
     return (
-        <span ref={containerRef} /* style={{ position: "relative"}} */>
+        <span ref={containerRef}>
             <div // 上
             className="draggable-disable"
             style={{
