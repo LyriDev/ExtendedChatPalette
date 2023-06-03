@@ -11,7 +11,6 @@ export default function HeaderEdit({ isDragging }: {isDragging: boolean}) {
 
     return (
             <div
-            id="drag-handle"
             style={{
                 padding: "0 24px",
                 height: "48px",

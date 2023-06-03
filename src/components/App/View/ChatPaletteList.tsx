@@ -39,7 +39,7 @@ export default function ChatPaletteList({focusIndex}: {focusIndex: number}) {
     },[])
 
     return (
-        <div>
+        <div id="#chat-palette-list">
             {chatPalettes?.map((paletteList, index) => (
                 <TabPanel focusIndex={focusIndex} index={index}>
                     <div>{JSON.stringify(paletteList)}</div>

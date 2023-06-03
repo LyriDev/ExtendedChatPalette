@@ -73,7 +73,7 @@ export default function ExChatPaletteView() {
                     // onDrag={(event: DraggableEvent, data: DraggableData)=>{console.log("x",data.x,"y",data.y,"\ninnerWidth",window.innerWidth,"innerHeight",window.innerHeight)}}
                     onStart={() => {setIsDragging(true)}}
                     onStop={() => {setIsDragging(false)}}
-                    handle="#drag-handle"
+                    cancel="#chat-palette-list"
                     >
                         <div
                         style={{
