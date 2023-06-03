@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { PaletteWindowContext } from "./../../../providers/App/PaletteWindowProvider"
 import { ModalContext } from "./../../../providers/App/ModalProvider"
+import FrameBox from "./FrameBox"
 import ExChatPaletteEdit from './../Edit/ExChatPaletteEdit';
 import HeaderView from "./HeaderView"
 import TabBarView from "./TabBarView"
@@ -80,7 +81,7 @@ export default function ExChatPaletteView() {
                     >
                         <div
                         ref={menuRef}
-                        onClick={()=>console.log("menuWidth:"+menuWidth+"\nmenuHeight"+menuHeight)}
+                        // onClick={()=>console.log("menuWidth:"+menuWidth+"\nmenuHeight"+menuHeight)}
                         style={{
                             position: "absolute",
                             color: "#fff",
@@ -103,6 +104,7 @@ export default function ExChatPaletteView() {
                                     <ChatPaletteList focusIndex={focusIndex}/>
                                 </Box>
                             </ThemeProvider>
+                            <FrameBox/>
                         </div>
                     </Draggable>
                     {resource?.Modal && (
