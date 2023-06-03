@@ -8,6 +8,7 @@ import { ModalContext } from "./../../../providers/App/ModalProvider"
 import ExChatPaletteEdit from './../Edit/ExChatPaletteEdit';
 import HeaderView from "./HeaderView"
 import TabBarView from "./TabBarView"
+import ChatPaletteList from "./ChatPaletteList"
 
 const theme = createTheme({
     palette: {
@@ -90,7 +91,7 @@ export default function ExChatPaletteView() {
                                         <HeaderView isDragging={isDragging}/>
                                         <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                                     </div>
-                                    {/* <TabsContent focusIndex={focusIndex}/> */}
+                                    <ChatPaletteList focusIndex={focusIndex}/>
                                 </Box>
                             </ThemeProvider>
                         </div>
