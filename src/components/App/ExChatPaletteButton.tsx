@@ -26,7 +26,7 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
     };
 
     return (
-        <div>
+        <div className='iZZULD'>
             <IconButton
             onClick={() => {
                 if(toggleMenu) toggleMenu()
