@@ -39,7 +39,6 @@ export default function HeaderEdit({ isDragging }: {isDragging: boolean}) {
                         padding: "3px"
                     }}
                     onClick={()=>{
-                        console.log(resource)
                         resource?.open();
                     }}
                     >
