@@ -1,21 +1,22 @@
-// import React, { createContext, useState, useEffect, ReactNode } from 'react';
-// import { getTabNames } from "../../data/DataControl"
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { ChatPalette } from "../../data/DataModel"
+import { getChatPalettes } from "../../data/DataControl"
 
-// export const DataContext = createContext<[string[], React.Dispatch<React.SetStateAction<string[]>>] | null>(null)
+export const DataContext = createContext<[ChatPalette[][], React.Dispatch<React.SetStateAction<ChatPalette[][]>>] | null>(null)
 
-// export function DataProvider({children}: {children: ReactNode}){
-//     const [tabNames, setTabNames] = useState<string[]>([]);
+export function DataProvider({children}: {children: ReactNode}){
+    const [chatPalettes, setChatPalettes] = useState<ChatPalette[][]>([]);
 
-//     useEffect(() => {
-//         (async() => {
-//             const response: string[] = await getTabNames()
-//             setTabNames(response)
-//         })()
-//     }, []);
+    useEffect(() => {
+        (async() => {
+            const response: ChatPalette[][] = await getChatPalettes()
+            setChatPalettes(response)
+        })()
+    }, []);
 
-//     return (
-//         <DataContext.Provider value={[tabNames, setTabNames]}>
-//             {children}
-//         </DataContext.Provider>
-//     );
-// }
+    return (
+        <DataContext.Provider value={[chatPalettes, setChatPalettes]}>
+            {children}
+        </DataContext.Provider>
+    );
+}

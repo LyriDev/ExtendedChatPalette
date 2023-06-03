@@ -3,15 +3,18 @@ import { PaletteWindowProvider } from "./PaletteWindowProvider"
 import { ModalProvider } from "./ModalProvider"
 import { TabNameProvider } from "./TabNameProvider"
 import { TextProvider } from "./TextProvider"
+import { DataProvider } from "./DataProvider"
 
 export default function Providers({children}: {children: ReactNode}){
     return (
         <PaletteWindowProvider>
             <TabNameProvider>
                 <TextProvider>
-                    <ModalProvider>
-                        {children}
-                    </ModalProvider>
+                    <DataProvider>
+                        <ModalProvider>
+                            {children}
+                        </ModalProvider>
+                    </DataProvider>
                 </TextProvider>
             </TabNameProvider>
         </PaletteWindowProvider>
