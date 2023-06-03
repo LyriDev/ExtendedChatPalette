@@ -48,43 +48,9 @@ export default function ExChatPaletteView() {
     const [menuVisible, setMenuVisible, openMenu, closeMenu, toggleMenu] = useContext(PaletteWindowContext) || []; // 拡張チャットパレットが開いているかどうかを管理するコンテキスト
     const resource = useContext(ModalContext); // モーダルメニュー用のコンテキスト
 
-    const [coordinateX, setCoordinateX] = useState<number>(0); // 拡張チャットパレットのx座標
-    const [coordinateY, setCoordinateY] = useState<number>(0); // 拡張チャットパレットのx座標
+    const menuWidth = 320; // 拡張チャットパレットメニューの横幅
+    const menuHeight = 280; // 拡張チャットパレットメニューの縦幅
     const [isDragging, setIsDragging] = useState<boolean>(false); // 拡張チャットパレットをドラッグしているかどうか
-    useEffect(() => {
-        // 拡張チャットパレットが非表示になったら、
-        if(!menuVisible){
-            // 拡張チャットパレットを画面中央の位置に戻しておく
-            setCoordinateX((window.innerWidth-320)/2);
-            setCoordinateY(-(window.innerHeight+280)/2);
-        }
-    }, [menuVisible]);
-    function handleDrag(event: DraggableEvent, data: DraggableData): void{ // 拡張チャットパレットを指定位置に移動する関数
-        const { x, y } = data;
-
-        /* 画面端でドラッグを止める処理 */
-        const maxX = window.innerWidth - 320; // 拡張チャットパレットの幅を考慮して、x座標の最大値を設定
-        const maxY = -280; // 拡張チャットパレットの高さを考慮して、y座標の最大値を設定
-        let adjustedX = x;
-        let adjustedY = y;
-        // x座標が画面端を超えないように調整
-        if (adjustedX < 0) {
-            adjustedX = 0;
-        } else if (adjustedX > maxX) {
-            adjustedX = maxX;
-        }
-        // y座標が画面端を超えないように調整
-        if (adjustedY < -window.innerHeight) {
-            adjustedY = -window.innerHeight;
-        } else if (adjustedY > maxY) {
-            adjustedY = maxY;
-        }
-
-        console.log("y",y,"\nadjustedY",adjustedY,"\nmaxY",maxY)
-
-        setCoordinateX(adjustedX);
-        setCoordinateY(adjustedY);
-    };
 
     const [focusIndex, setFocusIndex] = useState<number>(0); // フォーカスしているタブのindex(View用)
 
@@ -95,15 +61,20 @@ export default function ExChatPaletteView() {
             menuVisible && (
                 <div>
                     <Draggable
-                    position={{x: coordinateX, y: coordinateY}}
-                    onDrag={handleDrag}
+                    defaultPosition={{x: (window.innerWidth-menuWidth)/2, y: -(window.innerHeight+menuHeight)/2}}
+                    bounds={{
+                        top: -window.innerHeight,
+                        right: (window.innerWidth-menuWidth),
+                        bottom: -menuHeight,
+                        left: 0
+                    }}
+                    onDrag={(event: DraggableEvent, data: DraggableData)=>{console.log("x",data.x,"y",data.y,"\ninnerWidth",window.innerWidth,"innerHeight",window.innerHeight)}}
                     onStart={() => {setIsDragging(true)}}
                     onStop={() => {setIsDragging(false)}}
                     handle="#drag-handle"
                     >
                         <div
                         style={{
-                            visibility: menuVisible ? "visible" : "hidden",
                             position: "absolute",
                             color: "#fff",
                             backgroundColor: 'rgba(44, 44, 44, 0.87)',
