@@ -41,7 +41,7 @@ export default function Popup() {
         <div className="App">
             <button onClick={deleteAllData}>clearData</button>
             <button onClick={getAllData}>getData</button>
-            <button onClick={() => saveTabData(["メイン","サブ","NPC用"],["hoge","fuga","1d100"],"jCzJmypt5","お部屋")}>saveTabData</button>
+            <button onClick={() => saveTabData(["メイン","サブ","NPC用"],["hoge","fuga","1d100"],undefined,"jCzJmypt5","お部屋")}>saveTabData</button>
             <button onClick={() => getTabNames("jCzJmypt5").then((value) => console.log(value))}>getTabNames</button>
             <button onClick={() => getTexts("jCzJmypt5").then((value) => console.log(value))}>getTexts</button>
             <button onClick={() => getChatPalettes("jCzJmypt5").then((value) => console.log(value))}>getChatPalettes</button>

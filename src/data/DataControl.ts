@@ -103,6 +103,7 @@ export async function getChatPalettes(roomId: string = getRoomId()): Promise<Cha
 export async function saveTabData(
     tabNames: string[],
     texts: string[],
+    chatPalettes: ChatPalette[][] = convertTextArrayToJSON(texts),
     roomId: string = getRoomId(),
     roomName: string = getRoomName()
 ): Promise<DataModel>{
@@ -118,7 +119,7 @@ export async function saveTabData(
                 const currentData: Tab = {
                     tabName: tabNames[i],
                     originText: texts[i],
-                    chatPalettes: convertTextToJSON(texts[i]+"\n")
+                    chatPalettes: chatPalettes[i]
                 }
                 result.push(currentData)
             }
@@ -136,7 +137,16 @@ export async function saveTabData(
     });
 }
 
-function convertTextToJSON(text: string) :ChatPalette[]{ // プレーンテキストを拡張チャットパレットデータに変換する関数
+export function convertTextArrayToJSON(texts: string[]): ChatPalette[][]{
+    const result: ChatPalette[][] = new Array;
+    for(let i: number = 0; i < texts.length; i++){
+        const currentData: ChatPalette[] = convertTextToJSON(texts[i]+"\n")
+        result.push(currentData)
+    }
+    return result
+}
+
+function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキストを拡張チャットパレットデータに変換する関数
     const lines: string[] = text.split('\n');
 
     let chatPalettes: ChatPalette[] = []

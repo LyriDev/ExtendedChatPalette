@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { TextContext } from "../../../providers/App/TextProvider"
+import { DataContext } from "../../../providers/App/DataProvider"
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -32,13 +32,20 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function ChatPaletteList({focusIndex}: {focusIndex: number}) {
-    const [texts, setTexts] = useContext(TextContext) || [];
+    const [chatPalettes, setChatPalettes] = useContext(DataContext) || [];
+
+    React.useEffect(()=>{
+        console.log(chatPalettes)
+    },[])
 
     return (
         <div>
-            {texts?.map((text, index) => (
+            {chatPalettes?.map((paletteList, index) => (
                 <TabPanel focusIndex={focusIndex} index={index}>
-                    {/* <ChatPaletteItem /> */}
+                    <div>{JSON.stringify(paletteList)}</div>
+                    {/* {paletteList?.map((data, index) => (
+                        <div>{data.characterName}:{data.messages}</div>
+                    ))} */}
                 </TabPanel>
             ))}
         </div>
