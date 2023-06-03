@@ -1,15 +1,13 @@
 import React, { useRef } from 'react';
 
 interface MyProps {
-    width: number;
-    setWidth: React.Dispatch<React.SetStateAction<number>>;
-    height: number;
-    setHeight: React.Dispatch<React.SetStateAction<number>>;
+    width: React.MutableRefObject<number>;
+    height: React.MutableRefObject<number>;
 }
 export default function FrameBox(props: MyProps) {
-    const { width, setWidth, height, setHeight } = props;
+    const { width, height } = props;
 
-    const isResizingRef = useRef(false);
+    const isResizingRef = useRef<boolean>(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -29,8 +27,8 @@ export default function FrameBox(props: MyProps) {
         const newHeight = clientY - containerRect.top;
 
         // Set the new width and height
-        setWidth(newWidth);
-        setHeight(newHeight)
+        width.current = newWidth;
+        height.current = newHeight;
         console.log(`width:${newWidth}px, height:${newHeight}px`)
         }
         // console.log("handleMouseMove\n","isResizingRef.current:",isResizingRef.current,"\ncontainerRef.current:",containerRef.current)

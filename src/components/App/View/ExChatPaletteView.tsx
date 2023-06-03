@@ -52,8 +52,8 @@ export default function ExChatPaletteView() {
     const resource = useContext(ModalContext); // モーダルメニュー用のコンテキスト
 
     const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null) // メニューのref
-    const [width, setWidth] = useState<number>(320);
-    const [height, setHeight] = useState<number>(280);
+    const width = useRef<number>(320);
+    const height = useRef<number>(280);
     const [isDragging, setIsDragging] = useState<boolean>(false); // 拡張チャットパレットをドラッグしているかどうか
 
     const [focusIndex, setFocusIndex] = useState<number>(0); // フォーカスしているタブのindex(View用)
@@ -65,11 +65,11 @@ export default function ExChatPaletteView() {
             menuVisible && (
                 <div>
                     <Draggable
-                    defaultPosition={{x: (window.innerWidth-width)/2, y: -(window.innerHeight+height)/2}}
+                    defaultPosition={{x: (window.innerWidth-width.current)/2, y: -(window.innerHeight+height.current)/2}}
                     bounds={{
                         top: -window.innerHeight,
-                        right: (window.innerWidth-width),
-                        bottom: -height,
+                        right: (window.innerWidth-width.current),
+                        bottom: -height.current,
                         left: 0
                     }}
                     // onDrag={(event: DraggableEvent, data: DraggableData)=>{console.log("x",data.x,"y",data.y,"\ninnerWidth",window.innerWidth,"innerHeight",window.innerHeight)}}
@@ -88,8 +88,8 @@ export default function ExChatPaletteView() {
                             cursor: isDragging ? "grabbing" : "grab",
                             minWidth: "320px",
                             minHeight: "280px",
-                            width: `${width}px`,
-                            height: `${height}px`,
+                            width: `${width.current}px`,
+                            height: `${height.current}px`,
                             resize: "both"
                         }}
                         >
@@ -102,7 +102,7 @@ export default function ExChatPaletteView() {
                                     <ChatPaletteList focusIndex={focusIndex}/>
                                 </Box>
                             </ThemeProvider>
-                            <FrameBox width={width} setWidth={setWidth} height={height} setHeight={setHeight}/>
+                            <FrameBox width={width} height={height}/>
                         </div>
                     </Draggable>
                     {resource?.Modal && (
