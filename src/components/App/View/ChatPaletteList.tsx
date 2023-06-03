@@ -39,13 +39,27 @@ export default function ChatPaletteList({focusIndex}: {focusIndex: number}) {
     },[])
 
     return (
-        <div id="chat-palette-list">
-            {chatPalettes?.map((paletteList, index) => (
-                <TabPanel focusIndex={focusIndex} index={index}>
-                    <div>{JSON.stringify(paletteList)}</div>
-                    {/* {paletteList?.map((data, index) => (
-                        <div>{data.characterName}:{data.messages}</div>
-                    ))} */}
+        <div
+        className="draggable-disable"
+        style={{
+            width: "320px",
+            height: "184px",
+            overflow: "auto"
+        }}
+        >
+            {chatPalettes?.map((paletteList, listIndex) => (
+                <TabPanel focusIndex={focusIndex} index={listIndex}>
+                    {paletteList?.map((data, paletteIndex) => (
+                        <div
+                        id={"paletteIndex:"+paletteIndex}
+                        style={{
+                            whiteSpace: "nowrap"
+                        }}
+                        >
+                            {JSON.stringify(data)}
+                        </div>
+                        // <div>{data.characterName}:{data.messages}</div>
+                    ))}
                 </TabPanel>
             ))}
         </div>
