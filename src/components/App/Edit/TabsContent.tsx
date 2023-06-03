@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextareaContent from "./TextareaContent"
 import { TextContext } from "../../../providers/App/TextProvider"
+import HelpContent from "./HelpContent"
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -39,6 +40,7 @@ export default function TabsContent({focusIndex}: {focusIndex: number}) {
         <div>
             {texts?.map((text, index) => (
                 <TabPanel focusIndex={focusIndex} index={index}>
+                    <HelpContent />
                     <TextareaContent index={index}/>
                 </TabPanel>
             ))}

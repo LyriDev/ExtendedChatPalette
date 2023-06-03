@@ -1,5 +1,4 @@
 import React, { useState, useContext}  from 'react';
-import HelpContent from "./HelpContent"
 import { TextContext } from "../../../providers/App/TextProvider"
 
 const textareaStyle: React.CSSProperties = {
@@ -32,9 +31,11 @@ export default function TextareaContent({ index }: { index: number}) {
     };
 
     return (
-        <div>
-            <HelpContent />
-            <textarea style={textareaStyle} rows={12} value={texts?.[index]} onChange={handleChange} />
-        </div>
+            <textarea
+            style={textareaStyle}
+            rows={10}
+            value={texts?.[index]}
+            onChange={handleChange}
+            />
     );
 }
