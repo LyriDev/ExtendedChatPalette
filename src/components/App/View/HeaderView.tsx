@@ -5,7 +5,7 @@ import Edit from '../../../svg/Edit'
 import { PaletteWindowContext } from "./../../../providers/App/PaletteWindowProvider"
 import { ModalContext } from "../../../providers/App/ModalProvider"
 
-export default function HeaderEdit({ isDragging }: {isDragging: boolean}) {
+export default function HeaderEdit() {
     const [menuVisible, setMenuVisible, openMenu, closeMenu] = useContext(PaletteWindowContext) || []; // 拡張チャットパレットが開いているかどうかを管理するコンテキスト
     const resource = useContext(ModalContext); // モーダルメニュー用のコンテキスト
 
@@ -17,7 +17,6 @@ export default function HeaderEdit({ isDragging }: {isDragging: boolean}) {
                 borderRadius: "4px 4px 0 0",
                 display: "flex",
                 alignItems: "center",
-                cursor: isDragging ? "grabbing" : "grab"
             }}
             >
                 <div

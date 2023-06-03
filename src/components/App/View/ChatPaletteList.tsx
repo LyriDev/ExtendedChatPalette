@@ -17,9 +17,6 @@ function TabPanel(props: TabPanelProps) {
         hidden={focusIndex !== index}
         id={`tabpanel-view-${index}`}
         aria-labelledby={`tab-view-${index}`}
-        style={{
-            maxWidth: "600px",
-        }}
         {...other}
         >
         {focusIndex === index && (
@@ -42,22 +39,16 @@ export default function ChatPaletteList({focusIndex}: {focusIndex: number}) {
         <div
         className="draggable-disable"
         style={{
-            width: "320px",
-            height: "184px",
-            overflow: "auto"
+            width: "100%",
+            height: "calc(100% - 97px)",
+            overflow: "auto",
+            cursor: "auto",
         }}
         >
             {chatPalettes?.map((paletteList, listIndex) => (
                 <TabPanel focusIndex={focusIndex} index={listIndex}>
                     {paletteList?.map((data, paletteIndex) => (
-                        <div
-                        id={"paletteIndex:"+paletteIndex}
-                        style={{
-                            whiteSpace: "nowrap"
-                        }}
-                        >
-                            {JSON.stringify(data)}
-                        </div>
+                        <div id={"paletteIndex:"+paletteIndex} style={{whiteSpace: "nowrap"}}>{JSON.stringify(data)}</div>
                         // <div>{data.characterName}:{data.messages}</div>
                     ))}
                 </TabPanel>

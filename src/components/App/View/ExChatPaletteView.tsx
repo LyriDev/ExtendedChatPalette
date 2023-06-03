@@ -80,15 +80,19 @@ export default function ExChatPaletteView() {
                             position: "absolute",
                             color: "#fff",
                             backgroundColor: 'rgba(44, 44, 44, 0.87)',
+                            boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)",
+                            cursor: isDragging ? "grabbing" : "grab",
                             minWidth: "320px",
                             minHeight: "280px",
-                            boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)"
+                            width: "320px",
+                            height: "280px",
+                            // resize: "both"
                         }}
                         >
                             <ThemeProvider theme={theme}>
-                                <Box>
+                                <Box style={{height: "100%"}}>
                                     <div  className="MuiPaper-elevation4">
-                                        <HeaderView isDragging={isDragging}/>
+                                        <HeaderView/>
                                         <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                                     </div>
                                     <ChatPaletteList focusIndex={focusIndex}/>
