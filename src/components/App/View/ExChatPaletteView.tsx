@@ -61,8 +61,29 @@ export default function ExChatPaletteView() {
     }, [menuVisible]);
     function handleDrag(event: DraggableEvent, data: DraggableData): void{ // 拡張チャットパレットを指定位置に移動する関数
         const { x, y } = data;
-        setCoordinateX(x);
-        setCoordinateY(y);
+
+        /* 画面端でドラッグを止める処理 */
+        const maxX = window.innerWidth - 320; // 拡張チャットパレットの幅を考慮して、x座標の最大値を設定
+        const maxY = -280; // 拡張チャットパレットの高さを考慮して、y座標の最大値を設定
+        let adjustedX = x;
+        let adjustedY = y;
+        // x座標が画面端を超えないように調整
+        if (adjustedX < 0) {
+            adjustedX = 0;
+        } else if (adjustedX > maxX) {
+            adjustedX = maxX;
+        }
+        // y座標が画面端を超えないように調整
+        if (adjustedY < -window.innerHeight) {
+            adjustedY = -window.innerHeight;
+        } else if (adjustedY > maxY) {
+            adjustedY = maxY;
+        }
+
+        console.log("y",y,"\nadjustedY",adjustedY,"\nmaxY",maxY)
+
+        setCoordinateX(adjustedX);
+        setCoordinateY(adjustedY);
     };
 
     const [focusIndex, setFocusIndex] = useState<number>(0); // フォーカスしているタブのindex(View用)
