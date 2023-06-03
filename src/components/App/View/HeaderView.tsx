@@ -38,7 +38,10 @@ export default function HeaderEdit({ isDragging }: {isDragging: boolean}) {
                         margin: "0",
                         padding: "3px"
                     }}
-                    onClick={resource?.open}
+                    onClick={()=>{
+                        console.log(resource)
+                        resource?.open();
+                    }}
                     >
                         <Edit />
                     </IconButton>

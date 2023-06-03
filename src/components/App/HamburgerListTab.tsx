@@ -18,32 +18,25 @@ export default function HamburgerListTab() { // レスポンシブデザイン�
     // 拡張チャットパレットが開いているかどうかを管理するコンテキスト
     const [menuVisible, setMenuVisible, openMenu, closeMenu] = useContext(PaletteWindowContext) || [];
 
-    useEffect(() => {
-        // HamburgerListTabレンダリング時、ExChatPaletteViewをポータルにレンダリングする
-        ReactDOM.render(
-            <Providers>
-                <ExChatPaletteView/>
-            </Providers>,
-            document.getElementById("portal-root-ExtendedChatPalette")
-        );
-    });
-
     React.useEffect(() => {
         console.log("menuVisible_HamburgerListTab",menuVisible)
     }, [menuVisible]);
 
     return (
-        <ThemeProvider theme={theme}>
-            <MenuItem
-            onClick={(event: React.SyntheticEvent) => {
-                // メニュー表示中に、ハンバーガーリストボタンを再度クリックし、メニューを閉じる
-                const HamburgerListButton: HTMLButtonElement | null = document.querySelector("#root > div > header > div > button.MuiButtonBase-root.MuiIconButton-root.sc-eFWqGp.jBnKGh");
-                HamburgerListButton?.click();
-                if(openMenu) openMenu(); // 拡張チャットパレットを開く
-            }}
-            >
-                拡張チャットパレット
-            </MenuItem>
-        </ThemeProvider>
+        <div>
+            <ThemeProvider theme={theme}>
+                <MenuItem
+                onClick={(event: React.SyntheticEvent) => {
+                    // メニュー表示中に、ハンバーガーリストボタンを再度クリックし、メニューを閉じる
+                    const HamburgerListButton: HTMLButtonElement | null = document.querySelector("#root > div > header > div > button.MuiButtonBase-root.MuiIconButton-root.sc-eFWqGp.jBnKGh");
+                    HamburgerListButton?.click();
+                    if(openMenu) openMenu(); // 拡張チャットパレットを開く
+                }}
+                >
+                    拡張チャットパレット
+                </MenuItem>
+            </ThemeProvider>
+            <ExChatPaletteView/>
+        </div>
     );
 }

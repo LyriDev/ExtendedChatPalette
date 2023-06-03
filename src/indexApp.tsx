@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import "./style/app.scss"
-import { PaletteWindowProvider } from "./providers/App/PaletteWindowProvider"
+import Providers from "./providers/App/Providers"
 import HamburgerListTab from "./components/App/HamburgerListTab"
 import ExChatPaletteButton from "./components/App/ExChatPaletteButton"
 
@@ -35,9 +35,9 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
 
     ReactDOM.render(
         <React.StrictMode>
-            <PaletteWindowProvider>
+            <Providers>
                 <ExChatPaletteButton isActive={isButtonEnable} />
-            </PaletteWindowProvider>
+            </Providers>
         </React.StrictMode>,
         container
     );
@@ -90,9 +90,9 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
                     MyCharacterColumn.before(container)
                     ReactDOM.render(
                         <React.StrictMode>
-                            <PaletteWindowProvider>
+                            <Providers>
                                 <HamburgerListTab />
-                            </PaletteWindowProvider>
+                            </Providers>
                         </React.StrictMode>,
                         container
                     );

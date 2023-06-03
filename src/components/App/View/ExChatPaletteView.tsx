@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import ReactDOM from 'react-dom';
 import Draggable, { DraggableEvent, DraggableData } from 'react-draggable';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -70,42 +71,47 @@ export default function ExChatPaletteView() {
         console.log("menuVisible_ExChatPaletteView",menuVisible)
     }, [menuVisible]);
 
+    const portal: HTMLElement = document.getElementById("portal-root-ExtendedChatPalette") || document.createElement("div")
+
     return (
-        <div>
-            <Draggable
-            position={{x: coordinateX, y: coordinateY}}
-            onDrag={handleDrag}
-            onStart={() => {setIsDragging(true)}}
-            onStop={() => {setIsDragging(false)}}
-            handle="#drag-handle"
-            >
-                <div
-                style={{
-                    visibility: menuVisible ? "visible" : "hidden",
-                    position: "absolute",
-                    color: "#fff",
-                    backgroundColor: 'rgba(44, 44, 44, 0.87)',
-                    minWidth: "320px",
-                    minHeight: "280px",
-                    boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)"
-                }}
+        ReactDOM.createPortal(
+            <div>
+                <Draggable
+                position={{x: coordinateX, y: coordinateY}}
+                onDrag={handleDrag}
+                onStart={() => {setIsDragging(true)}}
+                onStop={() => {setIsDragging(false)}}
+                handle="#drag-handle"
                 >
-                    <ThemeProvider theme={theme}>
-                        <Box>
-                            <div>
-                                <HeaderView isDragging={isDragging}/>
-                                {/* <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} /> */}
-                            </div>
-                            {/* <TabsContent focusIndex={focusIndex}/> */}
-                        </Box>
-                    </ThemeProvider>
-                </div>
-            </Draggable>
-            {resource?.Modal && (
-                <resource.Modal>
-                    <ExChatPaletteEdit />
-                </resource.Modal>
-            )}
-    </div>
+                    <div
+                    style={{
+                        visibility: menuVisible ? "visible" : "hidden",
+                        position: "absolute",
+                        color: "#fff",
+                        backgroundColor: 'rgba(44, 44, 44, 0.87)',
+                        minWidth: "320px",
+                        minHeight: "280px",
+                        boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)"
+                    }}
+                    >
+                        <ThemeProvider theme={theme}>
+                            <Box>
+                                <div>
+                                    <HeaderView isDragging={isDragging}/>
+                                    {/* <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} /> */}
+                                </div>
+                                {/* <TabsContent focusIndex={focusIndex}/> */}
+                            </Box>
+                        </ThemeProvider>
+                    </div>
+                </Draggable>
+                {resource?.Modal && (
+                    <resource.Modal>
+                        <ExChatPaletteEdit />
+                    </resource.Modal>
+                )}
+            </div>,
+            portal
+        )
     );
 }
