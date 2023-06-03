@@ -1,18 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 export default function FrameBox() {
-    const [isResizing, setIsResizing] = useState(false);
+    const isResizingRef = useRef(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        setIsResizing(true);
+        isResizingRef.current = true;
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
-        console.log("handleMouseDown")
+        // console.log("handleMouseDown")
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-        if (isResizing && containerRef.current) {
+        if (isResizingRef.current && containerRef.current) {
         const containerRect = containerRef.current.getBoundingClientRect();
         const { clientX, clientY } = e;
 
@@ -25,14 +25,14 @@ export default function FrameBox() {
         containerRef.current.style.height = `${newHeight}px`;
         console.log(`width:${newWidth}px, height:${newHeight}px`)
         }
-        console.log("handleMouseMove\n","isResizing:",isResizing,"\ncontainerRef.current:",containerRef.current)
+        // console.log("handleMouseMove\n","isResizingRef.current:",isResizingRef.current,"\ncontainerRef.current:",containerRef.current)
     };
 
     const handleMouseUp = () => {
-        setIsResizing(false);
+        isResizingRef.current = false;
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
-        console.log("handleMouseUp")
+        // console.log("handleMouseUp")
     };
 
     return (
