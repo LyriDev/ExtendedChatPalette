@@ -33,6 +33,8 @@ export default function FrameBox(props: MyProps) {
 
         // マウスカーソルがリサイズのためにmoveしたときの処理
         function handleMouseMove(mouseEvent: MouseEvent){
+            console.log(directions)
+
             const minWidth: number = 320; // メニューのmin-width
             const minHeight: number = 280; // メニューのmin-height
             if (containerRect) {
@@ -40,58 +42,25 @@ export default function FrameBox(props: MyProps) {
 
                 let newWidth: number | undefined
                 let newHeight: number | undefined
-                let calculatedWidth: number | undefined
-                let calculatedHeight: number | undefined
                 let newPositionX: number | undefined
                 let newPositionY: number | undefined
 
-                // 左右方向のリサイズ処理
-                if(directions.includes("right")){
-                    calculatedWidth = clientX - containerRect.left
-                    // minWidthよりcalculatedWidthが大きいときのみリサイズする
-                    if(minWidth < calculatedWidth){
-                        newWidth = calculatedWidth;
-                    }else{
-                        newWidth = minWidth;
-                    }
-                }else if(directions.includes("left")){
-                    calculatedWidth = width + (initialX - clientX)
-                    // minWidthよりcalculatedWidthが大きいときのみリサイズする
-                    if(minWidth < calculatedWidth){
-                        newWidth = calculatedWidth;
-                        newPositionX = clientX; // 位置も更新する
-                    }else{
-                        newWidth = minWidth;
-                        newPositionX = initialX;
-                    }
+                // 左右方向のリサイズ処理 (minWidthより大きいときのみリサイズする)
+                if(directions.includes("right") && clientX <= window.innerWidth){
+                    newWidth = Math.max(clientX - containerRect.left, minWidth);
+                }else if(directions.includes("left") && clientX >= 0){
+                    newWidth = Math.max(width + (initialX - clientX), minWidth);
+                    newPositionX = newWidth === minWidth ? initialX : clientX;
                 }
-                // 上下方向のリサイズ処理
-                if(directions.includes("bottom")){
-                    calculatedHeight = height + (clientY - containerRect.top);
-                    // minHeightよりcalculatedHeightが大きいときのみリサイズする
-                    if(minHeight < calculatedHeight){
-                        newHeight = calculatedHeight;
-                    }else{
-                        newHeight = minHeight;
-                    }
-                }else if(directions.includes("top")){
-                    calculatedHeight = initialY - clientY
-                    // minWidthよりcalculatedWidthが大きいときのみリサイズする
-                    if(minHeight < calculatedHeight){
-                        newHeight = calculatedHeight;
-                        // newPositionY = clientY - window.innerHeight; // 位置も更新する
-                    }else{
-                        newHeight = minHeight;
-                        // newPositionY = initialY;
-                    }
-                    console.log(
-`positionY:${positionY}
-(clientY - window.innerHeight):(${clientY} - ${window.innerHeight}) -> ${clientY - window.innerHeight}
-(initialY - window.innerHeight):(${initialY} - ${window.innerHeight}) -> ${initialY - window.innerHeight}`
-)
-                    // console.log(`height:${newHeight}\ncalculatedHeight: ${initialY - clientY}\n\ninitialY - clientY\n${initialY} - ${clientY}\n\npositionY:${positionY}\n-clientY:-${clientY}`)
+                // 上下方向のリサイズ処理 (minHeightより大きいときのみリサイズする)
+                if(directions.includes("bottom") && clientY <= window.innerHeight){
+                    newHeight = Math.max(height + (clientY - containerRect.top), minHeight);
+                }else if(directions.includes("top") && clientY >= 0){
+                    newHeight = Math.max(initialY - clientY, minHeight);
+                    newPositionY = newHeight === minHeight ? initialY - window.innerHeight - height : clientY - window.innerHeight;
                 }
 
+                // 計算した値を適用する
                 if(newWidth) setWidth(newWidth);
                 if(newPositionX) setPositionX(newPositionX);
                 if(newHeight) setHeight(newHeight);
@@ -199,8 +168,11 @@ export default function FrameBox(props: MyProps) {
                 right: '-10px',
                 top: '-10px',
                 cursor: 'ne-resize',
+                backgroundColor: "#7f7f00"
             }}
-            // onMouseDown={handleMouseDown}
+            onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                handleMouseDown(event, ["right", "top"])
+            }}
         />
         <div // 右下
             className="draggable-disable resize-right resize-bottom"
@@ -212,8 +184,11 @@ export default function FrameBox(props: MyProps) {
                 right: '-10px',
                 bottom: '-10px',
                 cursor: 'nw-resize',
+                backgroundColor: "#ff7f00"
             }}
-            // onMouseDown={handleMouseDown}
+            onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                handleMouseDown(event, ["right", "bottom"])
+            }}
         />
         <div // 左下
             className="draggable-disable resize-left resize-bottom"
@@ -225,8 +200,11 @@ export default function FrameBox(props: MyProps) {
                 left: '-10px',
                 bottom: '-10px',
                 cursor: 'ne-resize',
+                backgroundColor: "#7f7f7f"
             }}
-            // onMouseDown={handleMouseDown}
+            onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                handleMouseDown(event, ["left", "bottom"])
+            }}
         />
         <div // 左上
             className="draggable-disable resize-left resize-top"
@@ -238,8 +216,11 @@ export default function FrameBox(props: MyProps) {
                 left: '-10px',
                 top: '-10px',
                 cursor: 'nw-resize',
+                backgroundColor: "#007f7f"
             }}
-            // onMouseDown={handleMouseDown}
+            onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                handleMouseDown(event, ["left", "top"])
+            }}
         />
         </span>
     );
