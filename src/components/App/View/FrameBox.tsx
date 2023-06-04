@@ -134,8 +134,7 @@ positionY:${positionY}`
                 height: '10px',
                 top: '-5px',
                 left: '0px',
-                cursor: 'row-resize',
-                backgroundColor: "green"
+                cursor: 'row-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["top"])
@@ -150,8 +149,7 @@ positionY:${positionY}`
                 height: '100%',
                 top: '0px',
                 right: '-5px',
-                cursor: 'col-resize',
-                backgroundColor: "red"
+                cursor: 'col-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["right"])
@@ -166,8 +164,7 @@ positionY:${positionY}`
                 height: '10px',
                 bottom: '-5px',
                 left: '0px',
-                cursor: 'row-resize',
-                backgroundColor: "yellow"
+                cursor: 'row-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["bottom"])
@@ -182,8 +179,7 @@ positionY:${positionY}`
                 height: '100%',
                 top: '0px',
                 left: '-5px',
-                cursor: 'col-resize',
-                backgroundColor: "blue"
+                cursor: 'col-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["left"])
@@ -198,8 +194,7 @@ positionY:${positionY}`
                 height: '20px',
                 right: '-10px',
                 top: '-10px',
-                cursor: 'ne-resize',
-                backgroundColor: "#7f7f00"
+                cursor: 'ne-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["right", "top"])
@@ -214,8 +209,7 @@ positionY:${positionY}`
                 height: '20px',
                 right: '-10px',
                 bottom: '-10px',
-                cursor: 'nw-resize',
-                backgroundColor: "#ff7f00"
+                cursor: 'nw-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["right", "bottom"])
@@ -230,8 +224,7 @@ positionY:${positionY}`
                 height: '20px',
                 left: '-10px',
                 bottom: '-10px',
-                cursor: 'ne-resize',
-                backgroundColor: "#7f7f7f"
+                cursor: 'ne-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["left", "bottom"])
@@ -246,8 +239,7 @@ positionY:${positionY}`
                 height: '20px',
                 left: '-10px',
                 top: '-10px',
-                cursor: 'nw-resize',
-                backgroundColor: "#007f7f"
+                cursor: 'nw-resize'
             }}
             onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
                 handleMouseDown(event, ["left", "top"])
