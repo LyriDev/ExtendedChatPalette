@@ -63,10 +63,6 @@ export default function ExChatPaletteView() {
         }
     },[menuVisible])
 
-    React.useEffect(()=>{
-        // console.log("width:",width,"height:",height)
-    },[width,height])
-
     const [isDragging, setIsDragging] = useState<boolean>(false); // 拡張チャットパレットをドラッグしているかどうか
 
     const [focusIndex, setFocusIndex] = useState<number>(0); // フォーカスしているタブのindex(View用)
@@ -114,7 +110,7 @@ export default function ExChatPaletteView() {
                                         <HeaderView/>
                                         <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                                     </div>
-                                    <ChatPaletteList focusIndex={focusIndex}/>
+                                    <ChatPaletteList focusIndex={focusIndex} width={width} height={height}/>
                                 </Box>
                             </ThemeProvider>
                             <FrameBox

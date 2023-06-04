@@ -31,13 +31,6 @@ export default function FrameBox(props: MyProps) {
         const initialX: number = containerRect?.right || 0;
         const initialY: number = containerRect?.bottom || 0;
 
-        console.log(
-`initialX:${initialX}
-initialY:${initialY}
-positionX:${positionX}
-positionY:${positionY}`
-)
-
         let count: number = 0
 
         // マウスカーソルがリサイズのためにmoveしたときの処理
