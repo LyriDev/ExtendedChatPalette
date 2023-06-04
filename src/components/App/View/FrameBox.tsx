@@ -11,7 +11,7 @@ interface MyProps {
     setPositionY: React.Dispatch<React.SetStateAction<number>>;
 }
 export default function FrameBox(props: MyProps) {
-    const { width, setWidth, height, setHeight } = props;
+    const { width, setWidth, height, setHeight, positionX, setPositionX, positionY, setPositionY } = props;
 
     const isResizingRef = useRef(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -32,24 +32,28 @@ export default function FrameBox(props: MyProps) {
 
             // Calculate new width and height based on the mouse position
             if (e.target instanceof HTMLElement) {
+                // 左右方向のリサイズ処理
                 if (e.target.className.includes('resize-right')) {
                     newWidth = clientX - containerRect.left;
+                    console.log(`resize-right\nclientX - containerRect.left\n${clientX} - ${containerRect.left}\nnewWidth:${newWidth}`)
                 } else if (e.target.className.includes('resize-left')) {
                     newWidth = containerRect.right - clientX;
+                    console.log(`resize-left\ncontainerRect.right - clientX\n${containerRect.right} - ${clientX}\nnewWidth:${newWidth}`)
                 }
-
+                // 上下方向のリサイズ処理
                 if (e.target.className.includes('resize-bottom')) {
                     newHeight = clientY - containerRect.top;
-                    console.log(`clientY - containerRect.top\n${clientY} - ${containerRect.top}`)
+                    console.log(`resize-bottom\nclientY - containerRect.top\n${clientY} - ${containerRect.top}\nnewHeight:${newHeight}`)
                 } else if (e.target.className.includes('resize-top')) {
                     newHeight = containerRect.bottom - clientY;
+                    console.log(`resize-top\ncontainerRect.bottom - clientY\n${containerRect.bottom} - ${clientY}\nnewHeight:${newHeight}`)
                 }
             }
 
             // Set the new width and height
             setWidth(newWidth);
             setHeight(newHeight);
-            console.log("newWidth:",newWidth,"newHeight:",newHeight,"\nclientX:",clientX,"clientY:",clientY)
+            // console.log("newWidth:",newWidth,"newHeight:",newHeight,"\nclientX:",clientX,"clientY:",clientY)
         }
     };
 
