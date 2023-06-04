@@ -16,12 +16,11 @@ body{
     #portal-root-ExtendedChatPalette{
         position: relative;
         z-index: 1202;
-/*         div:has(.viewMenu) {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center; 
-        } */
+        .palette-table{
+            tr > td:nth-child(1) {
+                width: 50px;
+            }
+        }
     }
 }
 
