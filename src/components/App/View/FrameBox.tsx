@@ -61,8 +61,14 @@ positionY:${positionY}`
                     if(directions.includes("right")){
                         newWidth = Math.max(clientX - containerRect.left, minWidth);
                     }else if(directions.includes("left")){
-                        newWidth = Math.max(width + (initialX - clientX), minWidth);
-                        newPositionX = ((newWidth <= minWidth) ? initialX : clientX);
+                        const calculatedWidth: number = width + initialX - clientX;
+                        if(calculatedWidth > minWidth){
+                            newWidth = calculatedWidth;
+                            newPositionX = clientX;
+                        }else{
+                            newWidth = minWidth;
+                            newPositionX = initialX;
+                        }
                     }
                 }
                 // 上下方向のリサイズ処理 (minHeightより大きいときのみリサイズする)
@@ -70,11 +76,18 @@ positionY:${positionY}`
                     if(directions.includes("bottom")){
                         newHeight = Math.max(height + (clientY - containerRect.top), minHeight);
                     }else if(directions.includes("top")){
-                        newHeight = Math.max(initialY - clientY, minHeight);
-                        newPositionY = ((newHeight <= minHeight) ? (initialY - window.innerHeight - height) : (clientY - window.innerHeight));
+                        const calculatedHeight: number = initialY - clientY;
+                        const adjustedInitialY: number = initialY - window.innerHeight - height;
+                        const adjustedClientY: number = clientY - window.innerHeight;
+                        if(calculatedHeight > minHeight){
+                            newHeight = calculatedHeight;
+                            newPositionY = adjustedClientY;
+                        }else{
+                            newHeight = minHeight;
+                            newPositionY = adjustedInitialY;
+                        }
                     }
                 }
-                console.log(`newPositionY:${newPositionY}`)
 
                 // 計算した値を適用する
                 if(newWidth) setWidth(newWidth);
