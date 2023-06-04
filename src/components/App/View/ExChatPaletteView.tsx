@@ -64,7 +64,7 @@ export default function ExChatPaletteView() {
     },[menuVisible])
 
     React.useEffect(()=>{
-        // console.log("width:",width,"height:",height)
+        console.log("width:",width,"height:",height)
     },[width,height])
 
     const [isDragging, setIsDragging] = useState<boolean>(false); // 拡張チャットパレットをドラッグしているかどうか

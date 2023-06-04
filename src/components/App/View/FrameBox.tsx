@@ -24,19 +24,16 @@ export default function FrameBox(props: MyProps) {
 
     const handleMouseMove = (e: MouseEvent) => {
         if (isResizingRef.current && containerRef.current) {
-            console.log("true\nisResizingRef.current:",isResizingRef.current,"\ncontainerRef.current:",containerRef.current)
+            // console.log("true\nisResizingRef.current:",isResizingRef.current,"\ncontainerRef.current:",containerRef.current)
             const containerRect = containerRef.current.getBoundingClientRect();
             const { clientX, clientY } = e;
-
-            let newWidth = width;
-            let newHeight = height;
 
             // Calculate new width and height based on the mouse position
             if (e.target instanceof HTMLElement) {
                 // 左右方向のリサイズ処理
                 if (e.target.className.includes('resize-right')) {
-                    newWidth = clientX - containerRect.left;
-                    // console.log(`resize-right\nclientX - containerRect.left\n${clientX} - ${containerRect.left}\nnewWidth:${newWidth}`)
+                    setWidth(clientX - containerRect.left)
+                    console.log(`resize-right\nclientX - containerRect.left\n${clientX} - ${containerRect.left}\nnewWidth:${clientX - containerRect.left}`)
                 } else if (e.target.className.includes('resize-left')) {
                     // newWidth = containerRect.right - clientX;
                     // setPositionX(positionX + (width - newWidth)); // 位置も更新する
@@ -51,13 +48,12 @@ export default function FrameBox(props: MyProps) {
                     // setPositionY(positionY + (height - newHeight)); // 位置も更新する
                     // console.log(`resize-top\ncontainerRect.bottom - clientY\n${containerRect.bottom} - ${clientY}\nnewHeight:${newHeight}`)
                 }
+                // Set the new width and height
+                // setWidth(newWidth);
+                // setHeight(newHeight);
             }
-
-            // Set the new width and height
-            setWidth(newWidth);
-            setHeight(newHeight);
         }else{
-            console.log("false\nisResizingRef.current:",isResizingRef.current,"\ncontainerRef.current:",containerRef.current)
+            // console.log("false\nisResizingRef.current:",isResizingRef.current,"\ncontainerRef.current:",containerRef.current)
         }
     };
 
