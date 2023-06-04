@@ -33,7 +33,8 @@ export default function FrameBox(props: MyProps) {
                 // 左右方向のリサイズ処理
                 if (e.target.className.includes('resize-right')) {
                     setWidth(clientX - containerRect.left)
-                    console.log(`resize-right\nclientX - containerRect.left\n${clientX} - ${containerRect.left}\nnewWidth:${clientX - containerRect.left}`)
+                    console.log("handleMouseMove")
+                    // console.log(`resize-right\nclientX - containerRect.left\n${clientX} - ${containerRect.left}\nnewWidth:${clientX - containerRect.left}`)
                 } else if (e.target.className.includes('resize-left')) {
                     // newWidth = containerRect.right - clientX;
                     // setPositionX(positionX + (width - newWidth)); // 位置も更新する
@@ -62,6 +63,14 @@ export default function FrameBox(props: MyProps) {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
     };
+
+    React.useEffect(() => {
+        return () => {
+            // コンポーネントがアンマウントされる際にもイベントリスナーをクリーンアップする
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, []);
 
     return (
         <span ref={containerRef}>
