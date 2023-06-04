@@ -31,9 +31,20 @@ export default function FrameBox(props: MyProps) {
         const initialX: number = containerRect?.right || 0;
         const initialY: number = containerRect?.bottom || 0;
 
+        console.log(
+`initialX:${initialX}
+initialY:${initialY}
+positionX:${positionX}
+positionY:${positionY}`
+)
+
+        let count: number = 0
+
         // マウスカーソルがリサイズのためにmoveしたときの処理
         function handleMouseMove(mouseEvent: MouseEvent){
-            console.log(directions)
+            // mousemoveの10回に1回リサイズを実行する
+            count++;
+            if(count % 10 !== 0) return;
 
             const minWidth: number = 320; // メニューのmin-width
             const minHeight: number = 280; // メニューのmin-height
@@ -46,25 +57,32 @@ export default function FrameBox(props: MyProps) {
                 let newPositionY: number | undefined
 
                 // 左右方向のリサイズ処理 (minWidthより大きいときのみリサイズする)
-                if(directions.includes("right") && clientX <= window.innerWidth){
-                    newWidth = Math.max(clientX - containerRect.left, minWidth);
-                }else if(directions.includes("left") && clientX >= 0){
-                    newWidth = Math.max(width + (initialX - clientX), minWidth);
-                    newPositionX = newWidth === minWidth ? initialX : clientX;
+                if((clientX > 0) && (clientX <= window.innerWidth)){
+                    if(directions.includes("right")){
+                        newWidth = Math.max(clientX - containerRect.left, minWidth);
+                    }else if(directions.includes("left")){
+                        newWidth = Math.max(width + (initialX - clientX), minWidth);
+                        newPositionX = ((newWidth <= minWidth) ? initialX : clientX);
+                    }
                 }
                 // 上下方向のリサイズ処理 (minHeightより大きいときのみリサイズする)
-                if(directions.includes("bottom") && clientY <= window.innerHeight){
-                    newHeight = Math.max(height + (clientY - containerRect.top), minHeight);
-                }else if(directions.includes("top") && clientY >= 0){
-                    newHeight = Math.max(initialY - clientY, minHeight);
-                    newPositionY = newHeight === minHeight ? initialY - window.innerHeight - height : clientY - window.innerHeight;
+                if((clientY > 0) && (clientY <= window.innerHeight)){
+                    if(directions.includes("bottom")){
+                        newHeight = Math.max(height + (clientY - containerRect.top), minHeight);
+                    }else if(directions.includes("top")){
+                        newHeight = Math.max(initialY - clientY, minHeight);
+                        newPositionY = ((newHeight <= minHeight) ? (initialY - window.innerHeight - height) : (clientY - window.innerHeight));
+                    }
                 }
+                console.log(`newPositionY:${newPositionY}`)
 
                 // 計算した値を適用する
                 if(newWidth) setWidth(newWidth);
                 if(newPositionX) setPositionX(newPositionX);
                 if(newHeight) setHeight(newHeight);
                 if(newPositionY) setPositionY(newPositionY);
+
+                count = 0;
             }
         };
 
