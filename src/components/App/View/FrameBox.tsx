@@ -15,111 +15,105 @@ interface MyProps {
 export default function FrameBox(props: MyProps) {
     const { width, setWidth, height, setHeight, positionX, setPositionX, positionY, setPositionY } = props;
 
-    const isResizingRef = useRef(false);
-    const containerRef = useRef<HTMLDivElement>(null);
+    // リサイズのために必要なref群
+    const isResizingRef = useRef(false); // 「リサイズ処理中かどうか」を保管するためのref
+    const containerRef = useRef<HTMLDivElement>(null); // 「四隅と上下左右の端に置かれたリサイズ用の要素の親要素」を保管するためのref
+    const handleMouseMoveRef = useRef<(event: MouseEvent) => void>(); // 「マウスカーソルがリサイズのためにmousedownしたときの処理」を保管するためのref
 
+    // 「マウスカーソルがリサイズのためにmousedownしたときの処理」
     function handleMouseDown(e: React.MouseEvent<HTMLDivElement>, directions: Directions){
         if(isResizingRef.current) return; //既に他のリサイズ要素が処理中なら、処理をやめる
-        console.log("handleMouseDown\n","directions:",directions)
+        // 「リサイズ中かどうか」をtrueにしておく
         isResizingRef.current = true;
+        // 「四隅と上下左右の端に置かれたリサイズ用の要素の親要素」のtopとかleftとか
         const containerRect = containerRef.current?.getBoundingClientRect();
+        // マウスカーソルがリサイズのためにmoveを始めたときの、要素の初期位置
         const initialX: number = containerRect?.right || 0;
-        const initialY: number = positionY;
+        const initialY: number = containerRect?.bottom || 0;
+
+        // マウスカーソルがリサイズのためにmoveしたときの処理
+        function handleMouseMove(mouseEvent: MouseEvent){
+            const minWidth: number = 320; // メニューのmin-width
+            const minHeight: number = 280; // メニューのmin-height
+            if (containerRect) {
+                const { clientX, clientY } = mouseEvent; // マウスカーソルの位置
+
+                let newWidth: number | undefined
+                let newHeight: number | undefined
+                let calculatedWidth: number | undefined
+                let calculatedHeight: number | undefined
+                let newPositionX: number | undefined
+                let newPositionY: number | undefined
+
+                // 左右方向のリサイズ処理
+                if(directions.includes("right")){
+                    calculatedWidth = clientX - containerRect.left
+                    // minWidthよりcalculatedWidthが大きいときのみリサイズする
+                    if(minWidth < calculatedWidth){
+                        newWidth = calculatedWidth;
+                    }else{
+                        newWidth = minWidth;
+                    }
+                }else if(directions.includes("left")){
+                    calculatedWidth = width + (initialX - clientX)
+                    // minWidthよりcalculatedWidthが大きいときのみリサイズする
+                    if(minWidth < calculatedWidth){
+                        newWidth = calculatedWidth;
+                        newPositionX = clientX; // 位置も更新する
+                    }else{
+                        newWidth = minWidth;
+                        newPositionX = initialX;
+                    }
+                }
+                // 上下方向のリサイズ処理
+                if(directions.includes("bottom")){
+                    calculatedHeight = height + (clientY - containerRect.top);
+                    // minHeightよりcalculatedHeightが大きいときのみリサイズする
+                    if(minHeight < calculatedHeight){
+                        newHeight = calculatedHeight;
+                    }else{
+                        newHeight = minHeight;
+                    }
+                }else if(directions.includes("top")){
+                    calculatedHeight = initialY - clientY
+                    // minWidthよりcalculatedWidthが大きいときのみリサイズする
+                    if(minHeight < calculatedHeight){
+                        newHeight = calculatedHeight;
+                        // newPositionY = clientY - window.innerHeight; // 位置も更新する
+                    }else{
+                        newHeight = minHeight;
+                        // newPositionY = initialY;
+                    }
+                    console.log(
+`positionY:${positionY}
+(clientY - window.innerHeight):(${clientY} - ${window.innerHeight}) -> ${clientY - window.innerHeight}
+(initialY - window.innerHeight):(${initialY} - ${window.innerHeight}) -> ${initialY - window.innerHeight}`
+)
+                    // console.log(`height:${newHeight}\ncalculatedHeight: ${initialY - clientY}\n\ninitialY - clientY\n${initialY} - ${clientY}\n\npositionY:${positionY}\n-clientY:-${clientY}`)
+                }
+
+                if(newWidth) setWidth(newWidth);
+                if(newPositionX) setPositionX(newPositionX);
+                if(newHeight) setHeight(newHeight);
+                if(newPositionY) setPositionY(newPositionY);
+            }
+        };
+
+        // 作った「マウスカーソルがリサイズのためにmousedownしたときの処理」をeventListenerに登録していく
+        handleMouseMoveRef.current = handleMouseMove; // 「マウスカーソルがリサイズのためにmousedownしたときの処理」を保管する
         document.addEventListener('mousemove', (mouseEvent: MouseEvent) => {
-            handleMouseMove(mouseEvent, directions, initialX, initialY)
+            // 保管した「マウスカーソルがリサイズのためにmousedownしたときの処理」をeventListenerに登録する
+            handleMouseMoveRef.current?.(mouseEvent);
         });
+        // 「mouseupされたら『マウスカーソルがリサイズのためにmousedownしたときの処理』を削除する処理」を、eventListenerに登録する
         document.addEventListener('mouseup', handleMouseUp);
     };
 
-    function handleMouseMove(mouseEvent: MouseEvent, directions: Directions = [], initialX: number = 0, initialY: number = 0){
-        console.log("handleMouseMove\n","directions:",directions)
-        const minWidth: number = 320;
-        const minHeight: number = 280;
-        if (isResizingRef.current && containerRef.current) {
-            const containerRect = containerRef.current.getBoundingClientRect();
-            const { clientX, clientY } = mouseEvent;
-
-            let newWidth: number | undefined
-            let newHeight: number | undefined
-            let calculatedWidth: number | undefined
-            let calculatedHeight: number | undefined
-            let newPositionX: number | undefined
-            let newPositionY: number | undefined
-
-            // 左右方向のリサイズ処理
-            if(directions.includes("right")){
-                calculatedWidth = clientX - containerRect.left
-                if(minWidth < calculatedWidth){
-                    newWidth = calculatedWidth;
-                }else{
-                    newWidth = minWidth;
-                }
-            }else if(directions.includes("left")){
-                calculatedWidth = width + (initialX - clientX)
-                if(minWidth < calculatedWidth){
-                    newWidth = calculatedWidth;
-                    newPositionX = clientX; // 位置も更新する
-                }else{
-                    newWidth = minWidth;
-                    newPositionX = initialX;
-                }
-/*                 console.log(
-                    "containerRect.top:",containerRect.top,
-                    "\ncontainerRect.right:",containerRect.right,
-                    "\ncontainerRect.bottom:",containerRect.bottom,
-                    "\ncontainerRect.left:",containerRect.left,
-                    "\n",
-                    "\nclientX:",clientX,
-                    "\n",
-                    "\nnewWidth:",newWidth,
-                    "\nwidth + (initialX - clientX)\n",`${width} + (${initialX} - ${clientX})`,
-                    "\n",
-                    "\npositionX",positionX,
-                    "\nnewPositionX:",clientX,
-                    "\nclientX\n",`${clientX}`,
-                ) */
-            }
-            // 上下方向のリサイズ処理
-            if(directions.includes("bottom")){
-                // setHeight(clientY - containerRect.top);
-            }else if(directions.includes("top")){
-                // setHeight(clientY - containerRect.top);
-            }
-
-            if(newWidth) setWidth(newWidth);
-            if(newPositionX) setPositionX(newPositionX);
-
-/*             // Calculate new width and height based on the mouse position
-            if (mouseEvent.target instanceof HTMLElement) {
-                // 左右方向のリサイズ処理
-                if (mouseEvent.target.className.includes('resize-right')) {
-                    setWidth(clientX - containerRect.left)
-                    console.log("handleMouseMove")
-                    // console.log(`resize-right\nclientX - containerRect.left\n${clientX} - ${containerRect.left}\nnewWidth:${clientX - containerRect.left}`)
-                } else if (mouseEvent.target.className.includes('resize-left')) {
-                    // newWidth = containerRect.right - clientX;
-                    // setPositionX(positionX + (width - newWidth)); // 位置も更新する
-                    // console.log(`resize-left\ncontainerRect.right - clientX\n${containerRect.right} - ${clientX}\nnewWidth:${newWidth}`)
-                }
-                // 上下方向のリサイズ処理
-                if (mouseEvent.target.className.includes('resize-bottom')) {
-                    // newHeight = clientY - containerRect.top;
-                    // console.log(`resize-bottom\nclientY - containerRect.top\n${clientY} - ${containerRect.top}\nnewHeight:${newHeight}`)
-                } else if (mouseEvent.target.className.includes('resize-top')) {
-                    // newHeight = containerRect.bottom - clientY;
-                    // setPositionY(positionY + (height - newHeight)); // 位置も更新する
-                    // console.log(`resize-top\ncontainerRect.bottom - clientY\n${containerRect.bottom} - ${clientY}\nnewHeight:${newHeight}`)
-                }
-                // Set the new width and height
-                // setWidth(newWidth);
-                // setHeight(newHeight);
-            } */
-        }
-    };
-
-    const handleMouseUp = () => {
+    // 「mouseupされたら『マウスカーソルがリサイズのためにmousedownしたときの処理』を削除する処理」
+    function handleMouseUp(){
         isResizingRef.current = false;
-        document.removeEventListener('mousemove', handleMouseMove);
+        if(handleMouseMoveRef.current) document.removeEventListener('mousemove', handleMouseMoveRef.current);
+        handleMouseMoveRef.current = undefined;
         document.removeEventListener('mouseup', handleMouseUp);
     };
 
@@ -141,8 +135,11 @@ export default function FrameBox(props: MyProps) {
                 top: '-5px',
                 left: '0px',
                 cursor: 'row-resize',
+                backgroundColor: "green"
             }}
-            // onMouseDown={handleMouseDown}
+            onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                handleMouseDown(event, ["top"])
+            }}
         />
         <div // 右
             className="draggable-disable resize-right"
@@ -170,8 +167,11 @@ export default function FrameBox(props: MyProps) {
                 bottom: '-5px',
                 left: '0px',
                 cursor: 'row-resize',
+                backgroundColor: "yellow"
             }}
-            // onMouseDown={handleMouseDown}
+            onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                handleMouseDown(event, ["bottom"])
+            }}
         />
         <div // 左
             className="draggable-disable resize-left"

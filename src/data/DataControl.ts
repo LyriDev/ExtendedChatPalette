@@ -187,38 +187,38 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
                 // まだ行が残っているなら、カーソルを1つ下げる
                 i++
                 line = lines[i]
-                // # か##か---か```で始まる行までカーソルを下げる
+                // # か##か---か`で始まる行までカーソルを下げる
                 // あるいは、最後の行になるまでカーソルを下げる
                 while(i < lines.length - 1){
                     if(line.startsWith('# ')) break
                     if(line.startsWith('##')) break
                     if(line.startsWith('---')) break
-                    if(line.startsWith('```')) break
+                    if(line.startsWith('`')) break
                     i++
                     line = lines[i]
                 }
-                // カーソルが```で始まる行まで下がる前に他の指示があれば、次のセクションに移動する
-                if(!line.startsWith('```')){
+                // カーソルが`で始まる行まで下がる前に他の指示があれば、次のセクションに移動する
+                if(!line.startsWith('`')){
                     chatPalettes.push(currentData)
                     continue chatPaletteLoop
                 }
                 let text = "";
-                if(line.endsWith('```')){ // ```で始まって```で終わる行のとき
-                    text = line.slice(3,-3) // 最初の行の左右を切り抜いて登録する
+                if(line.endsWith('`')){ // `で始まって`で終わる行のとき
+                    text = line.slice(1,-1) // 最初の行の左右を切り抜いて登録する
                 }else{
-                    text = line.slice(3) // 最初の行の左を切り抜いて登録する
-                    // 次の```で終わる行までカーソルを下げる
+                    text = line.slice(1) // 最初の行の左を切り抜いて登録する
+                    // 次の`で終わる行までカーソルを下げる
                     while(i < lines.length -1){
-                        if(line.endsWith('```')) break
+                        if(line.endsWith('`')) break
                         //1行分カーソルを進める
                         i++
                         line = lines[i]
-                        if(line.endsWith('```')) break // まだテキストが```で終わっていない場合
-                        text += "\n" + line // ```間のテキストをメッセージとして登録する
+                        if(line.endsWith('`')) break // まだテキストが`で終わっていない場合
+                        text += "\n" + line // `間のテキストをメッセージとして登録する
                     }
-                    if(line.endsWith('```')){
-                        text += "\n" + line.slice(0,-3); // 最後の行の右を切り抜いて登録する
-                    }else{ // ```で終わらずにテキストが終わった場合
+                    if(line.endsWith('`')){
+                        text += "\n" + line.slice(0,-1); // 最後の行の右を切り抜いて登録する
+                    }else{ // `で終わらずにテキストが終わった場合
                         text += "\n" + line
                     }
                 }
