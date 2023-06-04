@@ -110,6 +110,7 @@ export default function ExChatPaletteView() {
                         >
                             <ThemeProvider theme={theme}>
                                 <Box style={{height: "100%"}}>
+                                    width:{width} height:{height}
                                     <div  className="MuiPaper-elevation4">
                                         <HeaderView/>
                                         <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
