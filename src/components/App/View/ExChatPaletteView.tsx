@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import Draggable from 'react-draggable';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -54,6 +54,19 @@ export default function ExChatPaletteView() {
     const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null) // メニューのref
     const [width, setWidth] = useState<number>(320);
     const [height, setHeight] = useState<number>(280);
+    const [positionX, setPositionX] = useState<number>((window.innerWidth - width) / 2);
+    const [positionY, setPositionY] = useState<number>(-(window.innerHeight + height) / 2 );
+    useEffect(()=>{ // メニューが非表示になったら、メニューを初期位置(画面中央)に戻しておく
+        if(!menuVisible){
+            setPositionX((window.innerWidth - width) / 2);
+            setPositionY(-(window.innerHeight + height) / 2);
+        }
+    },[menuVisible])
+
+    React.useEffect(()=>{
+        console.log("width:",width,"height:",height)
+    },[width,height])
+
     const [isDragging, setIsDragging] = useState<boolean>(false); // 拡張チャットパレットをドラッグしているかどうか
 
     const [focusIndex, setFocusIndex] = useState<number>(0); // フォーカスしているタブのindex(View用)
@@ -65,21 +78,23 @@ export default function ExChatPaletteView() {
             menuVisible && (
                 <div>
                     <Draggable
-                    defaultPosition={{x: (window.innerWidth-width)/2, y: -(window.innerHeight+height)/2}}
+                    position={{x: positionX, y: positionY}}
+                    onDrag={(event, data) => {
+                        setPositionX(data.x);
+                        setPositionY(data.y);
+                    }}
                     bounds={{
                         top: -window.innerHeight,
                         right: (window.innerWidth-width),
                         bottom: -height,
                         left: 0
                     }}
-                    // onDrag={(event: DraggableEvent, data: DraggableData)=>{console.log("x",data.x,"y",data.y,"\ninnerWidth",window.innerWidth,"innerHeight",window.innerHeight)}}
                     onStart={() => {setIsDragging(true)}}
                     onStop={() => {setIsDragging(false)}}
                     cancel=".draggable-disable"
                     >
                         <div
                         ref={menuRef}
-                        // onClick={()=>console.log("menuWidth:"+menuWidth+"\nmenuHeight"+menuHeight)}
                         style={{
                             position: "absolute",
                             color: "#fff",
@@ -102,7 +117,10 @@ export default function ExChatPaletteView() {
                                     <ChatPaletteList focusIndex={focusIndex}/>
                                 </Box>
                             </ThemeProvider>
-                            <FrameBox width={width} setWidth={setWidth} height={height} setHeight={setHeight}/>
+                            <FrameBox
+                            width={width} setWidth={setWidth} height={height} setHeight={setHeight}
+                            positionX={positionY} setPositionX={setPositionX} positionY={positionY} setPositionY={setPositionY}
+                            />
                         </div>
                     </Draggable>
                     {resource?.Modal && (
