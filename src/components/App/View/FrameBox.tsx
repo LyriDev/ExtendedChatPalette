@@ -67,7 +67,7 @@ positionY:${positionY}`
                             newPositionX = clientX;
                         }else{
                             newWidth = minWidth;
-                            newPositionX = initialX;
+                            newPositionX = initialX + (width - minWidth);
                         }
                     }
                 }
@@ -84,7 +84,7 @@ positionY:${positionY}`
                             newPositionY = adjustedClientY;
                         }else{
                             newHeight = minHeight;
-                            newPositionY = adjustedInitialY;
+                            newPositionY = adjustedInitialY + (height - minHeight);
                         }
                     }
                 }
