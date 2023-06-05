@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Add from "../../../svg/Add"
+import Triangle from "../../../svg/Triangle"
 import { TabNameContext } from "../../../providers/App/TabNameProvider"
 import { TextContext } from "../../../providers/App/TextProvider"
 import DropDownMenu from "./DropDownMenu"
@@ -150,7 +151,12 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                                 }}
                                 />
                             ) : (
-                                tabName
+                                <span>
+                                    <span>tabName</span>
+                                    {(focusIndex === index) && (
+                                        <Triangle/>
+                                    )}
+                                </span>
                             )
                         }
                         {...a11yProps(index)}
