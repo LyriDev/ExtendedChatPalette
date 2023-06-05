@@ -140,7 +140,13 @@ export default function ChatPaletteList({focusIndex, width, height}: {focusIndex
                                                         </NameTd>
                                                     )}
                                                     <MessageTd>
-                                                        {message}
+                                                        <div
+                                                        style={{
+                                                            whiteSpace: "pre-wrap"
+                                                        }}
+                                                        >
+                                                            {message}
+                                                        </div>
                                                     </MessageTd>
                                                 </tr>
                                             ))
