@@ -1,1 +1,1 @@
-body{background-color:#202020;color:#fff}body .App{width:fit-content}body .App h3{white-space:nowrap}body .App table{margin:10px auto;background-color:#2a2a2a;border-collapse:collapse}body .App table th,body .App table td{padding:10px;border:solid 1px #fff}
+body{background-color:#202020;color:#fff}body .App{width:fit-content}body .App h3{white-space:nowrap}body .App table{margin:10px auto;background-color:#2a2a2a;border-collapse:collapse}body .App table tr{border:solid 1px #fff}body .App table th,body .App table td{padding:10px;white-space:nowrap}

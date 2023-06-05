@@ -10,9 +10,12 @@ body{
             margin: 10px auto;
             background-color: #2a2a2a;
             border-collapse:  collapse;
+            tr{
+                border: solid 1px white;
+            }
             th,td {
                 padding: 10px;
-                border: solid 1px white;
+                white-space: nowrap;
             }
         }
     }

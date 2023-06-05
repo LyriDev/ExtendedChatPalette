@@ -1,8 +1,17 @@
 import React from 'react';
 import { useState, useEffect } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { getData, getSettings, deleteData, getBytes } from '../../data/DataControl';
-import { Data, Settings } from "./../../data/DataModel"
+import { Data } from "./../../data/DataModel"
 import TableRow from "./TableRow"
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#fff" // プライマリーカラーを白色に設定
+        }
+    }
+});
 
 export default function Popup() {
     const [enableExDodge, setEnableExDodge] = useState<boolean>(true); // 拡張回避の設定データ
@@ -10,33 +19,31 @@ export default function Popup() {
     const [wholeByte, setWholeByte] = useState<number>(0); // 部屋全体のデータ量を格納した配列
     const [bytes, setBytes] = useState<number[]>([]); // 部屋毎のデータ量を格納した配列
 
+    function setDeletedData(key: string){
+        const newData: Data = Object.assign({}, data)
+        delete newData[key];
+        setData(newData)
+    }
+
     useEffect(() => {
         getSettings().then((receivedSettings) => {
             setEnableExDodge(receivedSettings.enableExDodge)
-            console.log("receivedSettings",receivedSettings)
         })
         getData().then((receivedData) => {
             setData(receivedData)
-            console.log("receivedData",receivedData)
         })
     }, []);
+
     useEffect(() => {
         getBytes(null).then((receivedWholeByte) => {
             setWholeByte(receivedWholeByte)
-            console.log("receivedWholeByte",receivedWholeByte)
         })
+        // データのバイトサイズを計算する
         let newBytes: number[] = new Array;
-        Object.keys(data).map(key => {
-            getBytes(["data", key]).then((response) => {
-                newBytes.push(response);
-                console.log(key+":",response)
-            })
-        })
+        for (const key in data) {
+            newBytes.push(JSON.stringify(data[key]).length)
+        }
         setBytes(newBytes)
-
-        chrome.storage.local.getBytesInUse(["data","jCzJmypt5"], function(bytesInUse) {
-            console.log("お試し部屋",bytesInUse)
-        });
     }, [data]);
 
 
@@ -65,33 +72,47 @@ export default function Popup() {
     }
 
     return (
-        <div className="App">
-            <button onClick={()=>{deleteData(window.prompt("ルームIDを入力") || "")}}>deleteData</button>
-            <button onClick={getAllData}>getData</button>
-            <button onClick={clearData}>clearData</button>
-            <h3>拡張チャットパレット 設定</h3>
-            <div>
-                <input
-                    type="checkbox"
-                    id="check"
-                    checked={enableExDodge}
-                    onChange={changeDodgeSettings}
-                />
-                <label htmlFor="check">連続回避ロールを表示する</label>
-            </div>
-            <table>
-                <tr>
-                    <th>ルームID</th>
-                    <th>ルーム名</th>
-                    <th colSpan={2}>使用バイト数</th>
-                </tr>
-                {Object.keys(data).map(key => (
-                    <TableRow /* roomId={key} roomName={data[key].roomName} *//>
-                ))}
-            </table>
-            <div>
-                合計使用バイト：{wholeByte} byte
-            </div>
+        <div className="App" >
+            <ThemeProvider theme={theme}>
+                <button onClick={()=>{deleteData(window.prompt("ルームIDを入力") || "")}}>deleteData</button>
+                <button onClick={getAllData}>getData</button>
+                <button onClick={clearData}>clearData</button>
+
+                <button onClick={()=>{
+                    chrome.storage.local.getBytesInUse(["data","jCzJmypt5", "tabs"], function(bytesInUse) {
+                        console.log("お試し部屋",bytesInUse)
+                    });
+                }}>お試し部屋</button>
+                <h3>拡張チャットパレット 設定</h3>
+                <div>
+                    <input
+                        type="checkbox"
+                        id="check"
+                        checked={enableExDodge}
+                        onChange={changeDodgeSettings}
+                    />
+                    <label htmlFor="check">連続回避ロールを表示する</label>
+                </div>
+                <table>
+                    <tr>
+                        <th>ルームID</th>
+                        <th>ルーム名</th>
+                        <th colSpan={2}>{"使用容量 [%]"}</th>
+                    </tr>
+                    {Object.keys(data).map((key, dataIndex) => (
+                        <TableRow
+                        roomId={key}
+                        roomName={data[key].roomName}
+                        byte={bytes[dataIndex]}
+                        totalByte={bytes.reduce(function(sum, element){return sum + element;}, 0)}
+                        setDeletedData={setDeletedData}
+                        />
+                    ))}
+                </table>
+                <div style={{marginLeft: "auto", marginRight: "0"}}>
+                    合計使用バイト：{wholeByte} byte
+                </div>
+            </ThemeProvider>
         </div>
     );
 }
