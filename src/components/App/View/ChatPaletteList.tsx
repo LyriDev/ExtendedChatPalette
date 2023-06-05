@@ -8,7 +8,6 @@ import { ChatPalette } from "./../../../data/DataModel"
 
 // ココフォリアのメッセージを送信する関数
 function sendCcfoliaMessage(data: ChatPalette){
-    console.log(data)
     if(data.isBorder === true) return; // ボーダー用のデータは無視する
     if(data.messages.length > 0){
         if(data.messages.length === 1){

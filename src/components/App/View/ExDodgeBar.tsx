@@ -34,13 +34,11 @@ export default function ExDodgeBar() {
                             const diceSystem: string = getDiceSystem();
                             changeMessage(`${diceSystem}<=({回避技能}/{回避回数}) 【回避】{回避回数}回目`);
                             clickSubmitButton();
-                            console.log("回避")
                             resolve0();
                         }).then(() =>{
                             new Promise<void>((resolve1) => {
                                 changeMessage(":回避回数+1");
                                 clickSubmitButton();
-                                console.log("回避+1")
                                 resolve1();
                             }).then(()=>{
                                 new Promise<void>((resolve2) => {

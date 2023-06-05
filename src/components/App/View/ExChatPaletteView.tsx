@@ -56,7 +56,12 @@ export default function ExChatPaletteView() {
     const [enableExDodge, setEnableExDodge] = useState(false); // 拡張回避の設定データ
     useEffect(() => {
         getSettings().then((response) => {
-            const enableExDodge: boolean = response.enableExDodge;
+            let enableExDodge: boolean = true;
+            try{
+                enableExDodge = response.enableExDodge;
+            }catch(e){
+                enableExDodge = true;
+            }
             setEnableExDodge(enableExDodge)
             setHeight(280 + 49 + Number(enableExDodge)*48)
         })
