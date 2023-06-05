@@ -31,6 +31,43 @@ export function getRoomData(): RoomData{ // 部屋IDと部屋名を取得する�
     return result;
 }
 
+export async function getData(): Promise<Data>{
+    let initialData: Data = {} //デフォルト値
+    return new Promise<Data>((resolve, reject) => {
+        chrome.storage.local.get(["data"], function(response){
+            try{
+                const data: Data = response["data"] as Data
+                resolve(data);
+            }catch(error) {
+                resolve(initialData);
+            }
+        });
+    });
+}
+
+export async function getBytes(path: string[] | null): Promise<number>{
+    return new Promise<number>((resolve, reject) => {
+        chrome.storage.local.getBytesInUse(path, function(bytesInUse) {
+                resolve(bytesInUse);
+        });
+    })
+}
+
+export async function deleteData(roomId: string): Promise<DataModel>{
+    return new Promise<DataModel>((resolve, reject) => {
+        // 既存のデータを取得
+        chrome.storage.local.get("data", function(response) {
+            const existingData: Data = response.data || {}; // 既存のデータ
+            delete existingData[roomId]
+            // 一部削除したデータをデータベースに保存する
+            const sendData: DataModel = { data: existingData }
+            chrome.storage.local.set(sendData, function() {
+                resolve(sendData);
+            });
+        });
+    });
+}
+
 export async function getSettings(): Promise<Settings>{
     let initialData: Settings = { //デフォルト値
         enableExDodge : true
