@@ -9,6 +9,7 @@ import Triangle from "../../../svg/Triangle"
 import { TabNameContext } from "../../../providers/App/TabNameProvider"
 import { TextContext } from "../../../providers/App/TextProvider"
 import DropDownMenu from "./DropDownMenu"
+import { relative } from 'path';
 
 const tabsStyle: React.CSSProperties = {
     backgroundColor: '#212121',
@@ -151,10 +152,24 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                                 }}
                                 />
                             ) : (
-                                <span>
-                                    <span>tabName</span>
+                                <span
+                                style={{
+                                    position: "relative",
+                                    paddingRight: ((focusIndex === index) ? "24px" : ""),
+                                }}>
+                                    <span>
+                                        {tabName}
+                                    </span>
                                     {(focusIndex === index) && (
-                                        <Triangle/>
+                                        <span
+                                        style={{
+                                            position: "absolute",
+                                            marginTop: "-3px",
+                                            right: "-6px",
+                                        }}
+                                        >
+                                            <Triangle/>
+                                        </span>
                                     )}
                                 </span>
                             )
