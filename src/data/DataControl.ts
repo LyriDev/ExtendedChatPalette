@@ -148,29 +148,33 @@ export async function saveTabData(
         if(tabNames.length !== texts.length){
             throw new Error("tabNames と texts の数が違います");
         }
-        // 既存のデータを取得
-        chrome.storage.local.get("data", function(response) {
-            const existingData: Data = response.data || {}; // 既存のデータ
-            const result: Tab[] = new Array;
-            for(let i: number = 0; i < tabNames.length; i++){
-                const currentData: Tab = {
-                    tabName: tabNames[i],
-                    originText: texts[i],
-                    chatPalettes: chatPalettes[i]
+        try{
+            // 既存のデータを取得
+            chrome.storage.local.get("data", function(response) {
+                const existingData: Data = response.data || {}; // 既存のデータ
+                const result: Tab[] = new Array;
+                for(let i: number = 0; i < tabNames.length; i++){
+                    const currentData: Tab = {
+                        tabName: tabNames[i],
+                        originText: texts[i],
+                        chatPalettes: chatPalettes[i]
+                    }
+                    result.push(currentData)
                 }
-                result.push(currentData)
-            }
-            // 既存のデータと新しいデータをマージ
-            existingData[roomId] = {
-                roomName: roomName,
-                tabs: result
-            };
-            // 既存のデータをデータベースに保存する
-            const sendData: DataModel = { data: existingData }
-            chrome.storage.local.set(sendData, function() {
-                resolve(sendData);
+                // 既存のデータと新しいデータをマージ
+                existingData[roomId] = {
+                    roomName: roomName,
+                    tabs: result
+                };
+                // 既存のデータをデータベースに保存する
+                const sendData: DataModel = { data: existingData }
+                chrome.storage.local.set(sendData, function() {
+                    resolve(sendData);
+                });
             });
-        });
+        }catch(e){
+            throw e;
+        }
     });
 }
 

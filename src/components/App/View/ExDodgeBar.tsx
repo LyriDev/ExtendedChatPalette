@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { changeMessage, clickSubmitButton, getDiceSystem } from "./../../../data/sendCcfoliaMessage"
 
 export default function ExDodgeBar() {
+    const [dodgeCount, setDodgeCount] = useState<number>(0);
+
     return (
             <div
             style={{
@@ -15,10 +17,12 @@ export default function ExDodgeBar() {
                 <div
                 style={{
                     display: "flex",
+                    alignItems: "center",
                     position: "absolute",
                     top: "50%",
                     left: "50%",
                     transform: "translateY(-50%) translateX(-50%)",
+                    overflow: "hidden",
                 }}>
                     <Button
                     className="draggable-disable"
@@ -29,29 +33,30 @@ export default function ExDodgeBar() {
                         whiteSpace: "nowrap",
                     }}
                     onClick={()=>{
-                        const interval: number = 100;
                         new Promise<void>((resolve0) => {
                             const diceSystem: string = getDiceSystem();
-                            changeMessage(`${diceSystem}<=({回避技能}/{回避回数}) 【回避】{回避回数}回目`);
-                            clickSubmitButton();
+                            const isChangedMessage: boolean = changeMessage(`${diceSystem}<=({回避技能})/${dodgeCount+1} 【回避】${dodgeCount+1}回目`);
+                            if(!isChangedMessage){
+                                clickSubmitButton();
+                                setDodgeCount((prev) => prev + 1);
+                            }
                             resolve0();
                         }).then(() =>{
-                            new Promise<void>((resolve1) => {
-                                changeMessage(":回避回数+1");
-                                clickSubmitButton();
-                                resolve1();
-                            }).then(()=>{
-                                new Promise<void>((resolve2) => {
-                                    setTimeout(resolve2, interval)
-                                }).then(()=>{
-                                    return;
-                                })
-                            })
+                            return;
                         })
                     }}
                     >
                         回避
                     </Button>
+                    <div
+                    style={{
+                        whiteSpace: "nowrap",
+                        marginRight: "10px",
+                        cursor: "default",
+                    }}
+                    >
+                        回避回数:{dodgeCount}
+                    </div>
                     <Button
                     className="draggable-disable"
                     color="primary"
@@ -60,8 +65,7 @@ export default function ExDodgeBar() {
                         whiteSpace: "nowrap",
                     }}
                     onClick={()=>{
-                        changeMessage(":回避回数=1");
-                        clickSubmitButton();
+                        setDodgeCount(0);
                     }}
                     >
                         回避回数リセット
