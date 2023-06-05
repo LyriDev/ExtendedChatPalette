@@ -55,11 +55,11 @@ export default function ExChatPaletteView() {
 
     const [enableExDodge, setEnableExDodge] = useState(false); // 拡張回避の設定データ
     useEffect(() => {
-        (async() => {
-            const response = await getSettings()
-            setEnableExDodge(response.enableExDodge)
+        getSettings().then((response) => {
+            const enableExDodge: boolean = response.enableExDodge;
+            setEnableExDodge(enableExDodge)
             setHeight(280 + 49 + Number(enableExDodge)*48)
-        })()
+        })
     }, []);
 
     const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null) // メニューのref

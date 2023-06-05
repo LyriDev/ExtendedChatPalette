@@ -60,11 +60,15 @@ export default function Popup() {
             console.log(result);
         });
     }
+    function clearData(): void{
+        chrome.storage.local.clear();
+    }
 
     return (
         <div className="App">
             <button onClick={()=>{deleteData(window.prompt("ルームIDを入力") || "")}}>deleteData</button>
             <button onClick={getAllData}>getData</button>
+            <button onClick={clearData}>clearData</button>
             <h3>拡張チャットパレット 設定</h3>
             <div>
                 <input
