@@ -16,20 +16,6 @@ body{
     #portal-root-ExtendedChatPalette{
         position: relative;
         z-index: 1202;
-        .palette-table{
-            td, th{
-                // border-right: 1px solid rgba(255, 255, 255, 0.08);
-                // border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-                border-right: 1px solid red;
-                border-bottom: 1px solid red;
-            }
-            td:last-child,th:last-child{
-                border-right:none;
-            }
-            tr:first-child td,tr:first-child th, tr:last-child td,tr:last-child th{
-                border-bottom:none;
-            }
-        }
     }
 }
 

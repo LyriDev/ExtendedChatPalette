@@ -56,8 +56,10 @@ export default function ExChatPaletteView() {
     const [height, setHeight] = useState<number>(280);
     const [positionX, setPositionX] = useState<number>((window.innerWidth - width) / 2);
     const [positionY, setPositionY] = useState<number>(-(window.innerHeight + height) / 2 );
-    useEffect(()=>{ // メニューが非表示になったら、メニューを初期位置(画面中央)に戻しておく
+    useEffect(()=>{ // メニューが非表示になったら、メニューを初期位置(画面中央)・初期サイズに戻しておく
         if(!menuVisible){
+            setWidth(320);
+            setHeight(280);
             setPositionX((window.innerWidth - width) / 2);
             setPositionY(-(window.innerHeight + height) / 2);
         }

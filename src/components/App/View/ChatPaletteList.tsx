@@ -31,43 +31,19 @@ function TabPanel(props: TabPanelProps) {
 
 const NameTd = styled('td')({
     padding: "8px 16px",
+    borderRight: "solid 1px rgba(255, 255, 255, 0.08)",
+    borderBottom: "solid 1px rgba(255, 255, 255, 0.08)"
 });
 const MessageTd = styled('td')({
     padding: "8px 16px",
+    borderBottom: "solid 1px rgba(255, 255, 255, 0.08)",
     whiteSpace: "nowrap"
 });
 
-export default function ChatPaletteList({focusIndex, width, height}: {focusIndex: number, width: number, height: number}) {
+export default function ChatPaletteList({focusIndex, width, height}: {focusIndex: number, width:number, height: number}){
     const [chatPalettes, setChatPalettes] = useContext(DataContext) || [];
 
     const headerHeight: number = 97;
-    const tableRef = useRef<HTMLTableElement>(null); // table要素を保管するためのref
-    const [tableHeight, setTableHeight] = useState<number>(280 -headerHeight); // tableの高さ
-    const [heightDifference, setHeightDifference] = useState<number>(0); // ChatPaletteListとtableの高さの差
-
-    useEffect(()=>{
-        const newTableHeight: number = tableRef.current?.getBoundingClientRect().height || 280;
-        setTableHeight(newTableHeight)
-    },[tableRef])
-    useEffect(()=>{
-        const newHeightDifference: number = height - headerHeight - tableHeight;
-        if(newHeightDifference > 0){
-            setHeightDifference(newHeightDifference);
-        }else{
-            setHeightDifference(0);
-        }
-        console.log(
-`${Boolean(newHeightDifference > 0)}
-
-height: ${height}
-tableHeight: ${tableHeight}
-heightDifference: ${newHeightDifference}
-
-height - headerHeight - tableFirstHeight
-${height} - ${headerHeight} - ${tableHeight}
-`
-        )
-    },[height])
 
     return (
         <div
@@ -81,14 +57,13 @@ ${height} - ${headerHeight} - ${tableHeight}
             <table
             className="palette-table draggable-disable"
             style={{
-                height: `${tableHeight}px`,
                 borderCollapse: "collapse"
             }}
             >
                 <tbody>
                     {chatPalettes?.map((paletteList, listIndex) => (
                         <TabPanel focusIndex={focusIndex} index={listIndex}>
-                            <tr><td colSpan={2} style={{width: `${width}px`}}></td></tr>
+                            <tr><td style={{width: width}} colSpan={2}/></tr>
                             {paletteList?.map((data, paletteIndex) => (
                                 (data.isBorder) ? 
                                     (
@@ -106,8 +81,7 @@ ${height} - ${headerHeight} - ${tableHeight}
                                                             width: "3rem",
                                                             whiteSpace: ((data.messages.length <= 1) ? "nowrap" : "normal"),
                                                             overflow: "hidden",
-                                                            textOverflow: "ellipsis",
-                                                            color: (paletteIndex === paletteList.length - 1)?"red":"white"
+                                                            textOverflow: "ellipsis"
                                                         }}>
                                                             {data.characterName}
                                                         </div>
@@ -130,14 +104,11 @@ ${height} - ${headerHeight} - ${tableHeight}
                                                 }}
                                                 >
                                                     {data.characterName}
-
-                                                    
                                                 </NameTd>
                                             </tr>
                                         )
                                     )
                             ))}
-                            <tr><td><div style={{height: `${heightDifference}px`}}></div></td><td></td></tr>
                         </TabPanel>
                     ))}
                 </tbody>
