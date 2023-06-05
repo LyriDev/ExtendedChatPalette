@@ -1,8 +1,41 @@
-import React, { useState, useRef, useEffect ,useContext } from 'react';
+import React, { useState ,useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { DataContext } from "../../../providers/App/DataProvider"
 import { styled } from '@mui/material/styles';
+import { changeName, changeMessage, clickSubmitButton, MessageData, sendMessagesWithDelay } from "./../../../data/sendCcfoliaMessage"
+import { ChatPalette } from "./../../../data/DataModel"
+
+// ココフォリアのメッセージを送信する関数
+function sendCcfoliaMessage(data: ChatPalette){
+    console.log(data)
+    if(data.isBorder === true) return; // ボーダー用のデータは無視する
+    if(data.messages.length > 0){
+        if(data.messages.length === 1){
+            // メッセージが1つのとき
+            const isChangedName: boolean = changeName(data.characterName || "") //キャラ名を変更する
+            const isChangedMessage: boolean = changeMessage(data.messages[0]) // メッセージを変更する
+            if(!isChangedName && !isChangedMessage){
+                // キャラ名・メッセージ、どちらも変更なければ送信する
+                clickSubmitButton()
+            }
+        }else{
+            // メッセージが複数のとき、
+            const messageDataArray: MessageData[] = new Array
+            data.messages.map((message, index) => {
+                const currentData: MessageData = {
+                    characterName: data.characterName || "",
+                    messageText: message
+                }
+                messageDataArray.push(currentData)
+            })
+            sendMessagesWithDelay(messageDataArray)
+        }
+    }else{
+        // メッセージ配列が空なら、名前だけ変更する
+        changeName(data.characterName || "")
+    }
+}
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -76,41 +109,8 @@ export default function ChatPaletteList({focusIndex, width, height}: {focusIndex
                                     (
                                         <tr><td style={{borderBottom: "solid 2px #fff"}} colSpan={2}></td></tr>
                                     ) : (
-                                            (data.messages.length > 0) ? (
-                                                data.messages?.map((message, messageIndex) => (
-                                                    <tr
-                                                    style={{
-                                                        backgroundColor: ((hoveredRow === paletteIndex) ? "rgba(255, 255, 255, 0.08)" : ""),
-                                                        cursor: "pointer",
-                                                    }}
-                                                    onMouseEnter={() => handleMouseEnter(paletteIndex)}
-                                                    onMouseLeave={handleMouseLeave}
-                                                    >
-                                                        {(messageIndex === 0) && (
-                                                            <NameTd
-                                                            rowSpan={data.messages.length}
-                                                            style={{
-                                                                borderRight: "solid 1px #989898",
-                                                                borderBottom: ((paletteList[paletteIndex+1]?.isBorder) ? "none" : "solid 1px #989898")
-                                                            }}
-                                                            >
-                                                            <div
-                                                            style={{
-                                                                width: "3rem",
-                                                                whiteSpace: ((data.messages.length <= 1) ? "nowrap" : "normal"),
-                                                                overflow: "hidden",
-                                                                textOverflow: "ellipsis"
-                                                            }}>
-                                                                {data.characterName}
-                                                            </div>
-                                                            </NameTd>
-                                                        )}
-                                                        <MessageTd>
-                                                            {message}
-                                                        </MessageTd>
-                                                    </tr>
-                                                ))
-                                            ):(
+                                        (data.messages.length > 0) ? (
+                                            data.messages?.map((message, messageIndex) => (
                                                 <tr
                                                 style={{
                                                     backgroundColor: ((hoveredRow === paletteIndex) ? "rgba(255, 255, 255, 0.08)" : ""),
@@ -118,21 +118,56 @@ export default function ChatPaletteList({focusIndex, width, height}: {focusIndex
                                                 }}
                                                 onMouseEnter={() => handleMouseEnter(paletteIndex)}
                                                 onMouseLeave={handleMouseLeave}
+                                                onClick={()=>sendCcfoliaMessage(data)}
                                                 >
-                                                    <NameTd
-                                                    colSpan={2}
-                                                    style={{
-                                                        maxWidth: "0",
-                                                        whiteSpace: "nowrap",
-                                                        overflow: "hidden",
-                                                        textOverflow: "ellipsis",
-                                                        borderBottom: ((paletteList[paletteIndex+1]?.isBorder) ? "none" : "solid 1px #989898")
-                                                    }}
-                                                    >
-                                                        {data.characterName}
-                                                    </NameTd>
+                                                    {(messageIndex === 0) && (
+                                                        <NameTd
+                                                        rowSpan={data.messages.length}
+                                                        style={{
+                                                            borderRight: "solid 1px #989898",
+                                                            borderBottom: ((paletteList[paletteIndex+1]?.isBorder) ? "none" : "solid 1px #989898")
+                                                        }}
+                                                        >
+                                                        <div
+                                                        style={{
+                                                            width: "3rem",
+                                                            whiteSpace: ((data.messages.length <= 1) ? "nowrap" : "normal"),
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis"
+                                                        }}>
+                                                            {data.characterName}
+                                                        </div>
+                                                        </NameTd>
+                                                    )}
+                                                    <MessageTd>
+                                                        {message}
+                                                    </MessageTd>
                                                 </tr>
-                                            )
+                                            ))
+                                        ):(
+                                            <tr
+                                            style={{
+                                                backgroundColor: ((hoveredRow === paletteIndex) ? "rgba(255, 255, 255, 0.08)" : ""),
+                                                cursor: "pointer",
+                                            }}
+                                            onMouseEnter={() => handleMouseEnter(paletteIndex)}
+                                            onMouseLeave={handleMouseLeave}
+                                            onClick={()=>sendCcfoliaMessage(data)}
+                                            >
+                                                <NameTd
+                                                colSpan={2}
+                                                style={{
+                                                    maxWidth: "0",
+                                                    whiteSpace: "nowrap",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    borderBottom: ((paletteList[paletteIndex+1]?.isBorder) ? "none" : "solid 1px #989898")
+                                                }}
+                                                >
+                                                    {data.characterName}
+                                                </NameTd>
+                                            </tr>
+                                        )
                                     )
                             ))}
                         </TabPanel>
