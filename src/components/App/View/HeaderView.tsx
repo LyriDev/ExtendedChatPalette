@@ -29,6 +29,7 @@ export default function HeaderEdit() {
                 </div>
                 <div style={{margin: "0 0 0 auto"}}>
                     <IconButton
+                    className="draggable-disable"
                     edge="end"
                     color="primary"
                     aria-label="edit"
@@ -43,6 +44,7 @@ export default function HeaderEdit() {
                         <Edit />
                     </IconButton>
                     <IconButton
+                    className="draggable-disable"
                     edge="end"
                     color="primary"
                     aria-label="close"

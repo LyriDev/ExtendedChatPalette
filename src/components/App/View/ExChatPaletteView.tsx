@@ -10,6 +10,7 @@ import ExChatPaletteEdit from './../Edit/ExChatPaletteEdit';
 import HeaderView from "./HeaderView"
 import TabBarView from "./TabBarView"
 import ChatPaletteList from "./ChatPaletteList"
+import ExDodgeBar from "./ExDodgeBar"
 
 const theme = createTheme({
     palette: {
@@ -53,13 +54,13 @@ export default function ExChatPaletteView() {
 
     const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null) // メニューのref
     const [width, setWidth] = useState<number>(320);
-    const [height, setHeight] = useState<number>(280);
+    const [height, setHeight] = useState<number>(280 + 49 + 48);
     const [positionX, setPositionX] = useState<number>((window.innerWidth - width) / 2);
     const [positionY, setPositionY] = useState<number>(-(window.innerHeight + height) / 2 );
     useEffect(()=>{ // メニューが非表示になったら、メニューを初期位置(画面中央)・初期サイズに戻しておく
         if(!menuVisible){
             setWidth(320);
-            setHeight(280);
+            setHeight(280 + 49 + 50);
             setPositionX((window.innerWidth - width) / 2);
             setPositionY(-(window.innerHeight + height) / 2);
         }
@@ -100,7 +101,7 @@ export default function ExChatPaletteView() {
                             boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)",
                             cursor: isDragging ? "grabbing" : "grab",
                             minWidth: "320px",
-                            minHeight: "280px",
+                            minHeight: "280 + 49 + 50px",
                             width: `${width}px`,
                             height: `${height}px`,
                             resize: "both"
@@ -113,6 +114,7 @@ export default function ExChatPaletteView() {
                                         <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                                     </div>
                                     <ChatPaletteList focusIndex={focusIndex} width={width} height={height}/>
+                                    <ExDodgeBar/>
                                 </Box>
                             </ThemeProvider>
                             <FrameBox

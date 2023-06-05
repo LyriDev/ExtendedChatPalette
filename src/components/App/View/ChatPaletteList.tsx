@@ -13,7 +13,7 @@ function sendCcfoliaMessage(data: ChatPalette){
     if(data.messages.length > 0){
         if(data.messages.length === 1){
             // メッセージが1つのとき
-            const isChangedName: boolean = changeName(data.characterName || "") //キャラ名を変更する
+            const isChangedName: boolean = (data.characterName) ? changeName(data.characterName) : false //キャラ名を変更する
             const isChangedMessage: boolean = changeMessage(data.messages[0]) // メッセージを変更する
             if(!isChangedName && !isChangedMessage){
                 // キャラ名・メッセージ、どちらも変更なければ送信する
@@ -74,7 +74,7 @@ const MessageTd = styled('td')({
 export default function ChatPaletteList({focusIndex, width, height}: {focusIndex: number, width:number, height: number}){
     const [chatPalettes, setChatPalettes] = useContext(DataContext) || [];
 
-    const otherHeight: number = 48 + 49;
+    const otherHeight: number = 48 + 49 + 48;
 
     const [hoveredRow, setHoveredRow] = useState<number|null>(null);
     function handleMouseEnter(index: number){
@@ -142,7 +142,7 @@ export default function ChatPaletteList({focusIndex, width, height}: {focusIndex
                                                     <MessageTd>
                                                         <div
                                                         style={{
-                                                            whiteSpace: "pre-wrap"
+                                                            whiteSpace: "pre"
                                                         }}
                                                         >
                                                             {message}

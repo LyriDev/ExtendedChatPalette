@@ -93,3 +93,15 @@ export async function sendMessagesWithDelay(messageDataArray: MessageData[], int
         }
     }
 }
+
+export function getDiceSystem(): "1d100"|"CCB"|"CC"{ // ダイスシステムを取得する関数
+    const systemElm: HTMLSpanElement = document.querySelector("#root > div > header > div > button:nth-child(1) > span.MuiButton-label > h6 > span") as HTMLSpanElement;
+    const systemName: string = systemElm.textContent || "";
+    let diceSystem: "1d100"|"CCB"|"CC" = "1d100";
+    if(systemName === "クトゥルフ神話TRPG"){
+        diceSystem = "CCB";
+    }else if(systemName === "新クトゥルフ神話TRPG"){
+        diceSystem = "CC";
+    }
+    return diceSystem;
+}
