@@ -71,10 +71,10 @@ const MessageTd = styled('td')({
     whiteSpace: "nowrap"
 });
 
-export default function ChatPaletteList({focusIndex, width, height}: {focusIndex: number, width:number, height: number}){
+export default function ChatPaletteList({focusIndex, width, height, enableExDodge}: {focusIndex: number, width:number, height: number, enableExDodge: boolean}){
     const [chatPalettes, setChatPalettes] = useContext(DataContext) || [];
 
-    const otherHeight: number = 48 + 49 + 48;
+    const otherHeight: number = 48 + 49 + Number(enableExDodge)*48;
 
     const [hoveredRow, setHoveredRow] = useState<number|null>(null);
     function handleMouseEnter(index: number){

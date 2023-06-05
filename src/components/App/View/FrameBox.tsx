@@ -11,9 +11,10 @@ interface MyProps {
     setPositionX: React.Dispatch<React.SetStateAction<number>>;
     positionY: number;
     setPositionY: React.Dispatch<React.SetStateAction<number>>;
+    enableExDodge: boolean;
 }
 export default function FrameBox(props: MyProps) {
-    const { width, setWidth, height, setHeight, positionX, setPositionX, positionY, setPositionY } = props;
+    const { width, setWidth, height, setHeight, positionX, setPositionX, positionY, setPositionY, enableExDodge } = props;
 
     // リサイズのために必要なref群
     const isResizingRef = useRef(false); // 「リサイズ処理中かどうか」を保管するためのref
@@ -40,7 +41,7 @@ export default function FrameBox(props: MyProps) {
             if(count % 10 !== 0) return;
 
             const minWidth: number = 320; // メニューのmin-width
-            const minHeight: number = 280 + 49 + 48; // メニューのmin-height
+            const minHeight: number = 280 + 49 + Number(enableExDodge)*48; // メニューのmin-height
             if (containerRect) {
                 const { clientX, clientY } = mouseEvent; // マウスカーソルの位置
 
