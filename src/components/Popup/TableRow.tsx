@@ -16,7 +16,16 @@ export default function TableRow(props: TableRowProps) {
 
     return (
         <tr>
-            <td><a href={`"https://ccfolia.com/rooms/${roomId}"`}>{roomId}</a></td>
+            <td>
+                <a
+                href={`"https://ccfolia.com/rooms/${roomId}"`}
+                onClick={() => {
+                    chrome.tabs.create({url: `https://ccfolia.com/rooms/${roomId}`});
+                }}
+                >
+                    {roomId}
+                </a>
+            </td>
             <td>{roomName}</td>
             <td>{Math.round((byte / totalByte * 100))}%</td>
             <td>
