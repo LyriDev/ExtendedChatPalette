@@ -1,4 +1,4 @@
-import React, { useState ,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { DataContext } from "../../../providers/App/DataProvider"
@@ -82,6 +82,17 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
     function handleMouseLeave(){
         setHoveredRow(null);
     };
+    const [isClickedArray, setIsClickedArray] = useState<boolean[][]>([][]);
+    useEffect(() => {
+        const newArrayArray: boolean[][] = new Array;
+        chatPalettes?.map((paletteList, listIndex) => (
+            paletteList?.map((data, paletteIndex) => (
+                data.messages?.map((message, messageIndex) => (
+                    
+                ))
+            ))
+        ))
+    }, [chatPalettes])
 
     return (
         <div
@@ -96,7 +107,8 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
             <table
             className="palette-table"
             style={{
-                borderCollapse: "collapse"
+                borderCollapse: "collapse",
+                userSelect: "none"
             }}
             >
                 <tbody>
@@ -116,7 +128,7 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                     cursor: "pointer",
                                                 }}
                                                 onMouseEnter={() => handleMouseEnter(paletteIndex)}
-                                                onMouseLeave={handleMouseLeave}
+                                                onMouseLeave={() => {handleMouseLeave()}}
                                                 onClick={()=>sendCcfoliaMessage(data)}
                                                 >
                                                     {(messageIndex === 0) && (
