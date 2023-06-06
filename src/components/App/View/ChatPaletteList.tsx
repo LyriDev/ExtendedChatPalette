@@ -196,19 +196,13 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                 cursor: "pointer",
                                             }}
                                             onMouseEnter={() => handleMouseEnter(paletteIndex)}
-                                            onMouseDown={() => {
-                                                // console.log(`listIndex: ${listIndex}\npaletteIndex: ${paletteIndex}`);
-                                                handleMouseClick(true, listIndex, paletteIndex);
-                                            }}
+                                            onMouseDown={() => {handleMouseClick(true, listIndex, paletteIndex);}}
                                             onMouseUp={() => handleMouseClick(false, listIndex, paletteIndex)}
                                             onMouseLeave={() => {
                                                 handleMouseLeave();
                                                 handleMouseClick(false, listIndex, paletteIndex);
                                             }}
-                                            onClick={()=>{
-                                                // window.alert(`listIndex: ${listIndex}\npaletteIndex: ${paletteIndex}`);
-                                                sendCcfoliaMessage(data);
-                                            }}
+                                            onClick={()=>{sendCcfoliaMessage(data);}}
                                             >
                                                 <NameTd
                                                 colSpan={2}

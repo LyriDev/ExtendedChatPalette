@@ -35,7 +35,7 @@ export default function ExDodgeBar() {
                     onClick={()=>{
                         new Promise<void>((resolve0) => {
                             const diceSystem: string = getDiceSystem();
-                            const isChangedMessage: boolean = changeMessage(`${diceSystem}<=({回避技能})/${dodgeCount+1} 【回避】${dodgeCount+1}回目`);
+                            const isChangedMessage: boolean = changeMessage(`${diceSystem}<=(({回避技能})/${dodgeCount+1}) 【回避】${dodgeCount+1}回目`);
                             if(!isChangedMessage){
                                 clickSubmitButton();
                                 setDodgeCount((prev) => prev + 1);
