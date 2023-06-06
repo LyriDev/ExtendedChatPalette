@@ -143,7 +143,7 @@ export default function ExChatPaletteView() {
                     </Draggable>
                     {resource?.Modal && (
                         <resource.Modal>
-                            <ExChatPaletteEdit />
+                            <ExChatPaletteEdit focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                         </resource.Modal>
                     )}
                 </div>
