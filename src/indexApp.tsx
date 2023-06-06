@@ -4,6 +4,7 @@ import "./style/app.scss"
 import Providers from "./providers/App/Providers"
 import HamburgerListTab from "./components/App/HamburgerListTab"
 import ExChatPaletteButton from "./components/App/ExChatPaletteButton"
+import ConvertButton from "./components/App/ConvertButton"
 
 function addModalPortalRoot(): void{ // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成する関数
     // ポータルを追加するためのルート要素を作成
@@ -72,7 +73,7 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
     // 監視するDOMノードを取得
     const targetNode:HTMLElement = document.body
 
-    // Reactコンポーネントを入れる用ののDOM要素でできた外枠
+    // Reactコンポーネントを入れる用のDOM要素でできた外枠
     const container: HTMLElement = document.createElement("div")
 
     // MutationObserverオブジェクトを作成
@@ -96,7 +97,24 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
                         </React.StrictMode>,
                         container
                     );
-                    console.log("リストに拡張チャットパレット欄を追加しました");
+                    console.log("リストに「拡張チャットパレット」欄を追加しました");
+                    return;
+                }
+                // キャラクター編集メニューの「キャラクター編集」見出し要素を取得する
+                const characterEditTitle = document.querySelector("body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > header > div > p")
+                if(characterEditTitle?.textContent === "キャラクター編集"){
+                    // 「キャラクター編集」見出しの後ろに「拡張チャパレ変換」ボタンを追加する
+                    characterEditTitle.after(container)
+                    ReactDOM.render(
+                        <React.StrictMode>
+                            <Providers>
+                                <ConvertButton/>
+                            </Providers>
+                        </React.StrictMode>,
+                        container
+                    );
+                    console.log("キャラクター編集メニューに「拡張チャパレ変換」ボタンを追加しました。");
+                    return;
                 }
             }
         }
