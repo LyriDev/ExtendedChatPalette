@@ -281,3 +281,17 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
     }
     return chatPalettes;
 }
+
+// 普通のチャパレを拡張チャパレ形式に変換する関数
+export function convertExChatPalette(characterName: string, text: string): string{
+    const lines = text.split('\n');
+    const convertedLines = lines.map(line => `# ${characterName}\n\`${line}\``);
+    return convertedLines.join('\n');
+}
+
+//テキストデータをクリップボードに出力する関数
+export function exportToClipboard(text: string){
+    if(navigator.clipboard){//サポートしているかを確認
+        navigator.clipboard.writeText(text)//クリップボードに出力
+    }
+}
