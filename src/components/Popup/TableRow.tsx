@@ -16,7 +16,7 @@ export default function TableRow(props: TableRowProps) {
 
     return (
         <tr>
-            <td>
+            <td className="room-id">
                 <a
                 href={`"https://ccfolia.com/rooms/${roomId}"`}
                 onClick={() => {
@@ -26,9 +26,13 @@ export default function TableRow(props: TableRowProps) {
                     {roomId}
                 </a>
             </td>
-            <td>{roomName}</td>
-            <td>{Math.round((byte / totalByte * 100))}%</td>
-            <td>
+            <td className="room-name">
+                {roomName}
+            </td>
+            <td  className="used-byte">
+                {Math.round((byte / totalByte * 100))}%
+            </td>
+            <td className="delete-button">
                 <IconButton color="primary"
                 onClick={() => {
                     deleteData(roomId).then((response) => {

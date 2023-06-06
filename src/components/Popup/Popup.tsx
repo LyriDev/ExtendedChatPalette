@@ -81,7 +81,7 @@ export default function Popup() {
         <div className="App" >
             <ThemeProvider theme={theme}>
                 <h3>拡張チャットパレット 設定</h3>
-                <div>
+                <div className="check-box">
                     <input
                         type="checkbox"
                         id="check"
@@ -92,9 +92,10 @@ export default function Popup() {
                 </div>
                 <table>
                     <tr>
-                        <th>ルームID</th>
-                        <th>ルーム名</th>
-                        <th colSpan={2}>{"使用容量 [%]"}</th>
+                        <th className="room-id">ルームID</th>
+                        <th className="room-name">ルーム名</th>
+                        <th className="used-byte">{"使用容量 [%]"}</th>
+                        <th className="delete-button"></th>
                     </tr>
                     {data && Object.keys(data).map((key, dataIndex) => (
                         <TableRow
@@ -106,8 +107,8 @@ export default function Popup() {
                         />
                     ))}
                 </table>
-                <div style={{marginLeft: "auto", marginRight: "0"}}>
-                    合計使用バイト：{wholeByte} byte
+                <div className="show-data">
+                    合計使用容量：{(wholeByte / 1024).toFixed(2)} KB
                 </div>
             </ThemeProvider>
         </div>

@@ -2,7 +2,7 @@ body{
     background-color: #202020;
     color: white;
     .App{
-        width: fit-content;
+        text-align:center;
         h3{
             white-space: nowrap;
         }
@@ -10,6 +10,8 @@ body{
             margin: 10px auto;
             background-color: #2a2a2a;
             border-collapse:  collapse;
+            table-layout: fixed;
+            width: fit-content;
             tr{
                 border: solid 1px white;
             }
@@ -17,6 +19,41 @@ body{
                 padding: 10px;
                 white-space: nowrap;
             }
+            th.room-id, td.room-id {
+                width: 4rem;
+            }
+            th.room-name, td.room-name {
+                width: 7rem;
+            }
+            td.room-name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            th.used-byte, td.used-byte {
+                width: 4rem;
+            }
+            th.delete-button, td.delete-button {
+                width: 40px;
+            }
         }
+    }
+    .App .check-box{
+        text-align: left;
+    }
+    .App .show-data{
+        text-align: right;
+    }
+
+
+    th#th-id {
+        width: 20%;
+      }
+      th#th-name {
+        width: 80%;
+      }
+      td.td-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
