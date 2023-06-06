@@ -75,24 +75,47 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
 
     const otherHeight: number = 48 + 49 + Number(enableExDodge)*48;
 
-    const [hoveredRow, setHoveredRow] = useState<number|null>(null);
+    // マウスがhoverしている行を管理する
+    const [hoveredRow, setHoveredRow] = useState<number>(-1);
     function handleMouseEnter(index: number){
         setHoveredRow(index);
     };
     function handleMouseLeave(){
-        setHoveredRow(null);
+        setHoveredRow(-1);
     };
-    const [isClickedArray, setIsClickedArray] = useState<boolean[][]>([][]);
+    // マウスがclickしている行を管理する
+    const [isClickedArray, setIsClickedArray] = useState<boolean[][]>([]);
     useEffect(() => {
-        const newArrayArray: boolean[][] = new Array;
-        chatPalettes?.map((paletteList, listIndex) => (
-            paletteList?.map((data, paletteIndex) => (
-                data.messages?.map((message, messageIndex) => (
-                    
-                ))
-            ))
-        ))
+        if(chatPalettes){
+            const newArrayArray: boolean[][] = new Array;
+            for(let listIndex: number = 0; listIndex < chatPalettes.length; listIndex++){
+                newArrayArray.push(new Array());
+                const newArray: boolean[] = new Array;
+                for(let paletteIndex: number = 0; paletteIndex < chatPalettes[listIndex].length; paletteIndex++){
+                    newArray.push(false);
+                }
+                newArrayArray.push(newArray);
+            }
+            setIsClickedArray(newArrayArray);
+        }
     }, [chatPalettes])
+    function handleMouseClick(value: boolean, listIndex: number, paletteIndex: number){
+        const newArrayArray: boolean[][] = isClickedArray.slice();
+        newArrayArray[listIndex][paletteIndex] = value;
+        setIsClickedArray(newArrayArray)
+    }
+    // 適切なbackgroundColorを取得する
+    function getBackgroundColor(hoveredRow: number, listIndex: number, paletteIndex: number): string{
+        const isHovered: boolean = (hoveredRow === paletteIndex)
+        const isClicked: boolean = isClickedArray[listIndex]?.[paletteIndex] || false;
+        if(isClicked){
+            return "rgba(255, 255, 255, 0.4)";
+        }else if(isHovered){
+            return "rgba(255, 255, 255, 0.08)";
+        }else{
+            return "";
+        }
+    }
 
     return (
         <div
@@ -124,12 +147,17 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                             data.messages?.map((message, messageIndex) => (
                                                 <tr
                                                 style={{
-                                                    backgroundColor: ((hoveredRow === paletteIndex) ? "rgba(255, 255, 255, 0.08)" : ""),
+                                                    backgroundColor: getBackgroundColor(hoveredRow, listIndex, paletteIndex),
                                                     cursor: "pointer",
                                                 }}
                                                 onMouseEnter={() => handleMouseEnter(paletteIndex)}
-                                                onMouseLeave={() => {handleMouseLeave()}}
-                                                onClick={()=>sendCcfoliaMessage(data)}
+                                                onMouseDown={() => {handleMouseClick(true, listIndex, paletteIndex);}}
+                                                onMouseUp={() => handleMouseClick(false, listIndex, paletteIndex)}
+                                                onMouseLeave={() => {
+                                                    handleMouseLeave();
+                                                    handleMouseClick(false, listIndex, paletteIndex);
+                                                }}
+                                                onClick={()=>{sendCcfoliaMessage(data);}}
                                                 >
                                                     {(messageIndex === 0) && (
                                                         <NameTd
@@ -164,12 +192,23 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                         ):(
                                             <tr
                                             style={{
-                                                backgroundColor: ((hoveredRow === paletteIndex) ? "rgba(255, 255, 255, 0.08)" : ""),
+                                                backgroundColor: getBackgroundColor(hoveredRow, listIndex, paletteIndex),
                                                 cursor: "pointer",
                                             }}
                                             onMouseEnter={() => handleMouseEnter(paletteIndex)}
-                                            onMouseLeave={handleMouseLeave}
-                                            onClick={()=>sendCcfoliaMessage(data)}
+                                            onMouseDown={() => {
+                                                // console.log(`listIndex: ${listIndex}\npaletteIndex: ${paletteIndex}`);
+                                                handleMouseClick(true, listIndex, paletteIndex);
+                                            }}
+                                            onMouseUp={() => handleMouseClick(false, listIndex, paletteIndex)}
+                                            onMouseLeave={() => {
+                                                handleMouseLeave();
+                                                handleMouseClick(false, listIndex, paletteIndex);
+                                            }}
+                                            onClick={()=>{
+                                                // window.alert(`listIndex: ${listIndex}\npaletteIndex: ${paletteIndex}`);
+                                                sendCcfoliaMessage(data);
+                                            }}
                                             >
                                                 <NameTd
                                                 colSpan={2}
