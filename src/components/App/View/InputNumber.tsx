@@ -11,7 +11,7 @@ export default function InputNumber({ value, setNumber }: Props){
       String.fromCharCode(s.charCodeAt(0) - 0xfee0)
     );
     if (!isNaN(Number(v))) {
-      setNumber(Math.min(Number(v), 999));
+      setNumber(Math.min(Number(v), 99));
     }
   };
 
@@ -22,7 +22,7 @@ export default function InputNumber({ value, setNumber }: Props){
       value={value}
       onChange={(e) => onChangeHandler(e.target.value)}
       style={{
-        width: "2rem",
+        width: "1.3rem",
         fontSize: "1rem",
         color: "#fff",
         margin: "0",

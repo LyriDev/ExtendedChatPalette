@@ -61,7 +61,7 @@ export default function ExDodgeBar() {
                             const isChangedMessage: boolean = changeMessage(`${diceSystem}<=(({回避技能})/${dodgeCount+1}) 【回避】${dodgeCount+1}回目`);
                             if(!isChangedMessage){
                                 clickSubmitButton();
-                                setDodgeCount((prev) => (Math.min((prev + 1), 999)));
+                                setDodgeCount((prev) => (Math.min((prev + 1), 99)));
                             }
                             resolve0();
                         }).then(() =>{
