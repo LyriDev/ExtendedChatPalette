@@ -80,14 +80,6 @@ export default function Popup() {
     return (
         <div className="App" >
             <ThemeProvider theme={theme}>
-                <button onClick={()=>{deleteData(window.prompt("ルームIDを入力") || "")}}>deleteData</button>
-                <button onClick={getAllData}>getData</button>
-                <button onClick={clearData}>clearData</button>
-                <button onClick={()=>{
-                    chrome.storage.local.getBytesInUse(["data","jCzJmypt5", "tabs"], function(bytesInUse) {
-                        console.log("お試し部屋",bytesInUse)
-                    });
-                }}>お試し部屋</button>
                 <h3>拡張チャットパレット 設定</h3>
                 <div>
                     <input
