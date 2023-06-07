@@ -11,25 +11,25 @@ import { ChatPalette } from "./../../../data/DataModel"
 function sendCcfoliaMessage(data: ChatPalette){
     if(data.borderType > 0 ) return; // ボーダー用のデータは無視する
     if(data.messages.length > 0){
-        if(data.messages.length === 1){
-            // メッセージが1つのとき
-            const isChangedName: boolean = (data.characterName) ? changeName(data.characterName) : false //キャラ名を変更する
-            const isChangedMessage: boolean = changeMessage(data.messages[0]) // メッセージを変更する
-            if(!isChangedName && !isChangedMessage){
-                // キャラ名・メッセージ、どちらも変更なければ送信する
+        const isChangedName: boolean = (data.characterName) ? changeName(data.characterName) : false //キャラ名を変更する
+        const isChangedMessage: boolean = changeMessage(data.messages[0]) // メッセージを変更する
+        if(!isChangedName && !isChangedMessage){
+            // キャラ名・メッセージ、どちらも変更なければ送信する
+            if(data.messages.length === 1){
+                // メッセージが1つのとき
                 clickSubmitButton()
+            }else{
+                // メッセージが複数のとき、
+                const messageDataArray: MessageData[] = new Array
+                data.messages.map((message, index) => {
+                    const currentData: MessageData = {
+                        characterName: data.characterName || "",
+                        messageText: message
+                    }
+                    messageDataArray.push(currentData)
+                })
+                sendMessagesWithDelay(messageDataArray)
             }
-        }else{
-            // メッセージが複数のとき、
-            const messageDataArray: MessageData[] = new Array
-            data.messages.map((message, index) => {
-                const currentData: MessageData = {
-                    characterName: data.characterName || "",
-                    messageText: message
-                }
-                messageDataArray.push(currentData)
-            })
-            sendMessagesWithDelay(messageDataArray)
         }
     }else{
         // メッセージ配列が空なら、名前だけ変更する
