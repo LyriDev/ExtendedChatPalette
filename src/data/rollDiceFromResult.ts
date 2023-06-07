@@ -20,6 +20,10 @@ export async function rollDiceFromResult(characterName: string | null, firstRole
     watchPromise = watchMessage(characterName, firstRole);
 
     // 最初のロール結果の監視をしている間に、最初のロールを行う
+    // 最新のメッセージの要素を取得するために、一番下までスクロールする
+    const scrollMenu: HTMLElement | null = document.querySelector("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > ul > div:nth-child(1) > div")
+    scrollMenu?.scrollTo(0, scrollMenu.scrollHeight);
+    // 送信ボタンを押して最初のロールを行う
     clickSubmitButton();
 
     // 最初のロール結果を取得する
