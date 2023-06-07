@@ -5,7 +5,7 @@ export type Settings = {
 export type ChatPalette = {
     characterName: string | null;
     messages: string[];
-    isBorder: boolean;
+    borderType: number;
 };
 
 export type Tab = {

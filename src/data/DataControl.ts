@@ -199,7 +199,7 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
         currentData = {
             characterName: "",
             messages: [],
-            isBorder: false
+            borderType: 0
         }
         // # か##か---で始まる行までカーソルを下げる
         // あるいは、最後の行になるまでカーソルを下げる
@@ -207,6 +207,7 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
             if(line.startsWith('# ')) break
             if(line.startsWith('##')) break
             if(line.startsWith('---')) break
+            if(line.startsWith('- - -')) break
             i++
             line = lines[i]
         }
@@ -234,6 +235,7 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
                     if(line.startsWith('# ')) break
                     if(line.startsWith('##')) break
                     if(line.startsWith('---')) break
+                    if(line.startsWith('- - -')) break
                     if(line.startsWith('`')) break
                     i++
                     line = lines[i]
@@ -268,8 +270,11 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
                 if(i === lines.length - 1) break chatPaletteLoop
             }
         }else if(line.startsWith('---')){
-            //カーソルが---で始まる行まで下がった場合、区切り線のデータとして登録する
-            currentData.isBorder = true
+            //カーソルが---で始まる行まで下がった場合、区切り線(実線)のデータとして登録する
+            currentData.borderType = 1
+        }else if(line.startsWith('- - -')){
+            //カーソルが- - -で始まる行まで下がった場合、区切り線(破線)のデータとして登録する
+            currentData.borderType = 2
         }
         //作成したデータを登録する
         chatPalettes.push(currentData)

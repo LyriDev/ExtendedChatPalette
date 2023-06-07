@@ -16,7 +16,7 @@ export default function HelpContent() {
                 <li style={{ listStyleType: "disc" }}>「##」</li>
                 この行の次の行以降に、現在キャラで発言するメッセージを登録できます。
                 <li style={{ listStyleType: "disc" }}>「---」</li>
-                この行にボーダーを作成できます。
+                この行にボーダーを作成できます。「- - - 」で破線になります。
             </ul>
     );
 }

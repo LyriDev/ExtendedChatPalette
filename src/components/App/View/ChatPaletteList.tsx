@@ -8,7 +8,7 @@ import { ChatPalette } from "./../../../data/DataModel"
 
 // ココフォリアのメッセージを送信する関数
 function sendCcfoliaMessage(data: ChatPalette){
-    if(data.isBorder === true) return; // ボーダー用のデータは無視する
+    if(data.borderType > 0 ) return; // ボーダー用のデータは無視する
     if(data.messages.length > 0){
         if(data.messages.length === 1){
             // メッセージが1つのとき
@@ -66,7 +66,6 @@ const NameTd = styled('td')({
 });
 const MessageTd = styled('td')({
     padding: "8px 16px",
-    borderBottom: "solid 1px #989898",
     whiteSpace: "nowrap"
 });
 
@@ -139,9 +138,9 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                         <TabPanel focusIndex={focusIndex} index={listIndex}>
                             <tr><td style={{width: width}} colSpan={2}/></tr>
                             {paletteList?.map((data, paletteIndex) => (
-                                (data.isBorder) ? 
+                                (data.borderType) ? 
                                     (
-                                        <tr><td style={{borderBottom: "solid 2px #fff"}} colSpan={2}></td></tr>
+                                        <tr><td style={{borderBottom: `${(data.borderType === 2) ? "dashed" : "solid"} 2px #fff`}} colSpan={2}></td></tr>
                                     ) : (
                                         (data.messages.length > 0) ? (
                                             data.messages?.map((message, messageIndex) => (
@@ -164,7 +163,7 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                         rowSpan={data.messages.length}
                                                         style={{
                                                             borderRight: "solid 1px #989898",
-                                                            borderBottom: ((paletteList[paletteIndex+1]?.isBorder) ? "none" : "solid 1px #989898")
+                                                            borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")
                                                         }}
                                                         >
                                                         <div
@@ -178,7 +177,9 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                         </div>
                                                         </NameTd>
                                                     )}
-                                                    <MessageTd>
+                                                    <MessageTd
+                                                    style={{borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")}}
+                                                    >
                                                         <div
                                                         style={{
                                                             whiteSpace: "pre"
@@ -211,7 +212,7 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                     whiteSpace: "nowrap",
                                                     overflow: "hidden",
                                                     textOverflow: "ellipsis",
-                                                    borderBottom: ((paletteList[paletteIndex+1]?.isBorder) ? "none" : "solid 1px #989898")
+                                                    borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")
                                                 }}
                                                 >
                                                     {data.characterName}
