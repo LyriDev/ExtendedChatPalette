@@ -17,7 +17,7 @@ export default function HelpContent() {
                 この行の次の行以降に、現在キャラで発言するメッセージを登録できます。
                 <li style={{ listStyleType: "disc" }}>「---」</li>
                 この行にボーダーを作成できます。「- - - 」で破線になります。
-                <li style={{ listStyleType: "disc" }}>「1`ダイスロール`<br/>2`メッセージ$value`」</li>
+                <li style={{ listStyleType: "disc" }}>「1`ダイスロール`」<br/>「2`メッセージ$value`」</li>
                 ダイスロールの結果を使用してロールを行う処理を登録できます。
             </ul>
     );
