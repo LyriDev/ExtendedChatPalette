@@ -17,6 +17,7 @@ export default function Popup() {
     const [enableExDodge, setEnableExDodge] = useState<boolean>(true); // 拡張回避の設定データ
     const [data, setData] = useState<Data>({}); // 部屋毎のデータを格納した配列
     const [wholeByte, setWholeByte] = useState<number>(0); // 部屋全体のデータ量を格納した配列
+    const [paletteByte, setPaletteByte] = useState<number>(0); // 拡張チャパレのデータ量を格納した配列
     const [bytes, setBytes] = useState<number[]>([]); // 部屋毎のデータ量を格納した配列
 
     function setDeletedData(key: string){
@@ -43,6 +44,9 @@ export default function Popup() {
     useEffect(() => {
         getBytes(null).then((receivedWholeByte) => {
             setWholeByte(receivedWholeByte)
+        })
+        getBytes(["data"]).then((receivedPaletteByte) => {
+            setPaletteByte(receivedPaletteByte)
         })
         // データのバイトサイズを計算する
         let newBytes: number[] = new Array;
@@ -94,7 +98,7 @@ export default function Popup() {
                     <tr>
                         <th className="room-id">ルームID</th>
                         <th className="room-name">ルーム名</th>
-                        <th className="used-byte">{"使用容量 [%]"}</th>
+                        <th className="used-byte">{"使用容量 [KB]"}</th>
                         <th className="delete-button"></th>
                     </tr>
                     {data && Object.keys(data).map((key, dataIndex) => (
@@ -103,12 +107,13 @@ export default function Popup() {
                         roomName={data[key].roomName}
                         byte={bytes[dataIndex]}
                         totalByte={bytes.reduce(function(sum, element){return sum + element;}, 0)}
+                        paletteByte={paletteByte}
                         setDeletedData={setDeletedData}
                         />
                     ))}
                 </table>
                 <div className="show-data">
-                    合計使用容量：{(wholeByte / 1024).toFixed(2)} KB
+                    {`合計使用容量：${(wholeByte / 1024).toFixed(2)} KB`}
                 </div>
             </ThemeProvider>
         </div>

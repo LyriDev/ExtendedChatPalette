@@ -8,11 +8,12 @@ interface TableRowProps {
     roomName: string;
     byte: number;
     totalByte: number;
+    paletteByte: number;
     setDeletedData: (key: string) => void;
 }
 
 export default function TableRow(props: TableRowProps) {
-    const { roomId, roomName, byte, totalByte, setDeletedData } = props;
+    const { roomId, roomName, byte, totalByte, paletteByte, setDeletedData } = props;
 
     return (
         <tr>
@@ -30,7 +31,7 @@ export default function TableRow(props: TableRowProps) {
                 {roomName}
             </td>
             <td  className="used-byte">
-                {Math.round((byte / totalByte * 100))}%
+                {(Math.round((paletteByte * (byte / totalByte))) / 1024).toFixed(2)} KB
             </td>
             <td className="delete-button">
                 <IconButton color="primary"
