@@ -193,7 +193,7 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                     )}
                                                     <MessageTd
                                                     style={{
-                                                        borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")
+                                                        borderBottom: (((messageIndex >= data.messages.length - 1) && (paletteList[paletteIndex+1]?.borderType)) ? "none" : "solid 1px #989898")
                                                     }}
                                                     >
                                                         <div
