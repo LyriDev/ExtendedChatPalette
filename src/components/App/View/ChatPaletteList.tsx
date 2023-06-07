@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import { DataContext } from "../../../providers/App/DataProvider"
 import { styled } from '@mui/material/styles';
 import { changeName, changeMessage, clickSubmitButton, MessageData, sendMessagesWithDelay } from "./../../../data/sendCcfoliaMessage"
+import { rollDiceFromResult } from "./../../../data/rollDiceFromResult"
 import { ChatPalette } from "./../../../data/DataModel"
 
 // ココフォリアのメッセージを送信する関数
@@ -156,7 +157,15 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                     handleMouseLeave();
                                                     handleMouseClick(false, listIndex, paletteIndex);
                                                 }}
-                                                onClick={()=>{sendCcfoliaMessage(data);}}
+                                                onClick={()=>{
+                                                    if(data.isUseRollResult){
+                                                        if(data.messages[0] && data.messages[1]){
+                                                            rollDiceFromResult(data.characterName, data.messages[0], data.messages[1]);
+                                                        }
+                                                    }else{
+                                                        sendCcfoliaMessage(data);
+                                                    }
+                                                }}
                                                 >
                                                     {(messageIndex === 0) && (
                                                         <NameTd
@@ -210,7 +219,15 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                 handleMouseLeave();
                                                 handleMouseClick(false, listIndex, paletteIndex);
                                             }}
-                                            onClick={()=>{sendCcfoliaMessage(data);}}
+                                            onClick={()=>{
+                                                if(data.isUseRollResult){
+                                                    if(data.messages[0] && data.messages[1]){
+                                                        rollDiceFromResult(data.characterName, data.messages[0], data.messages[1]);
+                                                    }
+                                                }else{
+                                                    sendCcfoliaMessage(data);
+                                                }
+                                            }}
                                             >
                                                 <NameTd
                                                 colSpan={2}

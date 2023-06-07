@@ -20,20 +20,20 @@ function clickTheButton(element: HTMLButtonElement){ // 特定のbutton要素を
     element.click()
 }
 
-export function changeName(characterName: string): boolean { // キャラ名を編集する関数
+export function changeName(characterName: string, isDo: boolean = true): boolean { // キャラ名を編集する関数
     const nameElm = document.querySelector<HTMLInputElement>("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > div > form > div.sc-lbxAil.jRFYca > div.sc-kgUAyh.bvBYpc > div > input") as HTMLInputElement;
     if (nameElm?.value !== characterName) {
-        overrideFormValue(nameElm, characterName);
+        if(isDo) overrideFormValue(nameElm, characterName);
         return true;
     }else{
         return false;
     }
 }
 
-export function changeMessage(messageText: string): boolean { // メッセージを変更する関数
+export function changeMessage(messageText: string, isDo: boolean = true): boolean { // メッセージを変更する関数
     const messageElm = document.querySelector<HTMLTextAreaElement>("#downshift-0-input") as HTMLTextAreaElement;
     if (messageElm?.value !== messageText) {
-        overrideFormValue(messageElm, messageText);
+        if(isDo) overrideFormValue(messageElm, messageText);
         return true;
     }else{
         return false;
@@ -44,40 +44,6 @@ export function clickSubmitButton(){ // 送信ボタンを押下して送信す�
     const submitButton: HTMLButtonElement = document.querySelector("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > div > form > div.sc-lbxAil.jRFYca > button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textSizeSmall.MuiButton-sizeSmall") as HTMLButtonElement
     clickTheButton(submitButton)
 }
-
-/* function sendMessageWithCharacter(characterName: string|null, messageText: string|null, oneClickSend: boolean = true){ // キャラクターを指定してメッセージを送信する関数
-    if(characterName === null){ // キャラ名に変更がなければ、メッセージだけ変える
-        changeMessage(messageText || "")
-    }else if(messageText === null){ // メッセージに変更がなければ、キャラ名だけ変える
-        changeName(characterName)
-    }else{
-        // キャラ名を取得
-        const nameElm: HTMLInputElement = document.querySelector("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > div > form > div.sc-lbxAil.jRFYca > div.sc-kgUAyh.bvBYpc > div > input") as HTMLInputElement
-        const enteredName: string = nameElm.value
-        const isNameSame: boolean = (enteredName === characterName)
-        // メッセージを取得
-        const messageElm: HTMLTextAreaElement = document.querySelector("#downshift-0-input") as HTMLTextAreaElement
-        const enteredMessage: string = messageElm.value
-        const isMessageSame: boolean = (enteredMessage === messageText)
-        
-        if(oneClickSend){
-            // ワンクリックで送信時、
-            changeName(characterName)
-            changeMessage(messageText || "")
-            clickSubmitButton()
-        }else{
-            // ダブルクリックで送信時、
-            if(isNameSame && isMessageSame){
-                // 既存の内容が新規の内容と同じなら、送信のみを行う(書き換えはしない)
-                clickSubmitButton()
-            }else{
-                // 既存の内容が新規の内容と異なるなら、書き換えのみを行う(送信はしない)
-                changeName(characterName)
-                changeMessage(messageText || "")
-            }
-        }
-    }
-} */
 
 export interface MessageData{
     characterName: string;

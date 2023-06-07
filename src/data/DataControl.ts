@@ -178,6 +178,10 @@ export async function saveTabData(
     });
 }
 
+
+
+
+
 export function convertTextArrayToJSON(texts: string[]): ChatPalette[][]{
     const result: ChatPalette[][] = new Array;
     for(let i: number = 0; i < texts.length; i++){
