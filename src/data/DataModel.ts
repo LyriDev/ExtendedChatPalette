@@ -6,6 +6,7 @@ export type ChatPalette = {
     characterName: string | null;
     messages: string[];
     borderType: number;
+    isUseRollResult: boolean;
 };
 
 export type Tab = {

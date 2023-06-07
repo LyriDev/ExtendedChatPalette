@@ -199,7 +199,8 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
         currentData = {
             characterName: "",
             messages: [],
-            borderType: 0
+            borderType: 0,
+            isUseRollResult: false
         }
         // # か##か---で始まる行までカーソルを下げる
         // あるいは、最後の行になるまでカーソルを下げる
@@ -225,6 +226,8 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
             // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
             if(i === lines.length - 1) break chatPaletteLoop
             // # か##か---で始まる行か最後の行になるまで繰り返す
+            let roleText: string | null = null;
+            let messageText: string | null = null;
             messageLoop: while(i < lines.length - 1){
                 // まだ行が残っているなら、カーソルを1つ下げる
                 i++
@@ -237,37 +240,92 @@ function convertTextToJSON(text: string): ChatPalette[]{ // プレーンテキ�
                     if(line.startsWith('---')) break
                     if(line.startsWith('- - -')) break
                     if(line.startsWith('`')) break
+                    if(line.startsWith('1`')) break
+                    if(line.startsWith('2`')) break
                     i++
                     line = lines[i]
                 }
                 // カーソルが`で始まる行まで下がる前に他の指示があれば、次のセクションに移動する
-                if(!line.startsWith('`')){
+                if(!line.startsWith('`') && !line.startsWith('1`') && !line.startsWith('2`')){
                     chatPalettes.push(currentData)
                     continue chatPaletteLoop
                 }
                 let text = "";
-                if(line.endsWith('`')){ // `で始まって`で終わる行のとき
-                    text = line.slice(1,-1) // 最初の行の左右を切り抜いて登録する
-                }else{
-                    text = line.slice(1) // 最初の行の左を切り抜いて登録する
-                    // 次の`で終わる行までカーソルを下げる
-                    while(i < lines.length -1){
-                        if(line.endsWith('`')) break
-                        //1行分カーソルを進める
-                        i++
-                        line = lines[i]
-                        if(line.endsWith('`')) break // まだテキストが`で終わっていない場合
-                        text += "\n" + line // `間のテキストをメッセージとして登録する
+                if(line.startsWith('1`')){ // 1`で始まる行のとき
+                    if((roleText === null) && (messageText === null)){
+                        if(line.endsWith('`')){ // 1`で始まって`で終わる行のとき
+                            text = line.slice(2).slice(0,-1) // 最初の行の左右を切り抜いて登録する
+                        }else{
+                            text = line.slice(2) // 最初の行の左を切り抜いて登録する
+                            // 次の`で終わる行までカーソルを下げる
+                            while(i < lines.length -1){
+                                if(line.endsWith('`')) break
+                                //1行分カーソルを進める
+                                i++
+                                line = lines[i]
+                                if(line.endsWith('`')) break // まだテキストが`で終わっていない場合
+                                text += "\n" + line // `間のテキストをメッセージとして登録する
+                            }
+                            if(line.endsWith('`')){
+                                text += "\n" + line.slice(0,-1); // 最後の行の右を切り抜いて登録する
+                            }else{ // `で終わらずにテキストが終わった場合
+                                text += "\n" + line
+                            }
+                        }
+                        roleText = text;
+                        // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
+                        if(i === lines.length - 1) break chatPaletteLoop
                     }
-                    if(line.endsWith('`')){
-                        text += "\n" + line.slice(0,-1); // 最後の行の右を切り抜いて登録する
-                    }else{ // `で終わらずにテキストが終わった場合
-                        text += "\n" + line
+                }else if(line.startsWith('2`')){ // 2`で始まる行のとき
+                    if(roleText !== null){
+                        if(line.endsWith('`')){ // 1`で始まって`で終わる行のとき
+                            text = line.slice(2).slice(0,-1) // 最初の行の左右を切り抜いて登録する
+                        }else{
+                            text = line.slice(2) // 最初の行の左を切り抜いて登録する
+                            // 次の`で終わる行までカーソルを下げる
+                            while(i < lines.length -1){
+                                if(line.endsWith('`')) break
+                                //1行分カーソルを進める
+                                i++
+                                line = lines[i]
+                                if(line.endsWith('`')) break // まだテキストが`で終わっていない場合
+                                text += "\n" + line // `間のテキストをメッセージとして登録する
+                            }
+                            if(line.endsWith('`')){
+                                text += "\n" + line.slice(0,-1); // 最後の行の右を切り抜いて登録する
+                            }else{ // `で終わらずにテキストが終わった場合
+                                text += "\n" + line
+                            }
+                        }
+                        messageText = text;
+                        currentData.messages = [roleText, messageText];
+                        currentData.isUseRollResult = true;
+                        break messageLoop;
                     }
+                }else if(line.startsWith('`')){
+                    if(line.endsWith('`')){ // `で始まって`で終わる行のとき
+                        text = line.slice(1,-1) // 最初の行の左右を切り抜いて登録する
+                    }else{
+                        text = line.slice(1) // 最初の行の左を切り抜いて登録する
+                        // 次の`で終わる行までカーソルを下げる
+                        while(i < lines.length -1){
+                            if(line.endsWith('`')) break
+                            //1行分カーソルを進める
+                            i++
+                            line = lines[i]
+                            if(line.endsWith('`')) break // まだテキストが`で終わっていない場合
+                            text += "\n" + line // `間のテキストをメッセージとして登録する
+                        }
+                        if(line.endsWith('`')){
+                            text += "\n" + line.slice(0,-1); // 最後の行の右を切り抜いて登録する
+                        }else{ // `で終わらずにテキストが終わった場合
+                            text += "\n" + line
+                        }
+                    }
+                    currentData.messages.push(text)
+                    // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
+                    if(i === lines.length - 1) break chatPaletteLoop
                 }
-                currentData.messages.push(text)
-                // カーソルが最後の行まで下がったなら、ここで変換処理を終わる
-                if(i === lines.length - 1) break chatPaletteLoop
             }
         }else if(line.startsWith('---')){
             //カーソルが---で始まる行まで下がった場合、区切り線(実線)のデータとして登録する
