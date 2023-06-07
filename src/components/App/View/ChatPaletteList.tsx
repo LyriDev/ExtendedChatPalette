@@ -162,12 +162,17 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                         <NameTd
                                                         rowSpan={data.messages.length}
                                                         style={{
+                                                            position: "relative",
+                                                            minWidth: "3rem",
+                                                            width: "3rem",
                                                             borderRight: "solid 1px #989898",
                                                             borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")
                                                         }}
                                                         >
                                                         <div
                                                         style={{
+                                                            position: "absolute",
+                                                            maxHeight: "calc(-8px + 100% - 8px)",
                                                             width: "3rem",
                                                             whiteSpace: ((data.messages.length <= 1) ? "nowrap" : "normal"),
                                                             overflow: "hidden",
@@ -178,7 +183,9 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                         </NameTd>
                                                     )}
                                                     <MessageTd
-                                                    style={{borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")}}
+                                                    style={{
+                                                        borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")
+                                                    }}
                                                     >
                                                         <div
                                                         style={{
