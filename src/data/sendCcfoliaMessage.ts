@@ -46,13 +46,13 @@ export function clickSubmitButton(){ // 送信ボタンを押下して送信す�
 }
 
 export interface MessageData{
-    characterName: string;
+    characterName: string | null;
     messageText: string;
 }
 export async function sendMessagesWithDelay(messageDataArray: MessageData[], interval: number = 100){ // 間隔を空けて複数メッセージを送信する関数
     for(const messageData of messageDataArray){
-        if((messageData.characterName) && (messageData.messageText)){
-            changeName(messageData.characterName)
+        if(messageData.messageText){
+            if(messageData.characterName !== null) changeName(messageData.characterName)
             changeMessage(messageData.messageText)
             clickSubmitButton()
             await new Promise((resolve) => setTimeout(resolve, interval));// 指定された時間だけ待機する

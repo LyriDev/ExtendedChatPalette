@@ -23,7 +23,7 @@ function sendCcfoliaMessage(data: ChatPalette){
                 const messageDataArray: MessageData[] = new Array
                 data.messages.map((message, index) => {
                     const currentData: MessageData = {
-                        characterName: data.characterName || "",
+                        characterName: data.characterName,
                         messageText: message
                     }
                     messageDataArray.push(currentData)
