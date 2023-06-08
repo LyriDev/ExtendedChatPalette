@@ -20,8 +20,15 @@ export default function TableRow(props: TableRowProps) {
             <td className="room-id">
                 <a
                 href={`"https://ccfolia.com/rooms/${roomId}"`}
-                onClick={() => {
-                    chrome.tabs.create({url: `https://ccfolia.com/rooms/${roomId}`});
+                onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+                    if (event.button !== 1){
+                        chrome.tabs.create({url: `https://ccfolia.com/rooms/${roomId}`});
+                    }
+                }}
+                onMouseDown={(event: React.MouseEvent<HTMLAnchorElement>) => {
+                    if (event.button === 1){
+                        chrome.tabs.create({url: `https://ccfolia.com/rooms/${roomId}`});
+                    }
                 }}
                 >
                     {roomId}
