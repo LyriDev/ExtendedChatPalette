@@ -175,7 +175,8 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                             minWidth: "3rem",
                                                             width: "3rem",
                                                             borderRight: "solid 1px #989898",
-                                                            borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898")
+                                                            borderBottom: ((paletteList[paletteIndex+1]?.borderType) ? "none" : "solid 1px #989898"),
+                                                            backgroundImage: ((data.characterName === null) ? "linear-gradient(to right top, transparent calc(50% - 0.5px), #989898 50%, #989898 calc(50% + 0.5px), transparent calc(50% + 1px))" : "")
                                                         }}
                                                         >
                                                         <div
@@ -185,7 +186,7 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
                                                             width: "3rem",
                                                             whiteSpace: ((data.messages.length <= 1) ? "nowrap" : "normal"),
                                                             overflow: "hidden",
-                                                            textOverflow: "ellipsis"
+                                                            textOverflow: "ellipsis",
                                                         }}>
                                                             {data.characterName}
                                                         </div>
