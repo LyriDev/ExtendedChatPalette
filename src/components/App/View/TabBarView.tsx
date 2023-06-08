@@ -48,7 +48,6 @@ export default function TabBarView(props: TabBarViewProps) {
                         sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
                         className="draggable-disable"
                         onClick={() => {
-                            console.log("focusIndex", focusIndex, "index", index)
                             if((focusIndex === index) && (chatPaletteListRef.current)){
                                 const scrollToOptions: object = {
                                     top: 0,
