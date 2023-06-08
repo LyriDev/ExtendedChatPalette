@@ -54,6 +54,7 @@ export default function TabBarView(props: TabBarViewProps) {
                                     behavior: "smooth"
                                 }
                                 chatPaletteListRef.current.scrollTo(scrollToOptions);
+                                setYCoord(focusIndex, 0);
                             }else{
                                 if(chatPaletteListRef.current?.scrollTop){
                                     setYCoord(focusIndex, chatPaletteListRef.current.scrollTop);
