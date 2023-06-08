@@ -70,10 +70,32 @@ const MessageTd = styled('td')({
     whiteSpace: "nowrap"
 });
 
-export default function ChatPaletteList({focusIndex, width, height, enableExDodge}: {focusIndex: number, width:number, height: number, enableExDodge: boolean}){
+interface ChatPaletteListProps {
+    focusIndex: number;
+    width:number;
+    height: number;
+    enableExDodge: boolean;
+    chatPaletteListRef: React.MutableRefObject<HTMLDivElement | null>;
+    yCoords: number[];
+    setYCoord: (tabIndex: number, yCoord: number) => void;
+}
+export default function ChatPaletteList(props: ChatPaletteListProps){
+    const { focusIndex, width, height, enableExDodge, chatPaletteListRef, yCoords, setYCoord } = props;
+
     const [chatPalettes, setChatPalettes] = useContext(DataContext) || [];
 
     const otherHeight: number = 48 + 49 + Number(enableExDodge)*48;
+
+    // 各タブごとのコンテンツの縦スクロール量を管理する
+    useEffect(() => {
+        if(chatPaletteListRef.current){
+            const scrollToOptions: object = {
+                top: yCoords[focusIndex],
+                behavior: "auto"
+            }
+            chatPaletteListRef.current.scrollTo(scrollToOptions);
+        }
+    }, [focusIndex])
 
     // マウスがhoverしている行を管理する
     const [hoveredRow, setHoveredRow] = useState<number>(-1);
@@ -119,6 +141,7 @@ export default function ChatPaletteList({focusIndex, width, height, enableExDodg
 
     return (
         <div
+        ref={chatPaletteListRef}
         className="draggable-disable"
         style={{
             width: "100%",

@@ -15,7 +15,15 @@ function a11yProps(index: number) {
     };
 }
 
-export default function TabBarView({focusIndex, setFocusIndex}: {focusIndex: number, setFocusIndex: React.Dispatch<React.SetStateAction<number>>}) {
+interface TabBarViewProps {
+    focusIndex: number;
+    setFocusIndex: React.Dispatch<React.SetStateAction<number>>;
+    chatPaletteListRef: React.MutableRefObject<HTMLDivElement | null>;
+    setYCoord: (tabIndex: number, yCoord: number) => void;
+}
+export default function TabBarView(props: TabBarViewProps) {
+    const { focusIndex, setFocusIndex, chatPaletteListRef, setYCoord } = props;
+
     const [tabNames, setTabNames] = useContext(TabNameContext) || [];
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -39,6 +47,20 @@ export default function TabBarView({focusIndex, setFocusIndex}: {focusIndex: num
                         {...a11yProps(index)}
                         sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
                         className="draggable-disable"
+                        onClick={() => {
+                            console.log("focusIndex", focusIndex, "index", index)
+                            if((focusIndex === index) && (chatPaletteListRef.current)){
+                                const scrollToOptions: object = {
+                                    top: 0,
+                                    behavior: "smooth"
+                                }
+                                chatPaletteListRef.current.scrollTo(scrollToOptions);
+                            }else{
+                                if(chatPaletteListRef.current?.scrollTop){
+                                    setYCoord(focusIndex, chatPaletteListRef.current.scrollTop);
+                                }
+                            }
+                        }}
                     />
                 ))}
             </Tabs>

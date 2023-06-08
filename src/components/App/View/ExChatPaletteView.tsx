@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { PaletteWindowContext } from "./../../../providers/App/PaletteWindowProvider"
 import { ModalContext } from "./../../../providers/App/ModalProvider"
+import { TabNameContext } from "../../../providers/App/TabNameProvider"
 import FrameBox from "./FrameBox"
 import ExChatPaletteEdit from './../Edit/ExChatPaletteEdit';
 import HeaderView from "./HeaderView"
@@ -85,6 +86,23 @@ export default function ExChatPaletteView() {
 
     const [focusIndex, setFocusIndex] = useState<number>(0); // フォーカスしているタブのindex(View用)
 
+    // 各タブごとのコンテンツの縦スクロール量を管理する
+    const chatPaletteListRef = useRef<HTMLDivElement | null>(null); // コンテンツのref
+    const [yCoords, setYCoords] = useState<number[]>([]); // コンテンツのスクロールのy座標の位置
+    const [tabNames, setTabNames] = useContext(TabNameContext) || []; // タブ名
+    useEffect(() => {
+        const newYCords: number[] = new Array;
+        tabNames?.forEach(tabName => {
+            newYCords.push(0)
+        });
+        setYCoords(newYCords)
+    },[tabNames])
+    function setYCoord(tabIndex: number, yCoord: number): void{
+        const newYCords: number[] = yCoords.slice();
+        newYCords[tabIndex] = yCoord;
+        setYCoords(newYCords);
+    }
+
     const portal: HTMLElement = document.getElementById("portal-root-ExtendedChatPalette") || document.createElement("div")
 
     return (
@@ -126,9 +144,9 @@ export default function ExChatPaletteView() {
                                 <Box style={{height: "100%"}}>
                                     <div  className="MuiPaper-elevation4">
                                         <HeaderView/>
-                                        <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
+                                        <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} chatPaletteListRef={chatPaletteListRef} setYCoord={setYCoord}/>
                                     </div>
-                                    <ChatPaletteList focusIndex={focusIndex} width={width} height={height} enableExDodge={enableExDodge}/>
+                                    <ChatPaletteList focusIndex={focusIndex} width={width} height={height} enableExDodge={enableExDodge} chatPaletteListRef={chatPaletteListRef} yCoords={yCoords} setYCoord={setYCoord}/>
                                     {enableExDodge && (
                                         <ExDodgeBar/>
                                     )}
