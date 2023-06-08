@@ -24,6 +24,6 @@
         "matches": ["https://ccfolia.com/rooms/*"],
         "js": ["app.js"],
         "css": ["app.css"],
-        "run_at": "document_end"
+        "run_at": "document_idle"
     }]
 }
