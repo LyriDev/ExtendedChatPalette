@@ -90,6 +90,7 @@ export default function ChatPaletteList(props: ChatPaletteListProps){
     useEffect(() => {
         if(chatPaletteListRef.current){
             const scrollToOptions: object = {
+                left: 0,
                 top: yCoords[focusIndex],
                 behavior: "auto"
             }
