@@ -1,5 +1,6 @@
 import React from 'react';
 import { IconButton } from '@mui/material';
+import Link from '@mui/material/Link';
 import Trash from "./../../svg/Trash"
 import { deleteData } from "./../../data/DataControl"
 
@@ -18,21 +19,26 @@ export default function TableRow(props: TableRowProps) {
     return (
         <tr>
             <td className="room-id">
-                <a
-                href={`"https://ccfolia.com/rooms/${roomId}"`}
-                onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
-                    if (event.button !== 1){
-                        chrome.tabs.create({url: `https://ccfolia.com/rooms/${roomId}`});
-                    }
+                <Link
+                sx={{
+                    color: "#1976d2",
+                    "&:active": {
+                        color: "#03a9f4",
+                        textDecoration: "underline"
+                    },
                 }}
-                onMouseDown={(event: React.MouseEvent<HTMLAnchorElement>) => {
+                underline="none"
+                onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+                    chrome.tabs.create({url: `https://ccfolia.com/rooms/${roomId}`});
+                }}
+                onMouseUp={(event: React.MouseEvent<HTMLAnchorElement>) => {
                     if (event.button === 1){
                         chrome.tabs.create({url: `https://ccfolia.com/rooms/${roomId}`});
                     }
                 }}
                 >
                     {roomId}
-                </a>
+                </Link>
             </td>
             <td className="room-name">
                 {roomName}
