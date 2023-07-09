@@ -137,7 +137,12 @@ window.onload = async function(){
 
 
 
-//テスト用コード(コンソール上で実行)
+//テスト用コード
+/* document.addEventListener("keydown", function(event) {
+    if (event.key === "/") {
+        checkQueries();
+    }
+}); */
 import {
     hamburgerMenuButtonQuery,
     nameFormQuery,
@@ -148,11 +153,6 @@ import {
     roomNameQuery,
     diceSystemQuery,
 } from "./data/documentQueries"
-document.addEventListener("keydown", function(event) {
-    if (event.key === "/") {
-        checkQueries();
-    }
-});
 function checkQueries(): void{
     console.log(
         "myCharacterButtonQuery", "\n",
