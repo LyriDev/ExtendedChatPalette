@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import "./style/app.scss"
 import Providers from "./providers/App/Providers"
@@ -134,3 +134,81 @@ window.onload = async function(){
     addExChatPaletteButton();
     addExChatPaletteList()
 };
+
+
+
+//テスト用コード(コンソール上で実行)
+import {
+    hamburgerMenuButtonQuery,
+    nameFormQuery,
+    submitFormQuery,
+    messageFormQuery,
+    roomChatQuery,
+    messageColumnQuery,
+    roomNameQuery,
+    diceSystemQuery,
+} from "./data/documentQueries"
+document.addEventListener("keydown", function(event) {
+    if (event.key === "/") {
+        checkQueries();
+    }
+});
+function checkQueries(): void{
+    console.log(
+        "myCharacterButtonQuery", "\n",
+        "画面上部に表示されている「マイキャラクター一覧」のアイコンボタン", "\n",
+        myCharacterButtonQuery, "\n",
+        document.querySelector(myCharacterButtonQuery), "\n",
+        "\n",
+        "hamburgerMenuButtonQuery", "\n",
+        "レスポンシブデザイン用のハンバーガーメニュー開閉ボタン", "\n",
+        hamburgerMenuButtonQuery, "\n",
+        document.querySelector(hamburgerMenuButtonQuery), "\n",
+        "\n",
+        "myCharacterColumnQuery", "\n",
+        "レスポンシブデザイン用のul要素内の「マイキャラクター」欄", "\n",
+        myCharacterColumnQuery, "\n",
+        document.querySelector(myCharacterColumnQuery), "\n",
+        "\n",
+        "editHeaderQuery", "\n",
+        "キャラクター編集メニューの一番上の「キャラクター編集」見出し", "\n",
+        editHeaderQuery, "\n",
+        document.querySelector(editHeaderQuery), "\n",
+        "\n",
+        "nameFormQuery", "\n",
+        "メッセージ入力フォームの名前欄", "\n",
+        nameFormQuery, "\n",
+        document.querySelector(nameFormQuery), "\n",
+        "\n",
+        "submitFormQuery", "\n",
+        "メッセージ入力フォームの送信ボタン", "\n",
+        submitFormQuery, "\n",
+        document.querySelector(submitFormQuery), "\n",
+        "\n",
+        "messageFormQuery", "\n",
+        "メッセージ入力フォームのメッセージ欄", "\n",
+        messageFormQuery, "\n",
+        document.querySelector(messageFormQuery), "\n",
+        "\n",
+        "roomChatQuery", "\n",
+        "「ルームチャット」タブ", "\n",
+        roomChatQuery, "\n",
+        document.querySelector(roomChatQuery), "\n",
+        "\n",
+        "messageColumnQuery", "\n",
+        "「ルームチャット」タブのメッセージ欄", "\n",
+        messageColumnQuery, "\n",
+        document.querySelector(messageColumnQuery), "\n",
+        "\n",
+        "roomNameQuery", "\n",
+        "ルーム名欄", "\n",
+        roomNameQuery, "\n",
+        document.querySelector(roomNameQuery), "\n",
+        "\n",
+        "diceSystemQuery", "\n",
+        "ダイスシステム欄", "\n",
+        diceSystemQuery, "\n",
+        document.querySelector(diceSystemQuery), "\n",
+        "\n",
+    )
+}

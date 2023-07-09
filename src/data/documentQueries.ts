@@ -6,8 +6,8 @@ export const myCharacterButtonQuery: string = "#root > div > header > div > butt
 // レスポンシブデザイン用のハンバーガーメニュー開閉ボタン
 export const hamburgerMenuButtonQuery: string = "#root > div > header > div > button:nth-of-type(8)";
 
-// レスポンシブデザイン用のul要素内の、一番上の要素である「マイキャラクター」欄(であると予測される要素)を取得する
-export const myCharacterColumnQuery: string = "body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul > li:first-child";
+// レスポンシブデザイン用のul要素内の、一番上の要素である「マイキャラクター」欄(であると予測される要素)
+export const myCharacterColumnQuery: string = "body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul > li:nth-of-type(1)";
 
 // キャラクター編集メニューの一番上の「キャラクター編集」見出し
 export const editHeaderQuery: string = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > header > div > p";
@@ -15,13 +15,13 @@ export const editHeaderQuery: string = "body > div.MuiDialog-root > div.MuiDialo
 // 入力フォーム
 const formQuery: string = "#root > div > div:nth-child(5) > div > div > div > form";
 
-// メッセージ入力フォームの、名前欄
+// メッセージ入力フォームの名前欄
 export const nameFormQuery: string = `${formQuery} > div:nth-child(2) > div:nth-child(1) > div > input`;
 
-// メッセージ入力フォームの、送信ボタン
+// メッセージ入力フォームの送信ボタン
 export const submitFormQuery: string = `${formQuery} > div:nth-child(2) > button:nth-of-type(3)`;
 
-// メッセージ入力フォームの、メッセージ欄
+// メッセージ入力フォームのメッセージ欄
 export const messageFormQuery: string = `${formQuery} > div:nth-child(3) textarea`;
 
 // 「ルームチャット」タブ(メッセージ一覧)
