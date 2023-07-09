@@ -1,4 +1,5 @@
 import {DataModel, Settings, Data, Tab, ChatPalette } from "./DataModel"
+import { roomNameQuery } from "./documentQueries";
 
 function clipUrl(url: string): string{ // URLのクエリ文字列やURLフラグメントを取り除いた、URLのパス部分を取得する関数
     const urlObj: URL = new URL(url);
@@ -14,7 +15,7 @@ function getRoomId(): string{ // ココフォリアのルームIDを取得する
 }
 function getRoomName(): string {
     let result: string;
-    const targetElement: Element | null = document.querySelector("#root > div > header > div > button:nth-child(1) > span.MuiButton-label > h6");
+    const targetElement: Element | null = document.querySelector(roomNameQuery);
     result = targetElement?.childNodes[0]?.textContent || ""
     return result;
 }

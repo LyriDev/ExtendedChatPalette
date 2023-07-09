@@ -1,3 +1,5 @@
+import { diceSystemQuery, messageFormQuery, nameFormQuery, submitFormQuery } from "./documentQueries";
+
 function clearFormValue(element: HTMLInputElement|HTMLTextAreaElement) :void{ // フォームのinput要素等の既存の入力内容を削除する関数
     const valueLength: number = element.value.length
     element.focus()
@@ -21,7 +23,7 @@ function clickTheButton(element: HTMLButtonElement){ // 特定のbutton要素を
 }
 
 export function changeName(characterName: string, isDo: boolean = true): boolean { // キャラ名を編集する関数
-    const nameElm = document.querySelector<HTMLInputElement>("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > div > form > div.sc-lbxAil.jRFYca > div.sc-kgUAyh.bvBYpc > div > input") as HTMLInputElement;
+    const nameElm = document.querySelector<HTMLInputElement>(nameFormQuery) as HTMLInputElement;
     if (nameElm?.value !== characterName) {
         if(isDo) overrideFormValue(nameElm, characterName);
         return true;
@@ -31,7 +33,7 @@ export function changeName(characterName: string, isDo: boolean = true): boolean
 }
 
 export function changeMessage(messageText: string, isDo: boolean = true): boolean { // メッセージを変更する関数
-    const messageElm = document.querySelector<HTMLTextAreaElement>("#downshift-0-input") as HTMLTextAreaElement;
+    const messageElm = document.querySelector<HTMLTextAreaElement>(messageFormQuery) as HTMLTextAreaElement;
     if (messageElm?.value !== messageText) {
         if(isDo) overrideFormValue(messageElm, messageText);
         return true;
@@ -41,7 +43,7 @@ export function changeMessage(messageText: string, isDo: boolean = true): boolea
 }
 
 export function clickSubmitButton(){ // 送信ボタンを押下して送信する関数
-    const submitButton: HTMLButtonElement = document.querySelector("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > div > form > div.sc-lbxAil.jRFYca > button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textSizeSmall.MuiButton-sizeSmall") as HTMLButtonElement
+    const submitButton: HTMLButtonElement = document.querySelector(submitFormQuery) as HTMLButtonElement
     clickTheButton(submitButton)
 }
 
@@ -61,7 +63,7 @@ export async function sendMessagesWithDelay(messageDataArray: MessageData[], int
 }
 
 export function getDiceSystem(): "1d100"|"CCB"|"CC"{ // ダイスシステムを取得する関数
-    const systemElm: HTMLSpanElement = document.querySelector("#root > div > header > div > button:nth-child(1) > span.MuiButton-label > h6 > span") as HTMLSpanElement;
+    const systemElm: HTMLSpanElement = document.querySelector(diceSystemQuery) as HTMLSpanElement;
     const systemName: string = systemElm.textContent || "";
     let diceSystem: "1d100"|"CCB"|"CC" = "1d100";
     if(systemName === "クトゥルフ神話TRPG"){

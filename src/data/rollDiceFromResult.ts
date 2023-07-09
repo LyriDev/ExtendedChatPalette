@@ -1,3 +1,4 @@
+import { messageColumnQuery, nameFormQuery, roomChatQuery } from "./documentQueries";
 import { changeName, changeMessage, clickSubmitButton } from "./sendCcfoliaMessage"
 
 // 特定のダイスロール結果を元に、ダイスロールを行う関数
@@ -10,7 +11,7 @@ export async function rollDiceFromResult(characterName: string | null, firstRole
     const isChangedMessage: boolean = changeMessage(firstRole);
 
     // キャラクター名がnull(指定なし)なら、現在の発言キャラクターを取得しておく
-    const characterNameElm: HTMLInputElement | null = document.querySelector("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > div > form > div.sc-lbxAil.jRFYca > div.sc-kgUAyh.bvBYpc > div > input");
+    const characterNameElm: HTMLInputElement | null = document.querySelector(nameFormQuery);
     characterName =  characterNameElm?.value || "noname";
 
     // 最初のロール結果の監視を開始する
@@ -21,7 +22,7 @@ export async function rollDiceFromResult(characterName: string | null, firstRole
 
     // 最初のロール結果の監視をしている間に、最初のロールを行う
     // 最新のメッセージの要素を取得するために、一番下までスクロールする
-    const scrollMenu: HTMLElement | null = document.querySelector("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > ul > div:nth-child(1) > div")
+    const scrollMenu: HTMLElement | null = document.querySelector(roomChatQuery)
     scrollMenu?.scrollTo(0, scrollMenu.scrollHeight);
     // 送信ボタンを押して最初のロールを行う
     clickSubmitButton();
@@ -43,7 +44,7 @@ export async function rollDiceFromResult(characterName: string | null, firstRole
 async function watchMessage(targetCharacterName: string, targetMessage: string): Promise<string>{
     return new Promise((resolve, reject) => {
         // 監視するDOMノードを取得
-        const targetNode: HTMLDivElement | null = document.querySelector("#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-fbPSWO.cRgvHx > div > div > ul > div:nth-child(1) > div > div");
+        const targetNode: HTMLDivElement | null = document.querySelector(messageColumnQuery);
         if(!targetNode) throw new Error("メッセージ欄が見当たりませんでした。")
 
         // MutationObserverオブジェクトを作成する

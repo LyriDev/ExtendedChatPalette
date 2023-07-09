@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
 import { PaletteWindowContext } from "./../../providers/App/PaletteWindowProvider"
 import ExChatPaletteView from "./View/ExChatPaletteView"
+import { hamburgerMenuButtonQuery } from '../../data/documentQueries';
 
 const theme = createTheme({
     palette: {
@@ -22,7 +23,7 @@ export default function HamburgerListTab() { // レスポンシブデザイン�
                 <MenuItem
                 onClick={(event: React.SyntheticEvent) => {
                     // メニュー表示中に、ハンバーガーリストボタンを再度クリックし、メニューを閉じる
-                    const HamburgerListButton: HTMLButtonElement | null = document.querySelector("#root > div > header > div > button.MuiButtonBase-root.MuiIconButton-root.sc-eFWqGp.jBnKGh");
+                    const HamburgerListButton: HTMLButtonElement | null = document.querySelector(hamburgerMenuButtonQuery);
                     HamburgerListButton?.click();
                     if(toggleMenu) toggleMenu(); // 拡張チャットパレットを開く
                 }}

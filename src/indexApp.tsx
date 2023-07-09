@@ -5,6 +5,7 @@ import Providers from "./providers/App/Providers"
 import HamburgerListTab from "./components/App/HamburgerListTab"
 import ExChatPaletteButton from "./components/App/ExChatPaletteButton"
 import ConvertButton from "./components/App/ConvertButton"
+import { myCharacterButtonQuery, myCharacterColumnQuery, editHeaderQuery } from "./data/documentQueries"
 
 function addModalPortalRoot(): void{ // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成する関数
     // ポータルを追加するためのルート要素を作成
@@ -21,7 +22,7 @@ function addPalettePortalRoot(): void{ // ポータル(拡張チャットパレ�
 
 async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパレットボタンを追加する関数
     // 「マイキャラクター一覧」ボタンを取得する
-    let targetElement: HTMLElement|null = await challengeQuery("#root > div > header > div > button.MuiButtonBase-root.MuiIconButton-root.sc-bWXABl.iZZULD");
+    let targetElement: HTMLElement|null = await challengeQuery(myCharacterButtonQuery);
     if (!targetElement){
          // 一定時間待機してもターゲットとなる要素が見つからなければ処理を止める
         throw new Error("拡張チャットパレットボタンを追加できませんでした")
@@ -84,7 +85,7 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
                 // ここに追加された要素に対する処理を記述
                 console.log('ページ内での要素の追加を検知しました');
                 // レスポンシブデザイン用のul要素内の一番上の要素「マイキャラクター」欄(であると予測される要素)を取得する
-                const MyCharacterColumn = document.querySelector("body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul > li:first-child")
+                const MyCharacterColumn = document.querySelector(myCharacterColumnQuery)
                 // ul要素の一番上の子要素であるli要素のテキストが「マイキャラクター」なら、
                 if (MyCharacterColumn?.textContent === "マイキャラクター"){
                     // 「マイキャラクター」欄の前に「拡張チャットパレット」欄を追加する
@@ -101,7 +102,7 @@ async function addExChatPaletteList(){ // レスポンシブデザイン用の�
                     return;
                 }
                 // キャラクター編集メニューの「キャラクター編集」見出し要素を取得する
-                const characterEditTitle = document.querySelector("body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > header > div > p")
+                const characterEditTitle = document.querySelector(editHeaderQuery)
                 if(characterEditTitle?.textContent === "キャラクター編集"){
                     // 「キャラクター編集」見出しの後ろに「拡張チャパレ変換」ボタンを追加する
                     characterEditTitle.after(container)
