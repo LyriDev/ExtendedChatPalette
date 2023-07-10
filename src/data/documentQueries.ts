@@ -13,7 +13,7 @@ export const myCharacterColumnQuery: string = "body > div.MuiPopover-root > div.
 export const editHeaderQuery: string = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > header > div > p";
 
 // 入力フォーム
-const formQuery: string = "#root > div > div:nth-child(5) > div > div > div > form";
+const formQuery: string = "#root > div > div.MuiDrawer-root > div > div > div > form";
 
 // メッセージ入力フォームの名前欄
 export const nameFormQuery: string = `${formQuery} > div:nth-child(2) > div:nth-child(1) > div > input`;
