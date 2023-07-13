@@ -3,9 +3,10 @@ import React from 'react';
 type Props = {
   value: number;
   setNumber:  React.Dispatch<React.SetStateAction<number>>;
+  idName: string;
 };
 
-export default function InputNumber({ value, setNumber }: Props){
+export default function InputNumber({ value, setNumber, idName }: Props){
   const onChangeHandler = (value: string) => {
     const v = value.replace(/[０-９．]/g, (s) =>
       String.fromCharCode(s.charCodeAt(0) - 0xfee0)
@@ -20,6 +21,7 @@ export default function InputNumber({ value, setNumber }: Props){
       type="text"
       inputMode="numeric"
       value={value}
+      id={idName}
       onChange={(e) => onChangeHandler(e.target.value)}
       style={{
         width: "1.3rem",

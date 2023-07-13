@@ -78,7 +78,10 @@ export default function ExDodgeBar() {
                         cursor: "default",
                     }}
                     >
-                        回避回数:<InputNumber value={dodgeCount} setNumber={setDodgeCount} />
+                        <span>
+                            <label htmlFor="dodgeCount">回避回数:</label>
+                            <InputNumber value={dodgeCount} setNumber={setDodgeCount} idName="dodgeCount" />
+                        </span>
                     </div>
                     <Button
                     className="draggable-disable"
