@@ -25,7 +25,8 @@ export const submitFormQuery: string = `${formQuery} > div:nth-child(2) > button
 export const messageFormQuery: string = `${formQuery} > div:nth-child(3) textarea`;
 
 // 「ルームチャット」タブ(メッセージ一覧)
-export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-hsOonA.buVWki > div > div > ul > div:nth-child(1) > div";
+export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer-docked > div > div > ul > div:nth-child(1) > div";
+
 export const messageColumnQuery: string = `${roomChatQuery} > div`;
 
 // 画面左上の、ルーム名欄
