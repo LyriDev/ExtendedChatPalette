@@ -26,6 +26,7 @@ export const messageFormQuery: string = `${formQuery} > div:nth-child(4) textare
 
 // 「ルームチャット」タブ(メッセージ一覧)
 export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer-docked > div > div > ul > div:nth-child(1) > div";
+
 export const messageColumnQuery: string = `${roomChatQuery} > div`;
 
 // 画面左上の、ルーム名欄

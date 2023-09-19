@@ -1,9 +1,24 @@
 import React, { useContext } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import Icon from "./../../svg/Icon"
 import { PaletteWindowContext } from "./../../providers/App/PaletteWindowProvider"
 import ExChatPaletteView from "./View/ExChatPaletteView"
+
+
+const theme = createTheme({
+    components: {
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            backgroundColor: 'black', // 背景色を黒に設定
+            color: 'white', // テキスト色を白に設定（任意の色）
+          },
+        },
+      },
+    },
+  });
 
 interface MyComponentProps {
     isActive: boolean;
@@ -26,23 +41,25 @@ export default function ExChatPaletteButton({ isActive }: MyComponentProps) { //
     };
 
     return (
-        <div className='iZZULD'>
-            <IconButton
-            onClick={() => {
-                if(toggleMenu) toggleMenu()
-            }}
-            className="exTooltip bottom"
-            tabIndex={0}
-            type="button"
-            aria-label="拡張チャットパレット"
-            style={style}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            disabled={isActive ? false : true}
-            >
-                <Icon />
-            </IconButton>
-            <ExChatPaletteView/>
-        </div>
+        <ThemeProvider theme={theme}>
+            <div className='iZZULD'>
+                <Tooltip title="拡張チャットパレット">
+                    <IconButton
+                    onClick={() => {
+                        if(toggleMenu) toggleMenu()
+                    }}
+                    tabIndex={0}
+                    type="button"
+                    style={style}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    disabled={isActive ? false : true}
+                    >
+                        <Icon />
+                    </IconButton>
+                </Tooltip>
+                <ExChatPaletteView/>
+            </div>
+        </ThemeProvider>
     );
 }
