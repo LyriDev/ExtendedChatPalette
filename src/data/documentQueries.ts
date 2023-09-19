@@ -19,13 +19,13 @@ const formQuery: string = "#root > div > div.MuiDrawer-root > div > div > div > 
 export const nameFormQuery: string = `${formQuery} > div:nth-child(2) > div:nth-child(1) > div > input`;
 
 // メッセージ入力フォームの送信ボタン
-export const submitFormQuery: string = `${formQuery} > div:nth-child(2) > button:nth-of-type(3)`;
+export const submitFormQuery: string = `${formQuery} button[type='submit']`;
 
 // メッセージ入力フォームのメッセージ欄
-export const messageFormQuery: string = `${formQuery} > div:nth-child(3) textarea`;
+export const messageFormQuery: string = `${formQuery} > div:nth-child(4) textarea`;
 
 // 「ルームチャット」タブ(メッセージ一覧)
-export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer-docked.sc-hsOonA.buVWki > div > div > ul > div:nth-child(1) > div";
+export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer-docked > div > div > ul > div:nth-child(1) > div";
 export const messageColumnQuery: string = `${roomChatQuery} > div`;
 
 // 画面左上の、ルーム名欄
