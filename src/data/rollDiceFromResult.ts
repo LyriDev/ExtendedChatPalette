@@ -56,7 +56,7 @@ async function watchMessage(targetCharacterName: string, targetMessage: string):
                     const addedMessageDiv: HTMLElement = mutation.addedNodes[0] as HTMLElement;// メッセージが送信されて追加されたDiv要素を取得する
 
                     // キャラ名を取得する
-                    const characterNameElm: HTMLSpanElement | null = addedMessageDiv.querySelector("span"); // キャラ名の要素
+                    const characterNameElm: HTMLSpanElement | null = addedMessageDiv.querySelector("h6"); // キャラ名の要素
                     if(!characterNameElm) return;
                     const characterName = characterNameElm.textContent; // キャラ名
                     if(characterName !== targetCharacterName) return; // キャラ名が指定と異なる場合は、追加された要素に対する処理を終了する
