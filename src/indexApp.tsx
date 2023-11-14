@@ -59,7 +59,8 @@ async function challengeQuery(query: string): Promise<HTMLElement | null>{ // �
             targetElement = document.querySelector(query);
             if(targetElement !== null){
                 console.log(`目標の要素を発見しました\ndocument.querySelector("${query}")`,targetElement);
-                resolve(targetElement);
+                observer.disconnect(); // DOMの監視を終了する
+                resolve(targetElement); // 結果を返してPromiseを解決する
             }
         });
 
