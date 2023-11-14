@@ -45,27 +45,33 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
     );
 }
 
-async function challengeQuery(query: string, timeLimit: number = 60): Promise<HTMLElement|null>{ // 指定された要素が見つかるまで数秒くらい待機する関数
-    const intervalInSeconds: number = 0.1; // 繰り返し間隔(秒)
-    let targetElement: HTMLElement|null = null;
-    let queryCounter: number = 0;
-    await new Promise(resolve => {
-        const intervalId = setInterval(function() {
-            console.log(`「拡張チャットパレット」待機中……\n現在${Math.floor(queryCounter*100)/100}/${timeLimit}秒待機`)
+async function challengeQuery(query: string): Promise<HTMLElement | null>{ // 指定された要素が見つかるまで数秒くらい待機する関数
+    let targetElement: HTMLElement | null = null;
+
+    // 拡張チャットパレット欄追加のためのボタンリストが描画されるのを待機する
+    // 監視するDOMノードを取得
+    const targetNode: HTMLElement = document.body;
+
+    return new Promise((resolve, _reject) => {
+        // MutationObserverオブジェクトを作成
+        const observer: MutationObserver = new MutationObserver((_mutationsList, _observer) => {
+            // 変更が検出された際に実行されるコールバック関数
             targetElement = document.querySelector(query);
-            queryCounter += intervalInSeconds;
-            if ((targetElement !== null) || (queryCounter >= timeLimit)) {
-                clearInterval(intervalId);
+            if(targetElement !== null){
+                console.log(`目標の要素を発見しました\ndocument.querySelector("${query}")`,targetElement);
                 resolve(targetElement);
-                if(targetElement !== null){
-                    console.log(`目標の要素を発見しました\ndocument.querySelector("${query}")`,targetElement)
-                }else{
-                    throw new Error("タイムアウト。目標の要素を発見できませんでした")
-                }
             }
-        }, intervalInSeconds * 1000);
+        });
+
+        // 監視オプションを設定
+        const config = {
+            childList: true, // 子ノードの変化を監視
+            subtree: true // 子孫ノードも監視対象に含める
+        };
+
+        // 監視を開始
+        observer.observe(targetNode, config);
     });
-    return targetElement;
 }
 
 async function addExChatPaletteList(){ // レスポンシブデザイン用のリストに拡張チャットパレット欄を追加する関数
