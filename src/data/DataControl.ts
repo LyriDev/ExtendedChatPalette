@@ -29,7 +29,6 @@ export function getRoomData(): RoomData{ // 部屋IDと部屋名を取得する�
         roomId: getRoomId(),
         roomName: getRoomName()
     }
-    console.log(result)
     return result;
 }
 
