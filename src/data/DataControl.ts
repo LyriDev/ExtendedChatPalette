@@ -29,6 +29,7 @@ export function getRoomData(): RoomData{ // 部屋IDと部屋名を取得する�
         roomId: getRoomId(),
         roomName: getRoomName()
     }
+    console.log(result)
     return result;
 }
 
@@ -142,9 +143,11 @@ export async function saveTabData(
     tabNames: string[],
     texts: string[],
     chatPalettes: ChatPalette[][] = convertTextArrayToJSON(texts),
-    roomId: string = getRoomId(),
-    roomName: string = getRoomName()
+    roomData: RoomData = getRoomData()
 ): Promise<DataModel>{
+    const roomId: string = roomData.roomId;
+    const roomName: string = roomData.roomName;
+
     return new Promise<DataModel>((resolve, reject) => {
         if(tabNames.length !== texts.length){
             throw new Error("tabNames と texts の数が違います");

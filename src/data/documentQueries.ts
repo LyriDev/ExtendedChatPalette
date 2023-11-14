@@ -30,6 +30,6 @@ export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer
 export const messageColumnQuery: string = `${roomChatQuery} > div`;
 
 // 画面左上の、ルーム名欄
-export const roomNameQuery: string = "#root > div > header > div > button:nth-child(1) > span.MuiButton-label > h6";
+export const roomNameQuery: string = "#root > div > header > div > button:nth-child(1) > h6";
 // 画面左上の、ダイスシステム欄
 export const diceSystemQuery: string = `${roomNameQuery} > span`;
