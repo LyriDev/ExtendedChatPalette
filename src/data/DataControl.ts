@@ -173,6 +173,7 @@ export async function saveTabData(
                 const sendData: DataModel = { data: existingData }
                 chrome.storage.local.set(sendData, function() {
                     resolve(sendData);
+                    console.log("拡張チャパレのデータを保存しました")
                 });
             });
         }catch(e){

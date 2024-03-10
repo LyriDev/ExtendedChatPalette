@@ -28,8 +28,9 @@ async function addExChatPaletteButton(): Promise<void>{ // 拡張チャットパ
         throw new Error("拡張チャットパレットボタンを追加できませんでした")
     }
 
-    // 工事中モード等でボタンが無効になっていたらfalseを代入する
-    const isButtonEnable: boolean = !(targetElement.classList.contains("Mui-disabled"))
+    // 工事中モード等でマイキャラクター一覧ボタンが無効になっていたらfalseを代入する
+    // const isButtonEnable: boolean = !(targetElement.classList.contains("Mui-disabled"));
+    const isButtonEnable: boolean = true;
 
     // 「マイキャラクター一覧」の要素の前に拡張チャットパレットボタンを追加する
     const container: HTMLElement = document.createElement("div")

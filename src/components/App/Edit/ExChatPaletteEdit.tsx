@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { ModalContext } from "../../../providers/App/ModalProvider"
 import TabsContent from './TabsContent'
 import HeaderEdit from './HeaderEdit'
 import TabBarEdit from "./TabBarEdit"
+import { TextContext } from '../../../providers/App/TextProvider';
 
 const menuStyle: React.CSSProperties = {
     color: "#fff",
@@ -75,13 +76,14 @@ const theme = createTheme({
 
 export default function ExChatPaletteEdit({focusIndex, setFocusIndex}: {focusIndex: number, setFocusIndex: React.Dispatch<React.SetStateAction<number>>}) {
     const resource = useContext(ModalContext);
+    const [texts, setTexts] = useContext(TextContext) || [];
 
     useEffect(() => {
         return () => {
             // アンマウントされる直前に実行される処理を記述する
-            resource?.save()
+            resource?.save(texts)
         };
-    }, []);
+    }, [texts]);
 
     return (
         <div className="editMenu" style={menuStyle}>
