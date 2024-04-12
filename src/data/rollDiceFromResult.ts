@@ -37,6 +37,7 @@ export async function rollDiceFromResult(characterName: string | null, firstRole
     // 最初のロール結果を使用した、次のロールを行う
     changeMessage(replacedSecondRole);
     clickSubmitButton();
+    changeMessage("");
 }
 
 // 指定したテキストのロール結果を取得する関数

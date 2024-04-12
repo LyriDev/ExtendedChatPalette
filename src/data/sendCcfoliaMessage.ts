@@ -60,6 +60,7 @@ export async function sendMessagesWithDelay(messageDataArray: MessageData[], int
             await new Promise((resolve) => setTimeout(resolve, interval));// 指定された時間だけ待機する
         }
     }
+    changeMessage("")
 }
 
 export function getDiceSystem(): "1d100"|"CCB"|"CC"{ // ダイスシステムを取得する関数
