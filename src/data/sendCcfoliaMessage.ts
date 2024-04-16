@@ -3,9 +3,8 @@ import { diceSystemQuery, messageFormQuery, nameFormQuery, submitFormQuery } fro
 function clearFormValue(element: HTMLInputElement|HTMLTextAreaElement) :void{ // フォームのinput要素等の既存の入力内容を削除する関数
     const valueLength: number = element.value.length
     element.focus()
-    for(let i: number = 0; i < valueLength; i++){
-        document.execCommand('delete', false);
-    }
+    document.execCommand("selectAll", false);
+    document.execCommand("removeFormat", false);
 }
 
 function addFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{ // フォームのinput要素等に内容を入力する関数
