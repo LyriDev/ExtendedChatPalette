@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { getData, getSettings, deleteData, getBytes } from '../../data/DataControl';
-import { Data } from "./../../data/DataModel"
+import { Data, RoomData, Tab } from "./../../data/DataModel"
 import TableRow from "./TableRow"
 
 const theme = createTheme({
@@ -20,10 +20,20 @@ export default function Popup() {
     const [paletteByte, setPaletteByte] = useState<number>(0); // 拡張チャパレのデータ量を格納した配列
     const [bytes, setBytes] = useState<number[]>([]); // 部屋毎のデータ量を格納した配列
 
+    const [currentData, setCurrentData] = useState<RoomData & { roomId: string } | null>(null)
+
     function setDeletedData(key: string){
         const newData: Data = Object.assign({}, data)
         delete newData[key];
         setData(newData)
+    }
+
+    function setPastedData(roomId: string, tabs: Tab[]){
+        setData(prev => {
+            const newData: Data = Object.assign({}, prev)
+            newData[roomId].tabs = tabs;
+            return newData;
+        })
     }
 
     useEffect(() => {
@@ -138,6 +148,8 @@ export default function Popup() {
                         <th className="room-id">ルームID</th>
                         <th className="room-name">ルーム名</th>
                         <th className="used-byte">{"使用容量 [KB]"}</th>
+                        <th className="copy-button"></th>
+                        <th className="paste-button"></th>
                         <th className="delete-button"></th>
                     </tr>
                     {data && Object.keys(data).map((key, dataIndex) => (
@@ -148,6 +160,11 @@ export default function Popup() {
                         totalByte={bytes.reduce(function(sum, element){return sum + element;}, 0)}
                         paletteByte={paletteByte}
                         setDeletedData={setDeletedData}
+                        roomDataTabs={data[key].tabs}
+                        setPastedData={setPastedData}
+                        currentData={currentData}
+                        setCurrentData={setCurrentData}
+                        data={data}
                         />
                     ))}
                 </table>
