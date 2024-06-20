@@ -182,7 +182,30 @@ export async function saveTabData(
     });
 }
 
-
+export async function saveTabs(
+    roomId: string,
+    tabs: Tab[]
+): Promise<DataModel>{
+    return new Promise<DataModel>((resolve, reject) => {
+        try{
+            // 既存のデータを取得
+            chrome.storage.local.get("data", function(response) {
+                const existingData: Data = response.data || {}; // 既存のデータ
+                const result: Tab[] = new Array;
+                // 既存のデータと新しいデータをマージ
+                existingData[roomId].tabs = tabs;
+                // 既存のデータをデータベースに保存する
+                const sendData: DataModel = { data: existingData }
+                chrome.storage.local.set(sendData, function() {
+                    resolve(sendData);
+                    console.log("拡張チャパレのデータを保存しました")
+                });
+            });
+        }catch(e){
+            throw e;
+        }
+    });
+}
 
 
 
