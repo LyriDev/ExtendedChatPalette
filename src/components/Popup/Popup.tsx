@@ -81,6 +81,41 @@ export default function Popup() {
         chrome.storage.local.clear();
     }
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const result = e.target?.result;
+                    if (typeof result === 'string') {
+                        const parsedJson = JSON.parse(result);
+                        const sendData = { data: parsedJson }
+                        chrome.storage.local.set(sendData, function() {
+                            console.log("データを保存しました")
+                        });
+                    }
+                } catch (error) {
+                console.error('Error parsing JSON:', error);
+                }
+            };
+            reader.readAsText(file);
+        }
+    };
+    
+    const handleDownload = () => {
+        getData().then(jsonData => {
+            const dataStr = JSON.stringify(jsonData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '拡張チャパレ.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        })
+    };
+
     return (
         <div className="App" >
             <ThemeProvider theme={theme}>
@@ -93,6 +128,10 @@ export default function Popup() {
                         onChange={changeDodgeSettings}
                     />
                     <label htmlFor="check">連続回避ロールを表示する</label>
+                </div>
+                <div>
+                    <button onClick={handleDownload}>JSON出力</button>
+                    <input type="file" accept=".json" onChange={handleFileChange}/>
                 </div>
                 <table>
                     <tr>
