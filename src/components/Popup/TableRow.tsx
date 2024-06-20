@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconButton } from '@mui/material';
 import Link from '@mui/material/Link';
 import Trash from "./../../svg/Trash"
-import { deleteData } from "./../../data/DataControl"
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import { deleteData, saveTabs } from "./../../data/DataControl"
+import { Data, RoomData, Tab } from '../../data/DataModel';
+import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
 
 interface TableRowProps {
     roomId: string;
@@ -11,10 +15,27 @@ interface TableRowProps {
     totalByte: number;
     paletteByte: number;
     setDeletedData: (key: string) => void;
+    roomDataTabs: Tab[];
+    setPastedData: (roomId: string, tabs: Tab[]) => void;
+    currentData: RoomData & { roomId: string } | null;
+    setCurrentData: React.Dispatch<React.SetStateAction<RoomData & { roomId: string } | null>>;
+    data: Data
 }
 
 export default function TableRow(props: TableRowProps) {
-    const { roomId, roomName, byte, totalByte, paletteByte, setDeletedData } = props;
+    const {
+        roomId,
+        roomName,
+        byte,
+        totalByte,
+        paletteByte,
+        setDeletedData,
+        roomDataTabs,
+        setPastedData,
+        currentData,
+        setCurrentData,
+        data
+    } = props
 
     return (
         <tr>
@@ -46,9 +67,41 @@ export default function TableRow(props: TableRowProps) {
             <td  className="used-byte">
                 {(Math.round((paletteByte * (byte / totalByte))) / 1024).toFixed(2)} KB
             </td>
-            <td className="delete-button">
+            <td className="copy-button" style={{ borderLeft: "1px white solid" }}>
                 <IconButton color="primary"
                 onClick={() => {
+                    setCurrentData({
+                        roomId,
+                        roomName,
+                        tabs: roomDataTabs
+                    })
+                    // alert(`「${roomName}」のデータをコピーしました。`)
+                }}
+                >
+                    <ContentCopyIcon/>
+                </IconButton>
+            </td>
+            <td className="paste-button">
+                <IconButton color="primary"
+                onClick={() => {
+                    if(currentData){
+                        // const isPasteDo: boolean = confirm(`本当に「${data[currentData.roomId].roomName}」の拡張チャパレデータを、「${roomName}」に貼り付けますか？`)
+                        // if(!isPasteDo) return
+                        saveTabs(roomId, currentData.tabs)
+                        setPastedData(roomId, currentData.tabs)
+                    }else{
+                        // alert("コピー中の拡張チャパレデータがないため、貼り付けできません。\nコピーボタンを押してから再度お試しください。")
+                    }
+                }}
+                >
+                    <ContentPasteIcon/>
+                </IconButton>
+            </td>
+            <td className="delete-button" style={{ borderLeft: "1px white solid" }}>
+                <IconButton color="primary"
+                onClick={() => {
+                    // const isDeleteDo: boolean = confirm(`本当に「${roomName}」のデータを削除しますか？`)
+                    // if(!isDeleteDo) return
                     deleteData(roomId).then((response) => {
                         setDeletedData(roomId);
                     })

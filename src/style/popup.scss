@@ -32,8 +32,11 @@ body{
             th.used-byte, td.used-byte {
                 width: 4rem;
             }
-            th.delete-button, td.delete-button {
+            th.copy-button, td.copy-button, th.paste-button, td.paste-button, th.delete-button, td.delete-button {
                 width: 40px;
+            }
+            td.copy-button, td.delete-button {
+                border-left: "1px white solid";
             }
         }
     }

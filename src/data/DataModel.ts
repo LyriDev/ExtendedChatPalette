@@ -16,11 +16,13 @@ export type Tab = {
 };
 
 export type Data = {
-    [roomId: string]: {
-        roomName: string;
-        tabs: Tab[];
-    };
+    [roomId: string]: RoomData;
 };
+
+export type RoomData = {
+    roomName: string;
+    tabs: Tab[];
+}
 
 export type DataModel = {
     settings?: Settings;
