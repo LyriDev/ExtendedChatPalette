@@ -67,6 +67,7 @@ export default function CopyButton(){
                             setTabNames(tabNames);
                             setTexts(texts);
                             setChatPalettes(chatPalettes);
+                            setIsOpened(false);
                         }}
                     >
                         {data[roomId].roomName}({roomId})
