@@ -69,13 +69,13 @@ export default function ExChatPaletteView() {
     }, []);
 
     const menuRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null) // メニューのref
-    const [width, setWidth] = useState<number>(320);
+    const [width, setWidth] = useState<number>(340);
     const [height, setHeight] = useState<number>(280 + 49 + Number(enableExDodge)*48);
     const [positionX, setPositionX] = useState<number>((window.innerWidth - width) / 2);
     const [positionY, setPositionY] = useState<number>(-(window.innerHeight + height) / 2 );
     useEffect(()=>{ // メニューが非表示になったら、メニューを初期位置(画面中央)・初期サイズに戻しておく
         if(!menuVisible){
-            setWidth(320);
+            setWidth(340);
             setHeight(280 + 49 + Number(enableExDodge)*48);
             setPositionX((window.innerWidth - width) / 2);
             setPositionY(-(window.innerHeight + height) / 2);
@@ -133,7 +133,7 @@ export default function ExChatPaletteView() {
                             backgroundColor: 'rgba(44, 44, 44, 0.87)',
                             boxShadow: "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)",
                             cursor: isDragging ? "grabbing" : "grab",
-                            minWidth: "320px",
+                            minWidth: "340px",
                             minHeight: `${280 + 49 + Number(enableExDodge)*48}px`,
                             width: `${width}px`,
                             height: `${height}px`,

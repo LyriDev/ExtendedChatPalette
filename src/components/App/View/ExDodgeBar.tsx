@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Button from '@mui/material/Button';
 import { changeMessage, clickSubmitButton, getDiceSystem } from "./../../../data/sendCcfoliaMessage"
 import InputNumber from "./InputNumber"
+import DodgeNumberControl from "./DodgeNumberControl"
 
 export default function ExDodgeBar() {
     const [dodgeCount, setDodgeCount] = useState<number>(0);
@@ -74,7 +75,6 @@ export default function ExDodgeBar() {
                     <div
                     style={{
                         whiteSpace: "nowrap",
-                        marginRight: "10px",
                         cursor: "default",
                     }}
                     >
@@ -83,11 +83,13 @@ export default function ExDodgeBar() {
                             <InputNumber value={dodgeCount} setNumber={setDodgeCount} idName="dodgeCount" />
                         </span>
                     </div>
+                    <DodgeNumberControl dodgeCount={dodgeCount} setDodgeCount={setDodgeCount}/>
                     <Button
                     className="draggable-disable"
                     color="primary"
                     aria-label="dodge-reset"
                     style={{
+                        marginLeft: "10px",
                         whiteSpace: "nowrap",
                     }}
                     onClick={()=>{

@@ -40,7 +40,7 @@ export default function FrameBox(props: MyProps) {
             count++;
             if(count % 10 !== 0) return;
 
-            const minWidth: number = 320; // メニューのmin-width
+            const minWidth: number = 340; // メニューのmin-width
             const minHeight: number = 280 + 49 + Number(enableExDodge)*48; // メニューのmin-height
             if (containerRect) {
                 const { clientX, clientY } = mouseEvent; // マウスカーソルの位置
