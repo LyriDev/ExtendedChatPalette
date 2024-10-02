@@ -148,8 +148,6 @@ export default function Popup() {
                         <th className="room-id">ルームID</th>
                         <th className="room-name">ルーム名</th>
                         <th className="used-byte">{"使用容量 [KB]"}</th>
-                        <th className="copy-button"></th>
-                        <th className="paste-button"></th>
                         <th className="delete-button"></th>
                     </tr>
                     {data && Object.keys(data).map((key, dataIndex) => (
