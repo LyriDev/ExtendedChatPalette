@@ -4,6 +4,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { getData, getSettings, deleteData, getBytes } from '../../data/DataControl';
 import { Data, RoomData, Tab } from "./../../data/DataModel"
 import TableRow from "./TableRow"
+import { Button } from '@mui/material';
+import { MuiFileInput } from 'mui-file-input'
 
 const theme = createTheme({
     palette: {
@@ -82,18 +84,29 @@ export default function Popup() {
         });
     }
 
-    function getAllData(): void{
-        chrome.storage.local.get(function(result) {
-            console.log(result);
-        });
-    }
-    function clearData(): void{
-        chrome.storage.local.clear();
-    }
+    // function getAllData(): void{
+    //     chrome.storage.local.get(function(result) {
+    //         console.log(result);
+    //     });
+    // }
+    // function clearData(): void{
+    //     chrome.storage.local.clear();
+    // }
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
+    const [file, setFile] = useState<File | null>(null)
+    const [inputState, setInputState] = useState<string>("ファイル読み込み")
+    function handleFileChange(value: File | null | File[]){
+        if(Array.isArray(value) || value === null || value.type !== "application/json"){
+            setInputState("読み込み失敗");
+            return;
+        }
+        setFile(value);
+    }
+    useEffect(() => {
+        if(!Array.isArray(file) && file !== null && file.type === "application/json") loadJson(file);
+    }, [file]);
+    function loadJson(newFile: File){
+        if (newFile) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
@@ -104,15 +117,17 @@ export default function Popup() {
                         chrome.storage.local.set(sendData, function() {
                             console.log("データを保存しました")
                         });
+                        setData(parsedJson);
+                        setInputState("読み込み成功")
                     }
                 } catch (error) {
-                console.error('Error parsing JSON:', error);
+                    console.error('Error parsing JSON:', error);
                 }
             };
-            reader.readAsText(file);
+            reader.readAsText(newFile);
         }
     };
-    
+
     const handleDownload = () => {
         getData().then(jsonData => {
             const dataStr = JSON.stringify(jsonData, null, 2);
@@ -130,6 +145,42 @@ export default function Popup() {
         <div className="App" >
             <ThemeProvider theme={theme}>
                 <h3>拡張チャットパレット 設定</h3>
+                <div style={{display: "flex", justifyContent: "space-around", marginBottom: "0.5rem"}}>
+                    <Button
+                        onClick={handleDownload}
+                        variant="outlined"
+                    >ファイル出力</Button>
+                    <MuiFileInput
+                        value={file}
+                        onChange={handleFileChange}
+                        label={inputState}
+                        InputLabelProps={{
+                            style: { color: 'white' }, // ラベルの色を白に設定
+                        }}
+                        sx={{
+                            width: "230px",
+                            color: 'white', // 文字色を白に設定
+                            '& .MuiInputBase-input': {
+                                color: 'white', // 入力テキストの文字色を白に設定
+                            },
+                            '& .MuiTypography-caption': {
+                                color: 'white', // ファイルサイズ（KB数）の文字色を白に設定
+                            },
+                            '& .MuiOutlinedInput-root': {
+                                color: "white",
+                                '& fieldset': {
+                                    borderColor: 'white', // 枠線の色を白に設定
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'white', // ホバー時も枠線の色を白に設定
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'white', // フォーカス時の枠線色を白に設定
+                                },
+                            },
+                        }}
+                    />
+                </div>
                 <div className="check-box">
                     <input
                         type="checkbox"
@@ -138,10 +189,6 @@ export default function Popup() {
                         onChange={changeDodgeSettings}
                     />
                     <label htmlFor="check">連続回避ロールを表示する</label>
-                </div>
-                <div>
-                    <button onClick={handleDownload}>JSON出力</button>
-                    <input type="file" accept=".json" onChange={handleFileChange}/>
                 </div>
                 <table>
                     <tr>
