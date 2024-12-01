@@ -9,7 +9,7 @@ import Triangle from "../../../svg/Triangle"
 import { TabNameContext } from "../../../providers/App/TabNameProvider"
 import { TextContext } from "../../../providers/App/TextProvider"
 import DropDownMenu from "./DropDownMenu"
-import { relative } from 'path';
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 
 const tabsStyle: React.CSSProperties = {
     backgroundColor: '#212121',
@@ -116,76 +116,145 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
         setEditingArray(newEditingArray);
     };
 
+    // タブを入れ替える関数
+    function swapTabData(startIndex: number, endIndex: number){
+        if(!tabNames || !setTabNames || !texts || !setTexts) throw new Error("データが存在しません");
+        if(tabNames.length !== texts.length) throw new Error("tabNames と texts の数が違います");
+        if(0 > endIndex) endIndex = 0;
+        if(tabNames.length <= endIndex) endIndex = tabNames.length - 1;
+        swapStringArrayStates({data: tabNames, setData: setTabNames}, startIndex, endIndex)
+        swapStringArrayStates({data: texts, setData: setTexts}, startIndex, endIndex)
+        setFocusIndex(startIndex);
+    }
+    // useStateで管理された文字列型配列の順番を入れ替える関数
+    function swapStringArrayStates(
+        states: {
+            data: string[] | undefined,
+            setData: React.Dispatch<React.SetStateAction<string[]>> | undefined
+        },
+        startIndex: number,
+        endIndex: number
+    ): void{
+        if(states.data && states.setData){
+            const data: string[] = states.data.slice();
+            const setData: React.Dispatch<React.SetStateAction<string[]>> = states.setData;
+            if(0 > endIndex) endIndex = 0;
+            if(data.length <= endIndex) endIndex = data.length - 1;
+            const temp: string = data[startIndex]
+            data[startIndex] = data[endIndex];
+            data[endIndex] = temp;
+            setData(data);
+        }
+    }
+    function onDragEnd(event: DropResult){
+        // ドロップ先がない
+        if (!event.destination) {
+            return;
+        }
+        // 配列の順序を入れ替える
+        swapTabData(
+            event.source.index, // 元の配列の位置
+            event.destination.index // 移動先の配列の位置
+        );
+    }
+
     return (
         <Box style={tabsStyle} sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs
-            value={focusIndex}
-            textColor={
-                // どれか一つでもタブ名編集中ならタブのテキストカラーを白色から無色に変更する(アニメーションカラーも無色になる)
-                editingArray.every((value) => value === false) ? "primary" : "secondary"
-            }
-            variant="scrollable"
-            scrollButtons="auto"
-            onChange={handleTabChange}
-            aria-label="ExChatPalette Edit Tabs"
-            >
-                {tabNames?.map((tabName, index) => (
-                        <Tab
-                        key={index}
-                        label={
-                            editingArray[index] ? (
-                                <TextField
-                                value={tabName}
-                                color="info"
-                                autoFocus
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                    handleInputChange(index, event);
-                                }}
-                                onBlur={() => {
-                                    handleInputBlur(index);
-                                }}
-                                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                                    if (event.key === 'Enter') { // タブ名編集中にEnterキーが押されたら、
-                                        const inputElement:HTMLInputElement = event.target as HTMLInputElement;
-                                        inputElement.blur(); // input要素のフォーカスを解除する
-                                    }
-                                }}
-                                />
-                            ) : (
-                                <span
-                                style={{
-                                    position: "relative",
-                                    paddingRight: ((focusIndex === index) ? "24px" : ""),
-                                }}>
-                                    <span>
-                                        {tabName}
-                                    </span>
-                                    {(focusIndex === index) && (
-                                        <span
-                                        style={{
-                                            position: "absolute",
-                                            marginTop: "-3px",
-                                            right: "-6px",
-                                        }}
-                                        >
-                                            <Triangle/>
-                                        </span>
-                                    )}
-                                </span>
-                            )
-                        }
-                        {...a11yProps(index)}
-                        sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
-                        ref={anchors.current[index]}
-                        onClick={(event) => {
-                            // タブ名編集中でない、かつ現在タブが選択中で、クリックされたとき
-                            if ((!editingArray[index]) && (focusIndex === index)) {
-                                clickHandlers[index]();
-                            }
-                        }}
-                    />
-                ))}
-                <IconButton
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                        <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            <Tabs
+                                value={focusIndex}
+                                textColor={
+                                    // どれか一つでもタブ名編集中ならタブのテキストカラーを白色から無色に変更する(アニメーションカラーも無色になる)
+                                    editingArray.every((value) => value === false) ? "primary" : "secondary"
+                                }
+                                variant="scrollable"
+                                scrollButtons="auto"
+                                onChange={handleTabChange}
+                                aria-label="ExChatPalette Edit Tabs"
+                            >
+                                {tabNames?.map((tabName, index) => (
+                                    <Draggable
+                                        key={index}
+                                        draggableId={"q-" + index}
+                                        index={index}
+                                    >
+                                        {(provided, snapshot) => (
+                                            <span
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <Tab
+                                                    key={index}
+                                                        label={
+                                                            editingArray[index] ? (
+                                                                <TextField
+                                                                value={tabName}
+                                                                color="info"
+                                                                autoFocus
+                                                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                                                    handleInputChange(index, event);
+                                                                }}
+                                                                onBlur={() => {
+                                                                    handleInputBlur(index);
+                                                                }}
+                                                                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                                                                    if (event.key === 'Enter') { // タブ名編集中にEnterキーが押されたら、
+                                                                        const inputElement:HTMLInputElement = event.target as HTMLInputElement;
+                                                                        inputElement.blur(); // input要素のフォーカスを解除する
+                                                                    }
+                                                                }}
+                                                                />
+                                                            ) : (
+                                                                <span
+                                                                style={{
+                                                                    position: "relative",
+                                                                    paddingRight: ((focusIndex === index) ? "24px" : ""),
+                                                                }}>
+                                                                    <span>
+                                                                        {tabName}
+                                                                    </span>
+                                                                    {(focusIndex === index) && (
+                                                                        <span
+                                                                        style={{
+                                                                            position: "absolute",
+                                                                            marginTop: "-3px",
+                                                                            right: "-6px",
+                                                                        }}
+                                                                        >
+                                                                            <Triangle/>
+                                                                        </span>
+                                                                    )}
+                                                                </span>
+                                                            )
+                                                        }
+                                                        {...a11yProps(index)}
+                                                        sx={{ padding: '6px 12px', minHeight: "48px" ,minWidth: "0" }}
+                                                        ref={anchors.current[index]}
+                                                        onClick={(event) => {
+                                                            // タブ名編集中でない、かつ現在タブが選択中で、クリックされたとき
+                                                            if ((!editingArray[index]) && (focusIndex === index)) {
+                                                                clickHandlers[index]();
+                                                            }
+                                                    }}
+                                                />
+                                            </span>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                
+                            </Tabs>
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+            <IconButton
                 edge="end"
                 color="primary"
                 aria-label="add"
@@ -198,9 +267,7 @@ export default function TabBarEdit({focusIndex, setFocusIndex}: {focusIndex: num
                     alignItems: "center",
                 }}>
                     <Add />
-                </IconButton>
-                
-            </Tabs>
+            </IconButton>
             {tabNames?.map((tabName, index) => (
                 <DropDownMenu
                 key={index}
