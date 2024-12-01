@@ -91,7 +91,7 @@ export default function ExChatPaletteEdit({focusIndex, setFocusIndex}: {focusInd
                 <Box
                 sx={{width: '100%'}}>
                     <div  className="MuiPaper-elevation4">
-                        <HeaderEdit/>
+                        <HeaderEdit focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                         <TabBarEdit focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
                     </div>
                     <TabsContent focusIndex={focusIndex}/>
