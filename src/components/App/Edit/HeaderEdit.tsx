@@ -64,25 +64,27 @@ export default function HeaderEdit({focusIndex, setFocusIndex}: {focusIndex: num
     }
 
     return (
-            <ThemeProvider theme={theme}>
-                <div style={headerStyle}>
-                    <div>拡張チャットパレット</div>
-                    <div>
-                        <span style={{marginRight: "0.5rem"}}>
-                            <IconButton color="primary" onClick={() => swapTabData(-1)}>
-                                <KeyboardDoubleArrowLeftIcon/>
-                            </IconButton>
-                            タブ入替
-                            <IconButton color="primary" onClick={() => swapTabData(1)}>
-                                <KeyboardDoubleArrowRightIcon/>
-                            </IconButton>
-                        </span>
-                        <CopyButton/>
-                        <IconButton edge="end" color="primary" aria-label="close"  onClick={resource?.close} style={{margin: "0 -12px 0 auto"}}>
-                            <Close />
+        <div style={headerStyle}>
+            <div>拡張チャットパレット</div>
+            <div>
+                <span style={{marginRight: "0.5rem"}}>
+                    <ThemeProvider theme={theme}>
+                        <IconButton color="primary" onClick={() => swapTabData(-1)}>
+                            <KeyboardDoubleArrowLeftIcon/>
                         </IconButton>
-                    </div>
-                </div>
-            </ThemeProvider>
+                        タブ入替
+                        <IconButton color="primary" onClick={() => swapTabData(1)}>
+                            <KeyboardDoubleArrowRightIcon/>
+                        </IconButton>
+                    </ThemeProvider>
+                </span>
+                <CopyButton/>
+                <ThemeProvider theme={theme}>
+                    <IconButton edge="end" color="primary" aria-label="close"  onClick={resource?.close} style={{margin: "0 -12px 0 auto"}}>
+                        <Close />
+                    </IconButton>
+                </ThemeProvider>
+            </div>
+        </div>
     );
 }
