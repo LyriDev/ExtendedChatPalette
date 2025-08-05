@@ -3,17 +3,13 @@ import { diceSystemQuery, messageFormQuery, nameFormQuery, submitFormQuery } fro
 function clearFormValue(element: HTMLInputElement|HTMLTextAreaElement) :void{ // フォームのinput要素等の既存の入力内容を削除する関数
     const valueLength: number = element.value.length
     element.focus()
-    requestAnimationFrame(() => {
-        document.execCommand("selectAll", false);
-        document.execCommand("removeFormat", false);
-    });
+    document.execCommand("selectAll", false);
+    document.execCommand("removeFormat", false);
 }
 
 function addFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{ // フォームのinput要素等に内容を入力する関数
     element.focus()
-    requestAnimationFrame(() => {
-        document.execCommand('insertText', false, value);
-    });
+    document.execCommand('insertText', false, value);
 }
 
 function overrideFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{ // フォームのinput要素等の内容を上書きする関数

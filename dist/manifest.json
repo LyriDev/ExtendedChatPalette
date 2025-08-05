@@ -1,7 +1,7 @@
 {
     "name": "拡張チャットパレット",
     "description": "1つのチャットパレット画面で複数キャラのメッセージテンプレートを管理できます。",
-    "version": "1.52",
+    "version": "1.51",
     "manifest_version": 3,
     "icons": {
         "16": "image/icon16.png",
