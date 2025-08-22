@@ -141,16 +141,18 @@ export default function ExChatPaletteView() {
                         }}
                         >
                             <ThemeProvider theme={theme}>
-                                <Box style={{height: "100%"}}>
-                                    <div  className="MuiPaper-elevation4">
-                                        <HeaderView/>
-                                        <TabBarView focusIndex={focusIndex} setFocusIndex={setFocusIndex} chatPaletteListRef={chatPaletteListRef} setYCoord={setYCoord}/>
-                                    </div>
-                                    <ChatPaletteList focusIndex={focusIndex} width={width} height={height} enableExDodge={enableExDodge} chatPaletteListRef={chatPaletteListRef} yCoords={yCoords} setYCoord={setYCoord}/>
-                                    {enableExDodge && (
-                                        <ExDodgeBar/>
-                                    )}
-                                </Box>
+                                <MemoizedInnerBox
+                                    data={{
+                                        focusIndex,
+                                        setFocusIndex,
+                                        chatPaletteListRef,
+                                        yCoords,
+                                        setYCoord,
+                                        width,
+                                        height,
+                                        enableExDodge
+                                    }}
+                                />
                             </ThemeProvider>
                             <FrameBox
                             width={width} setWidth={setWidth} height={height} setHeight={setHeight}
@@ -170,3 +172,52 @@ export default function ExChatPaletteView() {
         )
     );
 }
+
+function InnerBox({data}: {data: {
+    focusIndex: number,
+    setFocusIndex: React.Dispatch<React.SetStateAction<number>>,
+    chatPaletteListRef: React.RefObject<HTMLDivElement | null>,
+    yCoords: number[],
+    setYCoord: (tabIndex: number, yCoord: number) => void,
+    width: number,
+    height: number,
+    enableExDodge: boolean
+}}) {
+    const {
+        focusIndex,
+        setFocusIndex,
+        chatPaletteListRef,
+        yCoords,
+        setYCoord,
+        width,
+        height,
+        enableExDodge
+    } = data;
+
+    return (
+        <Box style={{height: "100%"}}>
+            <div  className="MuiPaper-elevation4">
+                <HeaderView/>
+                <TabBarView
+                    focusIndex={focusIndex}
+                    setFocusIndex={setFocusIndex}
+                    chatPaletteListRef={chatPaletteListRef}
+                    setYCoord={setYCoord}/>
+            </div>
+            <ChatPaletteList
+                focusIndex={focusIndex}
+                width={width}
+                height={height}
+                enableExDodge={enableExDodge}
+                chatPaletteListRef={chatPaletteListRef}
+                yCoords={yCoords}
+                setYCoord={setYCoord}
+            />
+            {enableExDodge && (
+                <ExDodgeBar/>
+            )}
+        </Box>
+    );
+}
+
+const MemoizedInnerBox = React.memo(InnerBox);
