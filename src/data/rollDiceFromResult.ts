@@ -18,7 +18,7 @@ export async function rollDiceFromResult(characterName: string | null, firstRole
     let watchPromise: Promise<string> | undefined;
     // キャラ名・メッセージ、どちらも変更なければ監視を始める
     if(isChangedName || isChangedMessage) return;
-    watchPromise = watchMessage(characterName, firstRole);
+    watchPromise = watchMessage(characterName);
 
     // 最初のロール結果の監視をしている間に、最初のロールを行う
     // 最新のメッセージの要素を取得するために、一番下までスクロールする
@@ -42,8 +42,8 @@ export async function rollDiceFromResult(characterName: string | null, firstRole
 
 // 指定したテキストのロール結果を取得する関数
 // 注意：メッセージが新しく送信されたのか、スクロールされてメッセージが表示されたのかは判定できない
-async function watchMessage(targetCharacterName: string, targetMessage: string): Promise<string>{
-    return new Promise((resolve, reject) => {
+async function watchMessage(targetCharacterName: string): Promise<string>{
+    return new Promise((resolve, _reject) => {
         // 監視するDOMノードを取得
         const targetNode: HTMLDivElement | null = document.querySelector(messageColumnQuery);
         if(!targetNode) throw new Error("メッセージ欄が見当たりませんでした。")
@@ -58,17 +58,14 @@ async function watchMessage(targetCharacterName: string, targetMessage: string):
 
                     // キャラ名を取得する
                     const characterNameElm: HTMLSpanElement | null = addedMessageDiv.querySelector("h6"); // キャラ名の要素
-                    if(!characterNameElm) return;
+                    if(!characterNameElm) continue;
                     const characterName = characterNameElm.textContent; // キャラ名
-                    if(characterName !== targetCharacterName) return; // キャラ名が指定と異なる場合は、追加された要素に対する処理を終了する
+                    if(characterName !== targetCharacterName) continue; // キャラ名が指定と異なる場合は、追加された要素に対する処理を終了する
 
                     // ロール内容を取得する
                     const roleContentElm: HTMLParagraphElement | null = addedMessageDiv.querySelector("p");
-                    if(!roleContentElm) return;
-                    if(!roleContentElm.firstChild) return;
-                    const roleContent = roleContentElm.firstChild.textContent; // ロール内容
-                    // 備考：送信するロール内容を{}で変換されるかもしれないので、コメントアウトしている
-                    // if(roleContent !== targetMessage) return; // ロール内容が指定と異なる場合は、追加された要素に対する処理を処理する
+                    if(!roleContentElm) continue;
+                    if(!roleContentElm.firstChild) continue;
 
                     // ロール結果を取得する
                     const roleResultElm: HTMLSpanElement | null  = roleContentElm.querySelector("span");

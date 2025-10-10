@@ -1,20 +1,8 @@
 import { diceSystemQuery, messageFormQuery, nameFormQuery, submitFormQuery } from "./documentQueries";
 
-function clearFormValue(element: HTMLInputElement|HTMLTextAreaElement) :void{ // フォームのinput要素等の既存の入力内容を削除する関数
-    const valueLength: number = element.value.length
-    element.focus()
-    document.execCommand("selectAll", false);
-    document.execCommand("removeFormat", false);
-}
-
-function addFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{ // フォームのinput要素等に内容を入力する関数
-    element.focus()
-    document.execCommand('insertText', false, value);
-}
-
 function overrideFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{ // フォームのinput要素等の内容を上書きする関数
-    clearFormValue(element)
-    addFormValue(element, value)
+    element.setRangeText(value, 0, element.value.length, "end");
+    element.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 function clickTheButton(element: HTMLButtonElement){ // 特定のbutton要素をプログラムで押下する関数
