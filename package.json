@@ -1,7 +1,7 @@
 {
-  "name": "my-webpack-project",
-  "version": "1.0.0",
-  "description": "My webpack project",
+  "name": "extended-chat-palette",
+  "version": "1.5.2",
+  "description": "The Chrome Expansion for CCFOLIA",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,7 +17,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "0BSD",
   "bugs": {
     "url": "https://github.com/Lyri-Nought/ExtendedChatPalette/issues"
   },
