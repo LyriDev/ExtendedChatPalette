@@ -146,11 +146,11 @@ window.onload = async function(){
 
 
 //テスト用コード
-/* document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function(event) {
     if (event.key === "/") {
         checkQueries();
     }
-}); */
+});
 import {
     hamburgerMenuButtonQuery,
     nameFormQuery,

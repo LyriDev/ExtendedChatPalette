@@ -16,13 +16,13 @@ export const editHeaderQuery: string = "body > div.MuiDialog-root > div.MuiDialo
 const formQuery: string = "#root > div > div.MuiDrawer-root > div > div form";
 
 // メッセージ入力フォームの名前欄
-export const nameFormQuery: string = `${formQuery} > div:nth-child(2) > div:nth-child(1) > div > input`;
+export const nameFormQuery: string = `${formQuery} > div:nth-child(4) > div:nth-child(1) > div > input`;
 
 // メッセージ入力フォームの送信ボタン
 export const submitFormQuery: string = `${formQuery} button[type='submit']`;
 
 // メッセージ入力フォームのメッセージ欄
-export const messageFormQuery: string = `${formQuery} > div:nth-child(4) textarea`;
+export const messageFormQuery: string = `${formQuery} > div:nth-child(6) textarea`;
 
 // 「ルームチャット」タブ(メッセージ一覧)
 export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer-docked > div ul > div:nth-child(1)";

@@ -2,17 +2,20 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "ESNext",             // bundler と合わせるために ESNext に推奨アップグレードします
+    "target": "ES2020",             // targetもES2020程度まで引き上げるとモダンに動きます（ES2015でも可）
     "allowJs": true,
     "strict": true,
     "sourceMap": true,
     "jsx": "react",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",  // ★ ここを「node」から「bundler」に修正します
     "lib": [
       "ES2023",
       "DOM"
     ]
   },
-  "files": ["src/indexApp.tsx"]
+  "files": ["src/indexApp.tsx"],
+  "include": [
+    "src/**/*"
+  ]
 }
