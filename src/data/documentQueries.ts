@@ -28,12 +28,14 @@ export const submitFormQuery: string = `${formQuery} button[type='submit']`;
 // メッセージ入力フォームのメッセージ欄
 export const messageFormQuery: string = `${formQuery} > div:nth-child(6) textarea`;
 
-// 「ルームチャット」タブ(メッセージ一覧)
+// ルームチャット枠(スクロール用)
 export const roomChatQuery: string = "#root > div > div.MuiDrawer-root.MuiDrawer-docked > div ul > div:nth-child(1)";
 
+// メッセージ一覧
 export const messageColumnQuery: string = `${roomChatQuery} > div`;
 
 // 画面左上の、ルーム名欄
 export const roomNameQuery: string = "#root > div > header > div > button:nth-child(1) > h6";
+
 // 画面左上の、ダイスシステム欄
 export const diceSystemQuery: string = `${roomNameQuery} > span`;
