@@ -9,8 +9,12 @@ export const hamburgerMenuButtonQuery: string = "#root > div > header > div > bu
 // レスポンシブデザイン用のul要素内の、一番上の要素である「マイキャラクター」欄(であると予測される要素)
 export const myCharacterColumnQuery: string = "body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul > li:nth-of-type(1)";
 
+
+// キャラクター編集メニュー
+export const editQuery: string = "body > div.MuiModal-root:has(header, form) div:has(> header)";
+
 // キャラクター編集メニューの一番上の「キャラクター編集」見出し
-export const editHeaderQuery: string = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > header > div > p";
+export const editHeaderQuery: string = `${editQuery} header p`;
 
 // 入力フォーム
 const formQuery: string = "#root > div > div.MuiDrawer-root > div > div form";

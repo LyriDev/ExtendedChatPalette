@@ -9,7 +9,6 @@ import Triangle from "../../../svg/Triangle"
 import { TabNameContext } from "../../../providers/App/TabNameProvider"
 import { TextContext } from "../../../providers/App/TextProvider"
 import DropDownMenu from "./DropDownMenu"
-import { relative } from 'path';
 
 const tabsStyle: React.CSSProperties = {
     backgroundColor: '#212121',
