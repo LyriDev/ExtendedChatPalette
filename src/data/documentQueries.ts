@@ -9,7 +9,6 @@ export const hamburgerMenuButtonQuery: string = "#root > div > header > div > bu
 // レスポンシブデザイン用のul要素内の、一番上の要素である「マイキャラクター」欄(であると予測される要素)
 export const myCharacterColumnQuery: string = "body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul > li:nth-of-type(1)";
 
-
 // キャラクター編集メニュー
 export const editQuery: string = "body > div.MuiModal-root:has(header, form) div:has(> header)";
 
