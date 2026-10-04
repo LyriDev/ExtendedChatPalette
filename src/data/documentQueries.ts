@@ -1,5 +1,4 @@
 /* ココフォリアページの要素のクエリの文字列 */
-
 // 画面上部に表示されている「マイキャラクター一覧」のアイコンボタン
 export const myCharacterButtonQuery: string = "#root > div > header > div > button:nth-of-type(2)"; // ヘッダー内の左から3つ目のボタン
 
